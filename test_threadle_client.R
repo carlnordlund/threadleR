@@ -27,9 +27,6 @@ th_set_workdir(ex_dir)
 
 # ---
 
-# Load the default example (stages files + sets Threadle working directory)
-th_load_example()
-
 lazeganet_nodeset <- th_load_file("lazega_nodeset", "lazega_nodes.tsv", type = "nodeset")
 lazeganet <- th_load_file("lazega","lazega.tsv", type = "network")
 
