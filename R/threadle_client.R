@@ -37,6 +37,10 @@
   if ("name" %in% names(args)) args$name <- .th_name(args$name)
   if ("network" %in% names(args)) args$network <- .th_name(args$network)
   if ("structure" %in% names(args)) args$structure <- .th_name(args$structure)
+  if ("nodeid" %in% names(args)) {
+    if (is.null(args$nodeid) || length(args$nodeid) == 0L) {
+      args$nodeid <- ""}
+  }
   args
 }
 
@@ -367,6 +371,29 @@ th_sync_wd <- function() {
   r_wd <- getwd()
   th_set_workdir(r_wd)
   message("Threadle working directory synced to: ", r_wd)
+}
+
+#' Stage threadleR example files into a subfolder of the current R working directory
+#'
+#' Copies example files shipped with \pkg{threadleR} into \code{file.path(getwd(), folder)}
+#' and returns the destination path.
+#'
+#' @param folder Name of the destination subfolder under [getwd()].
+#' @param overwrite Logical; overwrite existing files in the destination.
+#' @return Invisibly returns the normalized path to the staged examples folder.
+#' @export
+th_stage_examples_to_wd <- function(folder = "threadle_examples", overwrite = TRUE) {
+  from <- system.file("extdata", "Examples", package = "threadleR")
+  if (from == "") stop("Examples not found in threadleR extdata.", call. = FALSE)
+
+  dest <- file.path(getwd(), folder)
+  dir.create(dest, recursive = TRUE, showWarnings = FALSE)
+
+  files <- list.files(from, full.names = TRUE)
+  ok <- file.copy(files, to = dest, overwrite = overwrite)
+  if (!all(ok)) warning("Some example files were not copied.", call. = FALSE)
+
+  invisible(normalizePath(dest, mustWork = TRUE))
 }
 
 #' Add an affiliation (hyperedge) in a 2-mode layer
@@ -779,7 +806,11 @@ th_get_nodeid_by_index <- function(structure, index) {
 #' @export
 th_get_random_alter <- function(network, nodeid, layername="", direction=c("both", "in", "out"), balanced=FALSE) {
   direction <- match.arg(direction)
-  args <- as.list(environment())
+
+  # if (is.null(nodeid) || length(nodeid) == 0L) {
+  #   nodeid <- ""}
+
+  args <- .th_args(environment())
   cmd <- "getrandomalter"
   assign <- NULL
   .th_call(cmd = cmd, args = args, assign = assign)

@@ -1,9 +1,9 @@
 # testing threadle_client.R
 
 # Install and load threadleR
-remotes::install_github("YukunJiao/threadleR")
-library(threadleR)
-# devtools::load_all()
+# remotes::install_github("YukunJiao/threadleR")
+# library(threadleR)
+devtools::load_all()
 
 # Optional: switch protocol / command logging
 # options(threadle.command = "cli") # for debugging only (default: "json")
@@ -14,15 +14,27 @@ options(threadle.print_cmd = TRUE) # print commands sent to Threadle
 th_start_threadle()
 
 # Sync Threadle working directory with threadleR
-th_sync_wd()
+# th_sync_wd()
 
-# Move into examples folder
-ex_dir <- system.file("extdata", "Examples", package = "threadleR")
-th_set_workdir(ex_dir)
+# Copy example files to a local folder
+example_dir <- th_stage_examples_to_wd()
+# Use that folder as Threadle's working directory
+th_set_workdir(example_dir)
+
+# Installed example files location (read-only; prefer th_stage_examples_to_wd())
+# ex_pkg_dir <- system.file("extdata", "Examples", package = "threadleR")
 
 # Optional: return mode / message printing
 # options(threadle.return = "response") # for debugging only (default: "payload")
 # options(threadle.print_message = FALSE) # not recommended (messages are printed by default)
+
+# ---
+mytestnet_nodeset <- th_load_file("mytestnet_nodeset", "mynet_nodesetfile.tsv", type = "nodeset")
+mytestnet <- th_load_file("mytestnet", "mynet.tsv", "network")
+
+th_save_file("mytestnet_nodeset", "")
+th_save_file("mytestnet", "/Users/doge/Documents/mytestnet.tsv")
+
 
 lazeganet_nodeset <- th_load_file("lazega_nodeset", "lazega_nodes.tsv", type = "nodeset")
 lazeganet <- th_load_file("lazega","lazega.tsv", type = "network")
@@ -118,25 +130,15 @@ th_add_edge("lazega", "test122", 1, 70)
 th_add_edge("lazega", "test122", 1, 3, 1, "true")
 
 
-th_info(lazeganet)
+sub_ns <- th_filter(name="sub_nodeset", nodeset=mynet_nodeset, attrname="gender", cond="eq", attrvalue="f")
+th_info(sub_ns)
 
-th_inventory()
+th_subnet("mynet_sub", mynet, "sub_nodeset")
 
-mynet_nodeset <- th_load_file("mynet_nodeset", "mynet_nodesetfile.tsv", type = "nodeset")
-mynet <- th_load_network("mynet", "mynet.tsv")
-th_info(mynet_nodeset)
-th_info(mynet)
-
-# ERROR
-# sub_ns <- th_filter(name="sub_nodeset", nodeset=mynet_nodeset, attrname="gender", cond="eq", attrvalue="f")
-# th_info(sub_ns)
-# .send_command("sub_nodeset = filter(nodeset=mynet_nodeset, attrname=gender, cond=eq, attrvalue=f)")
-# ERROR
-# th_subnet("mynet_sub", mynet, "sub_nodeset")
 
 nbr_nodes <- th_get_nbr_nodes(mynet)
 nodeid <- th_get_nodeid_by_index(mynet, sample(0:(nbr_nodes-1),1))
-# nodeid <- 0
+# nodeid <- NULL
 # nodeid <- numeric(0)
 th_info(mynet)
 random_alter_nodeid <- th_get_random_alter(mynet, nodeid, layername = "trade")
@@ -178,7 +180,7 @@ mytestnet_nodeset <- th_load_file("mytestnet_nodeset", "mynet_nodesetfile.tsv", 
 mytestnet <- th_load_file("mytestnet", "mynet.tsv", "network")
 
 th_save_file("mytestnet_nodeset", "")
-th_save_file("mytestnet")
+th_save_file("mytestnet", "/Users/doge/Documents/mytestnet.tsv")
 
 th_inventory()
 
@@ -224,7 +226,6 @@ th_remove_layer(mynet, "trade")
 th_info(lazeganet)
 
 lazeganet_nodeset <- th_load_file("lazega_nodeset", "lazega_nodes.tsv", type = "nodeset")
-lazeganet <- th_load_network("lazega","lazega.tsv", type = "network")
 lazeganet <- th_load_file("lazega","lazega.tsv", type = "network")
 th_info(lazeganet)
 
@@ -234,7 +235,7 @@ th_remove_layer(lazeganet, "advice")
 th_remove_layer(lazeganet, "test1")
 
 
-th_add_hyper(lazeganet, "test", "test_name", nodes = c(1,2,32,4,5,7), addmissingnodes = FALSE)
+th_add_hyper(lazeganet, "test2", "test_name", nodes = c(1,2,32,4,5,7), addmissingnodes = FALSE)
 th_info(lazeganet)
 th_clear_layer(lazeganet, "test2")
 
