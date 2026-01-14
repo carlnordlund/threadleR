@@ -369,22 +369,6 @@ th_sync_wd <- function() {
   message("Threadle working directory synced to: ", r_wd)
 }
 
-#' Load a network structure from a file
-#'
-#' @param name Name for the network object.
-#' @param file Path to the network file.
-#' @param type Type of the structure to create.
-#'
-#' @return A `threadle_network` object.
-#' @export
-th_load_network <- function(name, file, type = "network") {
-  args <- .th_args(environment())
-  cmd <- "loadfile"
-  assign <- name
-  .th_call(cmd = cmd, args = args, assign = assign)
-  structure(list(name=name), class=paste0("threadle_",type))
-}
-
 #' Add an affiliation (hyperedge) in a 2-mode layer
 #'
 #' `th_add_aff()` adds a hyperedge in a 2-mode layer. Being similar to `th_add_hyper`
@@ -751,8 +735,15 @@ th_get_nbr_nodes <- function(structure) {
 #'
 #' @return Parsed JSON list of alters.
 #' @export
-th_get_node_alters <- function(network,nodeid,layername,direction=c("both", "in", "out")) {
+th_get_node_alters <- function(network,nodeid,layername = "",direction=c("both", "in", "out"), unique = FALSE) {
   direction <- match.arg(direction)
+
+  if (is.null(layername) || length(layername) == 0L) {
+    layername <- ""
+  } else if (length(layername) > 1L) {
+    layername <- paste(layername, collapse = ";")
+  }
+
   args <- .th_args(environment())
   cmd <- "getnodealters"
   assign <- NULL

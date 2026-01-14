@@ -3,10 +3,11 @@
 # Install and load threadleR
 remotes::install_github("YukunJiao/threadleR")
 library(threadleR)
+# devtools::load_all()
 
 # Optional: switch protocol / command logging
 # options(threadle.command = "cli") # for debugging only (default: "json")
-# options(threadle.print_cmd = TRUE) # print commands sent to Threadle
+options(threadle.print_cmd = TRUE) # print commands sent to Threadle
 
 # Start a Threadle instance
 # (uses `threadle` on PATH; if not found, provide a full path)
@@ -24,10 +25,9 @@ th_set_workdir(ex_dir)
 # options(threadle.print_message = FALSE) # not recommended (messages are printed by default)
 
 lazeganet_nodeset <- th_load_file("lazega_nodeset", "lazega_nodes.tsv", type = "nodeset")
-lazeganet <- th_load_network("lazega","lazega.tsv", type = "network")
 lazeganet <- th_load_file("lazega","lazega.tsv", type = "network")
-th_info(lazeganet)
 th_info(lazeganet_nodeset)
+th_info(lazeganet)
 
 th_shortest_path(lazeganet, 1, 23, "friends")
 th_shortest_path(lazeganet, 1, 23, "advice")
@@ -35,33 +35,23 @@ th_shortest_path(lazeganet, 1, 23, "collaboration")
 th_shortest_path(lazeganet, 1, 23)
 
 mynet_nodeset <- th_load_file("mynet_nodeset", "mynet_nodesetfile.tsv", type = "nodeset")
-mynet <- th_load_network("mynet", "mynet.tsv")
-th_info(mynet)
 mynet <- th_load_file("mynet", "mynet.tsv", type = "network")
 th_info(mynet)
-
 th_inventory()
+
 th_create_nodeset("test")
 th_info("test")
 th_delete("test")
-th_info("lazega")
-th_info(lazeganet)
-th_info("lazega_nodeset")
-th_info(lazeganet_nodeset)
-th_info(mynet)
-# require name of structure rather than structure$name
 
-# Load a network file into Threadle (will also load a nodeset file)
-th_inventory()
+# Get node's alters on one layer or multiple layers
+th_get_node_alters(lazeganet, 23, "friends", direction = "out")
+th_get_node_alters(lazeganet, 23, c("advice", "friends"), direction = "out")
+th_get_node_alters(lazeganet, 23, c("advice"), direction = "out")
+th_get_node_alters(lazeganet, 23, direction = "out")
 
 # Get nbr of nodes in the network (can either use the network or nodeset)
 nbr_nodes <- th_get_nbr_nodes(lazeganet)
 nbr_nodes
-
-th_info(lazeganet)
-th_get_node_alters(lazeganet, 23, "friends", direction = "out")
-# th_get_node_alters(lazeganet, 23, c("advice", "friends"), direction = "out")
-th_get_node_alters(lazeganet, 23, direction = "out")
 
 # Get a random starting node
 nodeid <- th_get_nodeid_by_index(lazeganet, sample(0:nbr_nodes-1,1))
@@ -71,11 +61,7 @@ nodeid
 office_current <- th_get_attr(lazeganet,nodeid,"Office")
 office_current
 
-th_inventory()
-
 th_create_network("lazega_nodeset", "sss")
-
-
 
 th_create_nodeset("testnodeset")
 th_info("testnodeset")

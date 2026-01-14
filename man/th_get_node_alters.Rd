@@ -7,8 +7,9 @@
 th_get_node_alters(
   network,
   nodeid,
-  layername,
-  direction = c("both", "in", "out")
+  layername = "",
+  direction = c("both", "in", "out"),
+  unique = FALSE
 )
 }
 \arguments{
