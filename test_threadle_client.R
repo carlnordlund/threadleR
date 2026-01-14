@@ -7,7 +7,7 @@
 devtools::load_all()
 
 # path to the exe file
-path_to_exe <-"/Users/doge/Documents/Threadle/Threadle.CLIconsole/bin/Debug/net8.0/threadle"
+path_to_exe <- Sys.getenv("THREADLE_PATH")
 
 options(threadle.command = "cli")
 options(threadle.command = "json")
