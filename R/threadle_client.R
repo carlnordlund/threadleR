@@ -396,6 +396,17 @@ th_stage_examples_to_wd <- function(folder = "threadle_examples", overwrite = TR
   invisible(normalizePath(dest, mustWork = TRUE))
 }
 
+#' Load the bundled example network and nodeset into Threadle
+#' @export
+th_load_example <- function(name = "mynet", folder = "threadle_examples") {
+  ex_dir <- th_stage_examples_to_wd(folder = folder, overwrite = TRUE)
+  th_set_workdir(ex_dir)
+
+  mynet_nodeset <- th_load_file("mynet_nodeset", "mynet_nodesetfile.tsv", type = "nodeset")
+  mynet <- th_load_file("mynet", "mynet.tsv", type = "network")
+  invisible(name)
+}
+
 #' Add an affiliation (hyperedge) in a 2-mode layer
 #'
 #' `th_add_aff()` adds a hyperedge in a 2-mode layer. Being similar to `th_add_hyper`

@@ -1,9 +1,9 @@
 # testing threadle_client.R
 
 # Install and load threadleR
-# remotes::install_github("YukunJiao/threadleR")
-# library(threadleR)
-devtools::load_all()
+remotes::install_github("YukunJiao/threadleR")
+library(threadleR)
+# devtools::load_all()
 
 # Optional: switch protocol / command logging
 # options(threadle.command = "cli") # for debugging only (default: "json")
@@ -14,30 +14,36 @@ options(threadle.print_cmd = TRUE) # print commands sent to Threadle
 th_start_threadle()
 
 # Sync Threadle working directory with threadleR
-# th_sync_wd()
+th_sync_wd()
 
 # Copy example files to a local folder
-example_dir <- th_stage_examples_to_wd()
+ex_dir <- th_stage_examples_to_wd()
 # Use that folder as Threadle's working directory
-th_set_workdir(example_dir)
-
-# Installed example files location (read-only; prefer th_stage_examples_to_wd())
-# ex_pkg_dir <- system.file("extdata", "Examples", package = "threadleR")
+th_set_workdir(ex_dir)
 
 # Optional: return mode / message printing
 # options(threadle.return = "response") # for debugging only (default: "payload")
 # options(threadle.print_message = FALSE) # not recommended (messages are printed by default)
 
 # ---
-mytestnet_nodeset <- th_load_file("mytestnet_nodeset", "mynet_nodesetfile.tsv", type = "nodeset")
-mytestnet <- th_load_file("mytestnet", "mynet.tsv", "network")
 
-th_save_file("mytestnet_nodeset", "")
-th_save_file("mytestnet", "/Users/doge/Documents/mytestnet.tsv")
-
+# Load the default example (stages files + sets Threadle working directory)
+th_load_example()
 
 lazeganet_nodeset <- th_load_file("lazega_nodeset", "lazega_nodes.tsv", type = "nodeset")
 lazeganet <- th_load_file("lazega","lazega.tsv", type = "network")
+
+mynet_nodeset <- th_load_file("mynet_nodeset", "mynet_nodesetfile.tsv", type = "nodeset")
+mynet <- th_load_file("mynet", "mynet.tsv", type = "network")
+
+# library(usethis)
+# use_data(mynet, mynet_nodeset, overwrite = TRUE)
+# use_data(lazeganet, lazeganet_nodeset, overwrite = TRUE)
+# load("data/mynet_nodeset.rda")
+# load("data/mynet.rda")
+# load("data/lazeganet.rda")
+# load("data/lazeganet_nodeset.rda")
+
 th_info(lazeganet_nodeset)
 th_info(lazeganet)
 
