@@ -334,6 +334,23 @@ th_stop_threadle <- function() {
   }
 }
 
+#' Synchronize Threadle working directory with the current R working directory
+#'
+#' Sets the working directory used by the Threadle process to the current R working directory returned by [getwd()].
+#'
+#' @details
+#' This is useful when invoking Threadle from threadleR, as the Threadle process
+#' may have a different working directory than the R session.
+#'
+#' @return
+#' Invisibly returns the path to the synced working directory
+#' @export
+threadle_sync_wd <- function() {
+  r_wd <- getwd()
+  th_set_workdir(r_wd)
+  message("Threadle working directory synced to: ", r_wd)
+}
+
 #' Load a network structure from a file
 #'
 #' @param name Name for the network object.

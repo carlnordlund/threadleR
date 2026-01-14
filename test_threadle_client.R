@@ -7,7 +7,7 @@
 devtools::load_all()
 
 # path to the exe file
-path_to_exe <-"../bin/Debug/net8.0/Threadle.CLIconsole"
+path_to_exe <-"/Users/doge/Documents/Threadle/Threadle.CLIconsole/bin/Debug/net8.0/threadle"
 
 options(threadle.command = "cli")
 options(threadle.command = "json")
@@ -18,10 +18,11 @@ options(threadle.print_cmd = TRUE)
 # Start a Threadle instance
 th_start_threadle(path_to_exe)
 
-
-
+# Sync Threadle working directory with threadleR
+threadle_sync_wd()
 # Move into examples folder
-th_set_workdir("../Examples")
+ex_dir <- system.file("extdata", "Examples", package = "threadleR")
+th_set_workdir(ex_dir)
 
 options(threadle.return = "response")
 options(threadle.return = "payload")
