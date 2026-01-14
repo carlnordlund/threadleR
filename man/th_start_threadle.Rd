@@ -4,16 +4,17 @@
 \alias{th_start_threadle}
 \title{Start a Threadle CLI process}
 \usage{
-th_start_threadle(path = "Threadle.CLIconsole.exe")
+th_start_threadle(path = NULL)
 }
 \arguments{
-\item{path}{Path to the Threadle CLI executable.}
+\item{path}{Optional path to the Threadle CLI executable. If `NULL`, tries to
+locate `threadle` on `PATH` via [Sys.which()].}
 }
 \value{
 Invisibly returns the `processx` process object.
 }
 \description{
 Launches the Threadle CLI process executable and stores the process handle
-in the global environment as `.threadle_proc`. The process is started with
-silent mode and an end marker to delimit responses.
+in the global environment as `.threadle_proc`. The process is started in
+silent mode (and optionally JSON mode).
 }

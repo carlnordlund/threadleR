@@ -283,13 +283,31 @@ NULL
 #' Start a Threadle CLI process
 #'
 #' Launches the Threadle CLI process executable and stores the process handle
-#' in the global environment as `.threadle_proc`. The process is started with
-#' silent mode and an end marker to delimit responses.
+#' in the global environment as `.threadle_proc`. The process is started in
+#' silent mode (and optionally JSON mode).
 #'
-#' @param path Path to the Threadle CLI executable.
+#' @param path Optional path to the Threadle CLI executable. If `NULL`, tries to
+#'   locate `threadle` on `PATH` via [Sys.which()].
 #' @return Invisibly returns the `processx` process object.
 #' @export
-th_start_threadle <- function(path = "Threadle.CLIconsole.exe") {
+th_start_threadle <- function(path = NULL) {
+  if (is.null(path) || !nzchar(path)) {
+    path <- Sys.which("threadle")
+    if (!nzchar(path)) {
+      stop("Cannot find 'threadle' on PATH.\n",
+           "Please provide the full path, e.g.\n",
+           "  th_start_threadle('/full/path/to/threadle')",
+           call. = FALSE
+      )
+    }
+  } else {
+    p <- path
+    if (!file.exists(p)) {
+      stop("Threadle not found at: ", p, call. = FALSE)
+    }
+    path <- normalizePath(p, mustWork = TRUE)
+  }
+
   mode <- getOption("threadle.command", "json")
   if (exists(".threadle_proc", envir=.GlobalEnv)) {
     stop("'.threadle_proc' process already running.")
@@ -345,7 +363,7 @@ th_stop_threadle <- function() {
 #' @return
 #' Invisibly returns the path to the synced working directory
 #' @export
-threadle_sync_wd <- function() {
+th_sync_wd <- function() {
   r_wd <- getwd()
   th_set_workdir(r_wd)
   message("Threadle working directory synced to: ", r_wd)

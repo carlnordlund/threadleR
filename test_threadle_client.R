@@ -1,32 +1,27 @@
-# testing popnet_client.R
+# testing threadle_client.R
 
-# Set working directory in R - where the data is etc.
-# setwd("C:/Users/pekpi/Nextcloud/Work/Academic/Individual projects/PopnetEngine software reasoning/R testing")
+# Install and load threadleR
+remotes::install_github("YukunJiao/threadleR")
+library(threadleR)
 
-# Load the "library" with functions for communicating
-devtools::load_all()
-
-# path to the exe file
-path_to_exe <- Sys.getenv("THREADLE_PATH")
-
-options(threadle.command = "cli")
-options(threadle.command = "json")
-
-options(threadle.print_cmd = FALSE)
-options(threadle.print_cmd = TRUE)
+# Optional: switch protocol / command logging
+# options(threadle.command = "cli") # for debugging only (default: "json")
+# options(threadle.print_cmd = TRUE) # print commands sent to Threadle
 
 # Start a Threadle instance
-th_start_threadle(path_to_exe)
+# (uses `threadle` on PATH; if not found, provide a full path)
+th_start_threadle()
 
 # Sync Threadle working directory with threadleR
-threadle_sync_wd()
+th_sync_wd()
+
 # Move into examples folder
 ex_dir <- system.file("extdata", "Examples", package = "threadleR")
 th_set_workdir(ex_dir)
 
-options(threadle.return = "response")
-options(threadle.return = "payload")
-options(threadle.print_message = TRUE)
+# Optional: return mode / message printing
+# options(threadle.return = "response") # for debugging only (default: "payload")
+# options(threadle.print_message = FALSE) # not recommended (messages are printed by default)
 
 lazeganet_nodeset <- th_load_file("lazega_nodeset", "lazega_nodes.tsv", type = "nodeset")
 lazeganet <- th_load_network("lazega","lazega.tsv", type = "network")
