@@ -867,6 +867,7 @@ th_load_file <- function(name, file, type) {
 #'   string naming a structure in the Threadle CLI environment.
 #'
 #' @return CLI output.
+#' @export
 th_delete <- function(structure) {
   args <- .th_args(environment())
   cmd <- "delete"
