@@ -535,6 +535,24 @@ th_clear_layer <- function(network, layername) {
   .th_call(cmd = cmd, args = args, assign = assign)
 }
 
+#' Calculates the number of components for the specified layer and network.
+#'
+#' Calculates the number of components for the specified layer and network, and storing the result as an integer node attribute representing which component it is part of.
+#'
+#' @param network A `threadle_network` object or a character string giving
+#' the name of a network in the Threadle CLI environment.
+#' @param layname Layer name.
+#' @param attrname Attribute name.
+#' @return CLI output.
+#' @export
+th_components <- function(network, layname, attrname) {
+  args <- .th_args(environment())
+  cmd <- "components"
+  assign <- FALSE
+  .th_call(cmd = cmd, args = args, assign = assign)
+}
+
+
 #' Create a new network in Threadle
 #'
 #' Create a new network in Threadle and assign it to variable 'name' in the Threadle CLI environment
