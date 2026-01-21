@@ -11,7 +11,7 @@ options(threadle.print_cmd = TRUE) # print commands sent to Threadle
 
 # Start a Threadle instance
 # (uses `threadle` on PATH; if not found, provide a full path)
-th_start_threadle()
+th_start_threadle("~/Documents/Threadle/Threadle.CLIconsole/bin/Debug/net8.0/threadle")
 
 # Sync Threadle working directory with threadleR
 th_sync_wd()
