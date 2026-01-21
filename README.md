@@ -1,0 +1,145 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# threadleR
+
+<!-- badges: start -->
+
+<!-- badges: end -->
+
+threadleR is an R client for the Threadle CLI console. It allows you to
+control a running Threadle process directly from R, making it easy to
+load data, run commands, and build reproducible analysis workflows
+around Threadle.
+
+## Installation
+
+You can install the development version of threadleR from GitHub with:
+
+``` r
+# Option 1 (recommended)
+# install.packages("remotes")
+remotes::install_github("YukunJiao/threadleR")
+
+# Option 2
+# install.packages("pak")
+pak::pak("YukunJiao/threadleR")
+```
+
+## Quick start
+
+First load the package and start a Threadle instance. If threadle is not
+on your PATH, provide the full path to the executable.
+
+``` r
+library(threadleR)
+
+# Print commands sent to Threadle (useful for debugging)
+options(threadle.print_cmd = TRUE)
+
+# Start Threadle
+th_start_threadle("~/Documents/Threadle/Threadle.CLIconsole/bin/Debug/net8.0/threadle")
+
+# Synchronize Threadle working directory with R
+th_sync_wd()
+```
+
+Copy the example files shipped with threadleR into your current working
+directory and tell Threadle to use that folder:
+
+``` r
+ex_dir <- th_stage_examples_to_wd()
+th_set_workdir(ex_dir)
+```
+
+## Loading data
+
+Load a nodeset and a network into the Threadle backend:
+
+``` r
+lazega_nodeset <- th_load_file("lazega_nodeset", "lazega_nodes.tsv", type = "nodeset")
+lazega         <- th_load_file("lazega", "lazega.tsv", type = "network")
+
+th_info(lazega_nodeset)
+th_info(lazega)
+```
+
+List all objects currently stored in Threadle:
+
+``` r
+th_inventory()
+```
+
+## Basic queries
+
+Get alters of a node on a given layer:
+
+``` r
+th_get_node_alters(lazega, 23, "friends", direction = "out")
+```
+
+Compute shortest paths:
+
+``` r
+th_shortest_path(lazega, 1, 23, "friends")
+th_shortest_path(lazega, 1, 23)
+```
+
+Get the number of nodes:
+
+``` r
+nbr_nodes <- th_get_nbr_nodes(lazega)
+nbr_nodes
+```
+
+## Modifying networks
+
+Add a new layer and insert an edge:
+
+``` r
+th_add_layer(lazega, "testlayer", mode = 1)
+th_add_edge(lazega, "testlayer", 1, 100)
+```
+
+Remove an edge:
+
+``` r
+th_remove_edge(lazega, "testlayer", 1, 100)
+```
+
+## Saving and loading
+
+Save structures to disk:
+
+``` r
+th_save_file(lazega)
+th_save_file(lazega, file = "lazega.tsv.gz")
+```
+
+Reload them later:
+
+``` r
+lazega <- th_load_file("lazega", "lazega.tsv.gz", type = "network")
+```
+
+## Working directory
+
+Check the working directory used by Threadle:
+
+``` r
+th_get_workdir()
+```
+
+Change it:
+
+``` r
+th_set_workdir("~/my_threadle_workspace")
+```
+
+## Shutting down Threadle
+
+When you are done, stop the running Threadle process:
+
+``` r
+th_stop_threadle()
+```
