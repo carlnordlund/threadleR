@@ -1187,3 +1187,167 @@ th_undefine_attr <- function(structure, attrname) {
   assign <- NULL
   .th_call(cmd = cmd, args = args, assign = assign)
 }
+
+#' List directory contents in Threadle
+#'
+#' `th_dir()` gets the content of the current Threadle working directory,
+#' or the directory specified by `path`.
+#'
+#' @param path Optional directory path. If `NULL` or empty, lists the current directory.
+#' @return CLI output. In JSON mode, typically a parsed payload; in CLI mode, raw text lines.
+#' @export
+th_dir <- function(path = NULL) {
+  args <- .th_args(environment())
+  cmd <- "dir"
+  assign <- NULL
+  .th_call(cmd = cmd, args = args, assign = assign)
+}
+
+#' Generate random node attributes
+#'
+#' `th_generate_attr()` creates a new node attribute with the given name and type
+#' for the specified `structure`, and sets a random attribute value to each node
+#' according to the provided parameters.
+#'
+#' The meaning of the parameters depends on `attrtype`:
+#' \describe{
+#'   \item{`attrtype = "int"`}{Uses `min` and `max` (defaults 0 and 100).}
+#'   \item{`attrtype = "float"`}{Uses `min` and `max` (defaults 0.0 and 1.0).}
+#'   \item{`attrtype = "bool"`}{Uses `p` as the probability of `"true"` (default 0.5).}
+#'   \item{`attrtype = "char"`}{Uses `chars` as a `;`-separated set of values (default `"m;f;o"`).}
+#' }
+#'
+#' @param structure A `threadle_nodeset` or `threadle_network` object, or a character
+#'   string naming a structure in the Threadle CLI environment.
+#' @param attrname Attribute name to create/fill.
+#' @param attrtype Attribute type: `"int"` (default), `"float"`, `"bool"`, or `"char"`.
+#' @param min Minimum value for `"int"`/`"float"` types. Defaults to `0`/`0.0`.
+#' @param max Maximum value for `"int"`/`"float"` types. Defaults to `100`/`1.0`.
+#' @param p For `"bool"` type: probability of `"true"`. Default `0.5`.
+#' @param chars For `"char"` type: `;`-separated candidate values, e.g. `"a;c;f;g;z"`.
+#'   Default `"m;f;o"`.
+#' @return CLI output.
+#' @export
+th_generate_attr <- function(structure,
+                             attrname,
+                             attrtype = c("int", "float", "bool", "char"),
+                             min = NULL,
+                             max = NULL,
+                             p = 0.5,
+                             chars = "m;f;o") {
+  attrtype <- match.arg(attrtype)
+  args <- .th_args(environment())
+  cmd <- "generateattr"
+  assign <- NULL
+  .th_call(cmd = cmd, args = args, assign = assign)
+}
+
+#' Get all hyperedges in a 2-mode layer
+#'
+#' `th_get_all_hyperedges()` returns the hyperedge names that exist in the specified
+#' 2-mode `layername` of `network`. Supports pagination via `offset`/`limit`.
+#'
+#' @param network A `threadle_network` object or a character string giving
+#'   the name of a network in the Threadle CLI environment.
+#' @param layername Layer name (must be a 2-mode layer).
+#' @param offset Starting index (0-based). Defaults to `0`.
+#' @param limit Maximum number of hyperedges to return. Defaults to `1000`.
+#' @return A character vector of hyperedge names (JSON mode payload), or raw CLI text.
+#' @export
+th_get_all_hyperedges <- function(network, layername, offset = 0, limit = 1000) {
+  args <- .th_args(environment())
+  cmd <- "getallhyperedges"
+  assign <- NULL
+  .th_call(cmd = cmd, args = args, assign = assign)
+}
+
+#' Summarize a node attribute
+#'
+#' `th_get_attr_summary()` calculates and returns summary statistics for the specified
+#' node attribute in `structure`. Statistics vary by attribute type:
+#' \describe{
+#'   \item{`int`/`float`}{Mean, Median, StdDev, Min, Max, Q1, Q3.}
+#'   \item{`bool`}{Count_true, Count_false, Ratio_true.}
+#'   \item{`char`}{Frequency distribution, Mode, Unique_values.}
+#' }
+#' All types include Count, Missing, and PercentageWithValue.
+#'
+#' @param structure A `threadle_nodeset` or `threadle_network` object, or a character
+#'   string naming a structure in the Threadle CLI environment.
+#' @param attrname Attribute name.
+#' @return In JSON mode: a parsed summary payload (often a list); in CLI mode: raw text.
+#' @export
+th_get_attr_summary <- function(structure, attrname) {
+  args <- .th_args(environment())
+  cmd <- "getattrsummary"
+  assign <- NULL
+  .th_call(cmd = cmd, args = args, assign = assign)
+}
+
+#' Get nodes affiliated to a hyperedge
+#'
+#' `th_get_hyperedge_nodes()` returns the node IDs affiliated to the hyperedge
+#' `hypername` in the specified 2-mode `layername` of `network`.
+#'
+#' @param network A `threadle_network` object or a character string giving
+#'   the name of a network in the Threadle CLI environment.
+#' @param layername Layer name (must be a 2-mode layer).
+#' @param hypername Hyperedge name.
+#' @return A vector of node IDs (JSON mode payload), or raw CLI text.
+#' @export
+th_get_hyperedge_nodes <- function(network, layername, hypername) {
+  args <- .th_args(environment())
+  cmd <- "gethyperedgenodes"
+  assign <- NULL
+  .th_call(cmd = cmd, args = args, assign = assign)
+}
+
+#' Get hyperedges affiliated to a node
+#'
+#' `th_get_node_hyperedges()` returns the hyperedge names that `nodeid` is affiliated
+#' to in the specified 2-mode `layername` of `network`.
+#'
+#' @param network A `threadle_network` object or a character string giving
+#'   the name of a network in the Threadle CLI environment.
+#' @param layername Layer name (must be a 2-mode layer).
+#' @param nodeid Node ID.
+#' @return A character vector of hyperedge names (JSON mode payload), or raw CLI text.
+#' @export
+th_get_node_hyperedges <- function(network, layername, nodeid) {
+  args <- .th_args(environment())
+  cmd <- "getnodehyperedges"
+  assign <- NULL
+  .th_call(cmd = cmd, args = args, assign = assign)
+}
+
+#' Load and execute a Threadle CLI script
+#'
+#' `th_load_script()` loads and executes a script file containing text CLI commands.
+#' The backend will abort if it encounters an error in the script.
+#'
+#' @param file Path to the script file.
+#' @return CLI output.
+#' @export
+th_load_script <- function(file) {
+  args <- .th_args(environment())
+  cmd <- "loadscript"
+  assign <- NULL
+  .th_call(cmd = cmd, args = args, assign = assign)
+}
+
+#' Preview a structure
+#'
+#' `th_preview()` previews the content of a structure stored in the Threadle CLI
+#' environment under the variable name `structure`.
+#'
+#' @param structure A `threadle_nodeset` or `threadle_network` object, or a character
+#'   string naming a structure in the Threadle CLI environment.
+#' @param maxlines Maximum number of lines to output. Defaults to `50`.
+#' @return CLI output (typically text lines; JSON mode may return a payload depending on backend).
+#' @export
+th_preview <- function(structure, maxlines = 50) {
+  args <- .th_args(environment())
+  cmd <- "preview"
+  assign <- NULL
+  .th_call(cmd = cmd, args = args, assign = assign)
+}
