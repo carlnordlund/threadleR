@@ -4,17 +4,21 @@
 \alias{th_create_network}
 \title{Create a new network in Threadle}
 \usage{
-th_create_network(nodeset, name)
+th_create_network(var, nodeset, name = NULL)
 }
 \arguments{
+\item{var}{Name of the assigned variable in the Threadle CLI environment.}
+
 \item{nodeset}{A `threadle_nodeset` object or a character string giving
 the name of a nodeset in the Threadle CLI environment.}
 
-\item{name}{Name of the assigned variable in the Threadle CLI environment.}
+\item{name}{Optional internal name stored in the Threadle object metadata.
+This does not affect how the object is referenced in commands; commands
+use 'var'.}
 }
 \value{
 A `threadle_network` object.
 }
 \description{
-Create a new network in Threadle and assign it to variable 'name' in the Threadle CLI environment
+Create a new network in Threadle and assign it to variable 'var' in the Threadle CLI environment
 }

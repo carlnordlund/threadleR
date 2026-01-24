@@ -3,7 +3,7 @@
 # Install and load threadleR
 remotes::install_github("YukunJiao/threadleR")
 library(threadleR)
-# devtools::load_all()
+devtools::load_all()
 
 # Optional: switch protocol / command logging
 # options(threadle.command = "cli") # for debugging only (default: "json")
@@ -32,6 +32,11 @@ lazeganet <- th_load_file("lazega","lazega.tsv", type = "network")
 
 mynet_nodeset <- th_load_file("mynet_nodeset", "mynet_nodesetfile.tsv", type = "nodeset")
 mynet <- th_load_file("mynet", "mynet.tsv", type = "network")
+
+NS <- th_create_nodeset(var = "ABC", name = "nodeSet", createnodes = 3)
+NS <- th_create_nodeset(var = "ABC", createnodes = 3)
+NS
+th_info(NS) # Error: [VariableNotFound] No IStructure named 'ABC' found.
 
 # library(usethis)
 # use_data(mynet, mynet_nodeset, overwrite = TRUE)

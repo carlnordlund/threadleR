@@ -10,8 +10,11 @@
 #' @return A length-1 character string giving the backend variable name.
 #' @keywords internal
 .th_name <- function(x) {
+  if (is.null(x)) return(NULL)
   if (is.character(x) && length(x) == 1) return(x)
-  if (is.list(x) && !is.null(x$name) && is.character(x$name) && length(x$name) == 1) return(x$name)
+  if (is.list(x)) {
+    if (!is.null(x$name) && is.character(x$name) && length(x$name) == 1) return(x$name) # backward compat
+  }
   stop("Expected a Threadle structure object (with $name) or a single character name.")
 }
 
@@ -555,34 +558,39 @@ th_components <- function(network, layname, attrname) {
 
 #' Create a new network in Threadle
 #'
-#' Create a new network in Threadle and assign it to variable 'name' in the Threadle CLI environment
+#' Create a new network in Threadle and assign it to variable 'var' in the Threadle CLI environment
 #'
-#' @param name Name of the assigned variable in the Threadle CLI environment.
+#' @param var Name of the assigned variable in the Threadle CLI environment.
 #' @param nodeset A `threadle_nodeset` object or a character string giving
 #' the name of a nodeset in the Threadle CLI environment.
+#' @param name Optional internal name stored in the Threadle object metadata.
+#'   This does not affect how the object is referenced in commands; commands
+#'   use 'var'.
 #'
 #' @return A `threadle_network` object.
 #' @export
-th_create_network <- function(nodeset, name) {
-  args <- .th_args(environment(), drop = "name")
+th_create_network <- function(var, nodeset, name = NULL) {
+  args <- .th_args(environment(), drop = "var")
   cmd <- "createnetwork"
-  assign <- name
+  assign <- var
   .th_call(cmd = cmd, args = args, assign = assign)
-  structure(list(name = name), class = "threadle_network")
+  structure(list(name = var), class = "threadle_network")
 }
 
 #' Create a new nodeset in Threadle and assign it to variable 'name' in the Threadle CLI environment
 #'
-#' @param name Name of the R variable to assign in the CLI environment.
+#' @param var Name of the R variable to assign in the CLI environment.
+#' @param name Optional internal name stored in the Threadle object metadata.
+#'   This does not affect how the object is referenced in commands.
 #' @param createnodes Number of nodes
 #' @return A `threadle_nodeset` object.
 #' @export
-th_create_nodeset <- function(name, createnodes = 0) {
-  args <- .th_args(environment(), drop = "name")
+th_create_nodeset <- function(var, name = NULL, createnodes = 0) {
+  args <- .th_args(environment(), drop = "var")
   cmd <- "createnodeset"
-  assign <- name
+  assign <- var
   .th_call(cmd = cmd, args = args, assign = assign)
-  structure(list(name=name), class="threadle_nodeset")
+  structure(list(name=var), class="threadle_nodeset")
 }
 
 #' Define an attribute for a nodeset (or network)
@@ -886,7 +894,7 @@ th_import_layer <- function(network, layername, file, format = c('edgelist','mat
 #' @return Parsed JSON or raw CLI text.
 #' @export
 th_info <- function(structure) {
-  args <- .th_args(environment())
+  args <- list(structure = .th_name(structure))
   cmd <- "info"
   assign <- NULL
   .th_call(cmd = cmd, args = args, assign = assign)

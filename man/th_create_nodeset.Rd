@@ -4,10 +4,13 @@
 \alias{th_create_nodeset}
 \title{Create a new nodeset in Threadle and assign it to variable 'name' in the Threadle CLI environment}
 \usage{
-th_create_nodeset(name, createnodes = 0)
+th_create_nodeset(var, name = NULL, createnodes = 0)
 }
 \arguments{
-\item{name}{Name of the R variable to assign in the CLI environment.}
+\item{var}{Name of the R variable to assign in the CLI environment.}
+
+\item{name}{Optional internal name stored in the Threadle object metadata.
+This does not affect how the object is referenced in commands.}
 
 \item{createnodes}{Number of nodes}
 }
