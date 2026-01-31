@@ -7,7 +7,7 @@
 th_stop_threadle()
 }
 \value{
-None; prints status messages.
+\code{NULL}, invisibly.
 }
 \description{
 Terminates the Threadle process previously started with \code{.start_threadle()}.

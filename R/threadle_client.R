@@ -295,7 +295,7 @@ NULL
 #'
 #' @param path Optional path to the Threadle CLI executable. If `NULL`, tries to
 #'   locate `threadle` on `PATH` via [Sys.which()].
-#' @returns Invisibly returns the `processx` process object.
+#' @returns The `processx` process object, invisibly.
 #' @export
 th_start_threadle <- function(path = NULL) {
   if (is.null(path) || !nzchar(path)) {
@@ -339,7 +339,7 @@ th_start_threadle <- function(path = NULL) {
 #'
 #' Terminates the Threadle process previously started with `.start_threadle()`.
 #'
-#' @returns None; prints status messages.
+#' @returns `NULL`, invisibly.
 #' @export
 th_stop_threadle <- function() {
   if (.th_has_proc()) {
@@ -381,7 +381,7 @@ th_sync_wd <- function() {
 #'
 #' @param folder Name of the destination subfolder under [getwd()].
 #' @param overwrite Logical; overwrite existing files in the destination.
-#' @returns Invisibly returns the normalized path to the staged examples folder.
+#' @returns A character string giving the path to the staged examples folder.
 #' @export
 th_stage_examples_to_wd <- function(folder = "threadle_examples", overwrite = TRUE) {
   from <- system.file("extdata", "Examples", package = "threadleR")

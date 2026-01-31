@@ -11,7 +11,7 @@ th_start_threadle(path = NULL)
 locate \code{threadle} on \code{PATH} via \code{\link[=Sys.which]{Sys.which()}}.}
 }
 \value{
-Invisibly returns the \code{processx} process object.
+The \code{processx} process object, invisibly.
 }
 \description{
 Launches the Threadle CLI process executable and stores the process handle

@@ -3,7 +3,7 @@
 # Install and load threadleR
 remotes::install_github("YukunJiao/threadleR")
 library(threadleR)
-devtools::load_all()
+# devtools::load_all()
 
 # Optional: switch protocol / command logging
 # options(threadle.command = "cli") # for debugging only (default: "json")
@@ -17,7 +17,7 @@ th_start_threadle("~/Documents/Threadle/Threadle.CLIconsole/bin/Debug/net8.0/thr
 th_sync_wd()
 
 # Copy example files to a local folder
-ex_dir <- th_stage_examples_to_wd()
+ex_dir <- th_stage_examples_to_wd("./inst/examples")
 # Use that folder as Threadle's working directory
 th_set_workdir(ex_dir)
 

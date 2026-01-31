@@ -12,7 +12,7 @@ th_stage_examples_to_wd(folder = "threadle_examples", overwrite = TRUE)
 \item{overwrite}{Logical; overwrite existing files in the destination.}
 }
 \value{
-Invisibly returns the normalized path to the staged examples folder.
+A character string giving the path to the staged examples folder.
 }
 \description{
 Copies example files shipped with \pkg{threadleR} into \code{file.path(getwd(), folder)}
