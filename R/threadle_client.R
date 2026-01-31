@@ -554,7 +554,7 @@ th_clear_layer <- function(network, layername) {
 #'
 #' @param network A `threadle_network` object or a character string giving
 #' the name of a network in the Threadle CLI environment.
-#' @param layname Layer name.
+#' @param layername Layer name.
 #' @param attrname Attribute name.
 #' @returns A named list with:
 #' \describe{
@@ -802,7 +802,7 @@ th_filter <- function(name, nodeset, attrname, cond, attrvalue) {
 #'
 #' @returns `NULL`, invisibly.
 #' @export
-th_generate <- function(network, layername, type, p, k, beta, m) {
+th_generate <- function(network, layername, type, p, k, beta, m, h, a) {
   args <- .th_args(environment())
   cmd <- "generate"
   assign <- NULL
@@ -1136,6 +1136,16 @@ th_get_workdir <- function() {
 #' @param layername Name of the layer to create inside `network`.
 #' @param file Path to the input file.
 #' @param format Input file format. One of `"edgelist"` or `"matrix"`.
+#' @param node1col For one-mode edge lists: zero-based column index of the first node ID.
+#'   Defaults to 0.
+#' @param node2col For one-mode edge lists: zero-based column index of the second node ID.
+#'   Defaults to 1.
+#' @param valuecol For valued one-mode edge lists: zero-based column index of the tie value.
+#'   Defaults to 2.
+#' @param nodecol For two-mode edge lists: zero-based column index of the node ID. Defaults to 0.
+#' @param affcol For two-mode edge lists: zero-based column index of the affiliation/hyperedge label.
+#'   Defaults to 1.
+#' @param header Logical; whether the edge list file has a header line. Defaults to `FALSE`.
 #' @param sep Field separator used when `format = "edgelist"` (and for delimited
 #' matrix formats, if applicable). Defaults to tab.
 #' @param addmissingnodes Logical; if `TRUE`, create nodes referenced in the file

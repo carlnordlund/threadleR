@@ -10,9 +10,9 @@ th_components(network, layername, attrname)
 \item{network}{A \code{threadle_network} object or a character string giving
 the name of a network in the Threadle CLI environment.}
 
-\item{attrname}{Attribute name.}
+\item{layername}{Layer name.}
 
-\item{layname}{Layer name.}
+\item{attrname}{Attribute name.}
 }
 \value{
 A named list with:

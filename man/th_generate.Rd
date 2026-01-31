@@ -4,7 +4,7 @@
 \alias{th_generate}
 \title{Generate random ties in a layer}
 \usage{
-th_generate(network, layername, type, p, k, beta, m)
+th_generate(network, layername, type, p, k, beta, m, h, a)
 }
 \arguments{
 \item{network}{Name of the new network variable to create.}

@@ -28,6 +28,22 @@ th_import_layer(
 
 \item{format}{Input file format. One of \code{"edgelist"} or \code{"matrix"}.}
 
+\item{node1col}{For one-mode edge lists: zero-based column index of the first node ID.
+Defaults to 0.}
+
+\item{node2col}{For one-mode edge lists: zero-based column index of the second node ID.
+Defaults to 1.}
+
+\item{valuecol}{For valued one-mode edge lists: zero-based column index of the tie value.
+Defaults to 2.}
+
+\item{nodecol}{For two-mode edge lists: zero-based column index of the node ID. Defaults to 0.}
+
+\item{affcol}{For two-mode edge lists: zero-based column index of the affiliation/hyperedge label.
+Defaults to 1.}
+
+\item{header}{Logical; whether the edge list file has a header line. Defaults to \code{FALSE}.}
+
 \item{sep}{Field separator used when \code{format = "edgelist"} (and for delimited
 matrix formats, if applicable). Defaults to tab.}
 
