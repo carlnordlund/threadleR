@@ -67,7 +67,7 @@ th_info(lazega)
 List all objects currently stored in Threadle:
 
 ``` r
-th_inventory()
+th_i()
 ```
 
 ## Basic queries
