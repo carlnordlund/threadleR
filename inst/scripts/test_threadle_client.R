@@ -32,7 +32,6 @@ lazeganet <- th_load_file("lazega","lazega.tsv", type = "network")
 
 mynet_nodeset <- th_load_file("mynet_nodeset", "mynet_nodesetfile.tsv", type = "nodeset")
 mynet <- th_load_file("mynet", "mynet.tsv", type = "network")
-th_import_layer(mynet, "trade")
 th_info(lazeganet)
 th_components(lazeganet, "friends", "gender") |> class()
 th_i()

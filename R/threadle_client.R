@@ -170,7 +170,7 @@ NULL
   if (length(cmd) == 0) return(NULL)
   if (!nzchar(cmd)) return(NULL)
 
-  proc <- get(".threadle_proc", envir = .GlobalEnv)
+  proc <- .th_get_proc()
   proc$write_input(paste0(cmd, "\n"))
 
   mode <- getOption("threadle.command", default = "json")
@@ -316,8 +316,8 @@ th_start_threadle <- function(path = NULL) {
   }
 
   mode <- getOption("threadle.command", "json")
-  if (exists(".threadle_proc", envir=.GlobalEnv)) {
-    stop("'.threadle_proc' process already running.")
+  if (.th_has_proc()) {
+    stop("Threadle process already running.", call. = FALSE)
   }
 
   if (identical(mode, "cli")) {
@@ -330,8 +330,8 @@ th_start_threadle <- function(path = NULL) {
   proc <- processx::process$new(path, args=args, stdin="|", stdout="|", stderr = "|")
   # proc <- processx::process$new(path, args=c("--json", "--silent"), stdin="|", stdout="|", stderr = "|")
   #proc <- processx::process$new(path, args=c("--endmarker"), stdin="|", stdout="|", stderr = "|")
-  # assign(".threadle_proc", proc, envir=.GlobalEnv)
-  assign(".threadle_proc", proc, envir=.GlobalEnv)
+  # .th_set_proc(proc)
+  .th_set_proc(proc)
   invisible(proc)
 }
 
@@ -342,21 +342,19 @@ th_start_threadle <- function(path = NULL) {
 #' @returns None; prints status messages.
 #' @export
 th_stop_threadle <- function() {
-  if (exists(".threadle_proc", envir=.GlobalEnv)) {
-    proc <- get(".threadle_proc", envir=.GlobalEnv)
-
+  if (.th_has_proc()) {
+    proc <- .th_get_proc()
     if (proc$is_alive()) {
       proc$kill()
-      message("'.threadle_proc' process terminated.")
+      message("Threadle process terminated.")
+    } else {
+      message("Threadle process is not running.")
     }
-    else {
-      message("'.threadle_proc' process is already not running.")
-    }
-    rm(".threadle_proc", envir = .GlobalEnv)
+    .th_clear_proc()
+  } else {
+    message("No Threadle process found.")
   }
-  else {
-    message("No '.threadle_proc' process found.")
-  }
+  invisible(NULL)
 }
 
 #' Synchronize Threadle working directory with the current R working directory
