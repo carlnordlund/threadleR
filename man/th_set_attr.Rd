@@ -2,23 +2,24 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_set_attr}
 \alias{th_set_attr}
-\title{Set the value of a node attribute for a nodeset (or network)}
+\title{Set a node attribute value}
 \usage{
 th_set_attr(structure, nodeid, attrname, attrvalue)
 }
 \arguments{
-\item{structure}{A `threadle_nodeset` or `threadle_network` object, or a character
+\item{structure}{A \code{threadle_nodeset} or \code{threadle_network} object, or a character
 string naming a structure in the Threadle CLI environment.}
 
 \item{nodeid}{Node ID.}
 
 \item{attrname}{Attribute name.}
 
-\item{attrvalue}{Value to assign.}
+\item{attrvalue}{Attribute value to set.}
 }
 \value{
-CLI output.
+\code{NULL}, invisibly.
 }
 \description{
-Set the value of a node attribute for a nodeset (or network)
+\code{th_set_attr()} sets the value of a node attribute for a specific node
+in a nodeset (or the nodeset of the provided network).
 }

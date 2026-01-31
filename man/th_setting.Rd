@@ -2,18 +2,28 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_setting}
 \alias{th_setting}
-\title{Set a Threadle backend setting}
+\title{Set a Threadle setting}
 \usage{
 th_setting(name, value)
 }
 \arguments{
 \item{name}{Setting name.}
 
-\item{value}{Setting value (typically `"true"` or `"false"`).}
+\item{value}{Logical; \code{TRUE} to enable, \code{FALSE} to disable.}
 }
 \value{
-CLI output.
+\code{NULL}, invisibly.
 }
 \description{
-`th_setting()` changes setting in the Threadle backend.
+\code{th_setting()} enables or disables a Threadle backend setting.
+}
+\details{
+Available settings include:
+\describe{
+\item{\code{"nodecache"}}{Use a node cache (lazy initialized).}
+\item{\code{"blockmultiedges"}}{Prohibit creation of multiple edges with identical endpoints
+and direction.}
+\item{\code{"onlyoutboundedges"}}{Store only outbound edges (no inbound edges) to reduce memory
+usage for walker-only applications.}
+}
 }

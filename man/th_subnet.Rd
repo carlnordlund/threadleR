@@ -2,23 +2,27 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_subnet}
 \alias{th_subnet}
-\title{Create a subnet from a network and a nodeset}
+\title{Create a subnetwork from a network and nodeset}
 \usage{
 th_subnet(name, network, nodeset)
 }
 \arguments{
 \item{name}{Name of the new network variable to create.}
 
-\item{network}{A `threadle_network` object or a character string giving
+\item{network}{A \code{threadle_network} object or a character string giving
 the name of a network in the Threadle CLI environment.}
 
-\item{nodeset}{A `threadle_nodeset` object or a character string giving
+\item{nodeset}{A \code{threadle_nodeset} object or a character string giving
 the name of a network in the Threadle CLI environment.}
 }
 \value{
-CLI output.
+A \code{threadle_network} object.
 }
 \description{
-`th_subnet()` constructs a new network induced
-by the nodes in `nodeset` and stores it under `name`.
+\code{th_subnet()} creates a new network based on an existing network, restricted to the
+nodes in a specified nodeset.
+}
+\details{
+This is useful for creating a network subset after creating a subset nodeset (e.g.,
+with \code{th_filter()}).
 }

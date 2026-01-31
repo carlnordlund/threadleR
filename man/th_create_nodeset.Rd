@@ -2,21 +2,22 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_create_nodeset}
 \alias{th_create_nodeset}
-\title{Create a new nodeset in Threadle and assign it to variable 'name' in the Threadle CLI environment}
+\title{Create a nodeset}
 \usage{
 th_create_nodeset(var, name = NULL, createnodes = 0)
 }
 \arguments{
-\item{var}{Name of the R variable to assign in the CLI environment.}
+\item{var}{Name of the assigned variable in the Threadle CLI environment.}
 
 \item{name}{Optional internal name stored in the Threadle object metadata.
 This does not affect how the object is referenced in commands.}
 
-\item{createnodes}{Number of nodes}
+\item{createnodes}{Number of nodes to create in the nodeset. Default is 0.}
 }
 \value{
-A `threadle_nodeset` object.
+A \code{threadle_nodeset} object.
 }
 \description{
-Create a new nodeset in Threadle and assign it to variable 'name' in the Threadle CLI environment
+\code{th_create_nodeset()} creates an empty nodeset by default,
+but you can create nodes by setting \code{createnodes}.
 }

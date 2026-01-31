@@ -2,20 +2,20 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_clear_layer}
 \alias{th_clear_layer}
-\title{Clear all edges in a layer}
+\title{Remove all edges in a layer}
 \usage{
 th_clear_layer(network, layername)
 }
 \arguments{
-\item{network}{A `threadle_network` object or a character string giving
+\item{network}{A \code{threadle_network} object or a character string giving
 the name of a network in the Threadle CLI environment.}
 
 \item{layername}{Layer name.}
 }
 \value{
-CLI output.
+\code{NULL}, invisibly.
 }
 \description{
-`th_clear_layer()` removes all edges from the
-specified layer while keeping the layer definition.
+\code{th_clear_layer()} removes all edges in a layer but keep the layer.
+For two-mode layers, all hyperedges are removed.
 }

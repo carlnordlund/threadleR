@@ -2,24 +2,24 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_get_all_hyperedges}
 \alias{th_get_all_hyperedges}
-\title{Get all hyperedges in a 2-mode layer}
+\title{Get all hyperedges in a two-mode layer}
 \usage{
 th_get_all_hyperedges(network, layername, offset = 0, limit = 1000)
 }
 \arguments{
-\item{network}{A `threadle_network` object or a character string giving
+\item{network}{A \code{threadle_network} object or a character string giving
 the name of a network in the Threadle CLI environment.}
 
 \item{layername}{Layer name (must be a 2-mode layer).}
 
-\item{offset}{Starting index (0-based). Defaults to `0`.}
+\item{offset}{Starting index (0-based). Defaults to \code{0}.}
 
-\item{limit}{Maximum number of hyperedges to return. Defaults to `1000`.}
+\item{limit}{Maximum number of hyperedges to return. Defaults to \code{1000}.}
 }
 \value{
 A character vector of hyperedge names (JSON mode payload), or raw CLI text.
 }
 \description{
-`th_get_all_hyperedges()` returns the hyperedge names that exist in the specified
-2-mode `layername` of `network`. Supports pagination via `offset`/`limit`.
+\code{th_get_all_hyperedges()} returns the hyperedge names that exist in the specified
+2-mode \code{layername} of \code{network}. Supports pagination via \code{offset}/\code{limit}.
 }

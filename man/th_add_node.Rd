@@ -2,19 +2,19 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_add_node}
 \alias{th_add_node}
-\title{Add a node to a nodeset (or network)}
+\title{Add a node to a nodeset}
 \usage{
 th_add_node(structure, id)
 }
 \arguments{
-\item{structure}{A `threadle_nodeset` or `threadle_network` object, or a character
+\item{structure}{A \code{threadle_nodeset} or \code{threadle_network} object, or a character
 string naming a structure in the Threadle CLI environment.}
 
-\item{id}{Node ID.}
+\item{id}{Node ID (unsigned integer).}
 }
 \value{
-CLI output.
+\code{NULL}, invisibly.
 }
 \description{
-Add a node to a nodeset (or network)
+\code{th_add_node()} adds a node to a nodeset (or the nodeset of the provided network).
 }

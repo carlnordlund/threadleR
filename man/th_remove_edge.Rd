@@ -2,24 +2,23 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_remove_edge}
 \alias{th_remove_edge}
-\title{Remove an edge from a layer}
+\title{Remove an edge from a one-mode layer}
 \usage{
 th_remove_edge(network, layername, node1id, node2id)
 }
 \arguments{
-\item{network}{A `threadle_network` object or a character string giving
+\item{network}{A \code{threadle_network} object or a character string giving
 the name of a network in the Threadle CLI environment.}
 
 \item{layername}{Layer name.}
 
-\item{node1id}{Node ID of the first vertex in the dyad.}
+\item{node1id}{Node ID of the first node.}
 
-\item{node2id}{Node ID of the second vertex in the dyad.}
+\item{node2id}{Node ID of the second node.}
 }
 \value{
-Invisibly returns the result of the remove operation.
+\code{NULL}, invisibly.
 }
 \description{
-`th_remove_edge` removes an edge between two
-nodes in the specified layer.
+\code{th_remove_edge} removes an edge between two nodes in a one-mode layer.
 }

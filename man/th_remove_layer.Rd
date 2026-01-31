@@ -7,15 +7,14 @@
 th_remove_layer(network, layername)
 }
 \arguments{
-\item{network}{A `threadle_network` object or a character string giving
+\item{network}{A \code{threadle_network} object or a character string giving
 the name of a network in the Threadle CLI environment.}
 
-\item{layername}{Name of the layer to be removed.}
+\item{layername}{Name of the layer to remove.}
 }
 \value{
-CLI output.
+\code{NULL}, invisibly.
 }
 \description{
-`th_remove_layer()` removes a layer
-(and its edges) from the network.
+\code{th_remove_layer()} removes a layer from a network, including all ties in that layer.
 }

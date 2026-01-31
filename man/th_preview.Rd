@@ -7,15 +7,15 @@
 th_preview(structure, maxlines = 50)
 }
 \arguments{
-\item{structure}{A `threadle_nodeset` or `threadle_network` object, or a character
+\item{structure}{A \code{threadle_nodeset} or \code{threadle_network} object, or a character
 string naming a structure in the Threadle CLI environment.}
 
-\item{maxlines}{Maximum number of lines to output. Defaults to `50`.}
+\item{maxlines}{Maximum number of lines to output. Defaults to \code{50}.}
 }
 \value{
 CLI output (typically text lines; JSON mode may return a payload depending on backend).
 }
 \description{
-`th_preview()` previews the content of a structure stored in the Threadle CLI
-environment under the variable name `structure`.
+\code{th_preview()} previews the content of a structure stored in the Threadle CLI
+environment under the variable name \code{structure}.
 }

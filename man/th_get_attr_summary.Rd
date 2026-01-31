@@ -7,21 +7,24 @@
 th_get_attr_summary(structure, attrname)
 }
 \arguments{
-\item{structure}{A `threadle_nodeset` or `threadle_network` object, or a character
+\item{structure}{A \code{threadle_nodeset} or \code{threadle_network} object, or a character
 string naming a structure in the Threadle CLI environment.}
 
-\item{attrname}{Attribute name.}
+\item{attrname}{Name of the node attribute to summarize.}
 }
 \value{
 In JSON mode: a parsed summary payload (often a list); in CLI mode: raw text.
 }
 \description{
-`th_get_attr_summary()` calculates and returns summary statistics for the specified
-node attribute in `structure`. Statistics vary by attribute type:
+\code{th_get_attr_summary()} calculates summary statistics for a node attribute
+in a nodeset (or the nodeset of the provided network).
+}
+\details{
+The reported statistics depend on the attribute type:
 \describe{
-  \item{`int`/`float`}{Mean, Median, StdDev, Min, Max, Q1, Q3.}
-  \item{`bool`}{Count_true, Count_false, Ratio_true.}
-  \item{`char`}{Frequency distribution, Mode, Unique_values.}
+\item{\code{int} / \code{float}}{Mean, Median, StdDev, Min, Max, Q1, Q3.}
+\item{\code{bool}}{Count_true, Count_false, Ratio_true.}
+\item{\code{char}}{Frequency distribution, Mode, Unique_values.}
 }
 All types include Count, Missing, and PercentageWithValue.
 }

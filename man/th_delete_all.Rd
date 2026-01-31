@@ -2,13 +2,13 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_delete_all}
 \alias{th_delete_all}
-\title{Remove all structures}
+\title{Delete all structures}
 \usage{
 th_delete_all()
 }
 \value{
-CLI output.
+\code{NULL}, invisibly.
 }
 \description{
-`th_delete_all()` removes all stored variables.
+\code{th_delete_all()} removes all current structures.
 }

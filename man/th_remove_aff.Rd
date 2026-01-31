@@ -2,24 +2,24 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_remove_aff}
 \alias{th_remove_aff}
-\title{Remove an affiliation (node -> hyperedge) from a layer}
+\title{Remove an affiliation from a two-mode layer}
 \usage{
 th_remove_aff(network, layername, nodeid, hypername)
 }
 \arguments{
-\item{network}{A `threadle_network` object or a character string giving
+\item{network}{A \code{threadle_network} object or a character string giving
 the name of a network in the Threadle CLI environment.}
 
-\item{layername}{Layer name.}
+\item{layername}{Name of the two-mode layer.}
 
 \item{nodeid}{Node ID.}
 
 \item{hypername}{Name of the hyperedge.}
 }
 \value{
-CLI output.
+\code{NULL}, invisibly.
 }
 \description{
-`th_remove_aff()` removes an affiliation between
-a node and a hyperedge in the specified layer.
+\code{th_remove_aff()} removes an affiliation between
+a node and a hyperedge in a two-mode layer.
 }

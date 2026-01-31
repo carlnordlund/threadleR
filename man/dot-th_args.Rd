@@ -7,12 +7,12 @@
 .th_args(env, drop = character())
 }
 \arguments{
-\item{env}{An environment, usually `environment()` from the wrapper.}
+\item{env}{An environment, usually \code{environment()} from the wrapper.}
 
 \item{drop}{Character vector of argument names to drop.}
 }
 \value{
-A named list of arguments suitable for `.th_json_cmd()`.
+A named list of arguments suitable for \code{.th_json_cmd()}.
 }
 \description{
 Internal helper that collects arguments from a wrapper's environment and
@@ -20,8 +20,8 @@ prepares them for sending to the Threadle backend.
 }
 \details{
 It keeps only the wrapper's formal arguments (optionally dropping some),
-extracts their current values from `env`,
-normalizes known structure parameters (`name`, `network`, `structure`)
-to backend names via `.th_name()`.
+extracts their current values from \code{env},
+normalizes known structure parameters (\code{name}, \code{network}, \code{structure})
+to backend names via \code{.th_name()}.
 }
 \keyword{internal}

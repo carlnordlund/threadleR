@@ -7,14 +7,14 @@
 th_start_threadle(path = NULL)
 }
 \arguments{
-\item{path}{Optional path to the Threadle CLI executable. If `NULL`, tries to
-locate `threadle` on `PATH` via [Sys.which()].}
+\item{path}{Optional path to the Threadle CLI executable. If \code{NULL}, tries to
+locate \code{threadle} on \code{PATH} via \code{\link[=Sys.which]{Sys.which()}}.}
 }
 \value{
-Invisibly returns the `processx` process object.
+Invisibly returns the \code{processx} process object.
 }
 \description{
 Launches the Threadle CLI process executable and stores the process handle
-in the global environment as `.threadle_proc`. The process is started in
+in the global environment as \code{.threadle_proc}. The process is started in
 silent mode (and optionally JSON mode).
 }

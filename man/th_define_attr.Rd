@@ -2,7 +2,7 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_define_attr}
 \alias{th_define_attr}
-\title{Define an attribute for a nodeset (or network)}
+\title{Define an attribute for a nodeset}
 \usage{
 th_define_attr(
   structure,
@@ -11,16 +11,16 @@ th_define_attr(
 )
 }
 \arguments{
-\item{structure}{A `threadle_nodeset` or `threadle_network` object, or a character
+\item{structure}{A \code{threadle_nodeset} or \code{threadle_network} object, or a character
 string naming a structure in the Threadle CLI environment.}
 
 \item{attrname}{Attribute name.}
 
-\item{attrtype}{Attribute type ("int","float", "char" or "bool")}
+\item{attrtype}{Attribute type ("int","char", "float", or "bool")}
 }
 \value{
-CLI output.
+\code{NULL}, invisibly.
 }
 \description{
-Define an attribute for a nodeset (or network)
+\code{th_define_attr()} defines a node attribute for a nodeset or the nodeset of the provided network.
 }

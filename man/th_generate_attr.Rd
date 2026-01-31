@@ -15,36 +15,36 @@ th_generate_attr(
 )
 }
 \arguments{
-\item{structure}{A `threadle_nodeset` or `threadle_network` object, or a character
+\item{structure}{A \code{threadle_nodeset} or \code{threadle_network} object, or a character
 string naming a structure in the Threadle CLI environment.}
 
 \item{attrname}{Attribute name to create/fill.}
 
-\item{attrtype}{Attribute type: `"int"` (default), `"float"`, `"bool"`, or `"char"`.}
+\item{attrtype}{Attribute type: \code{"int"} (default), \code{"float"}, \code{"bool"}, or \code{"char"}. Defaults to \code{"int"}.}
 
-\item{min}{Minimum value for `"int"`/`"float"` types. Defaults to `0`/`0.0`.}
+\item{min}{Minimum value for \code{"int"}/\code{"float"} types. Defaults to \code{0}/\code{0.0}.}
 
-\item{max}{Maximum value for `"int"`/`"float"` types. Defaults to `100`/`1.0`.}
+\item{max}{Maximum value for \code{"int"}/\code{"float"} types. Defaults to \code{100}/\code{1.0}.}
 
-\item{p}{For `"bool"` type: probability of `"true"`. Default `0.5`.}
+\item{p}{For \code{"bool"} type: probability of \code{"true"}. Default \code{0.5}.}
 
-\item{chars}{For `"char"` type: `;`-separated candidate values, e.g. `"a;c;f;g;z"`.
-Default `"m;f;o"`.}
+\item{chars}{For \code{"char"} type: \verb{;}-separated candidate values, e.g. \code{"a;c;f;g;z"}.
+Default \code{"m;f;o"}.}
 }
 \value{
-CLI output.
+\code{NULL}, invisibly.
 }
 \description{
-`th_generate_attr()` creates a new node attribute with the given name and type
-for the specified `structure`, and sets a random attribute value to each node
+\code{th_generate_attr()} creates a new node attribute with the given name and type
+for the specified \code{structure}, and sets a random attribute value to each node
 according to the provided parameters.
 }
 \details{
-The meaning of the parameters depends on `attrtype`:
+The meaning of the parameters depends on \code{attrtype}:
 \describe{
-  \item{`attrtype = "int"`}{Uses `min` and `max` (defaults 0 and 100).}
-  \item{`attrtype = "float"`}{Uses `min` and `max` (defaults 0.0 and 1.0).}
-  \item{`attrtype = "bool"`}{Uses `p` as the probability of `"true"` (default 0.5).}
-  \item{`attrtype = "char"`}{Uses `chars` as a `;`-separated set of values (default `"m;f;o"`).}
+\item{\code{attrtype = "int"}}{Uses \code{min} and \code{max} (defaults 0 and 100).}
+\item{\code{attrtype = "float"}}{Uses \code{min} and \code{max} (defaults 0.0 and 1.0).}
+\item{\code{attrtype = "bool"}}{Uses \code{p} as the probability of \code{"true"} (default 0.5).}
+\item{\code{attrtype = "char"}}{Uses \code{chars} as a \verb{;}-separated set of values (default \code{"m;f;o"}).}
 }
 }

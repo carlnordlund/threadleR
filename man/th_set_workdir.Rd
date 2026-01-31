@@ -2,21 +2,29 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_set_workdir}
 \alias{th_set_workdir}
-\title{Set working directory inside the Threadle CLI environment}
+\title{Set Threadle working directory}
 \usage{
 th_set_workdir(dir)
 }
 \arguments{
-\item{dir}{Path to the directory.}
+\item{dir}{Directory path, or one of the special values \code{"~"} or \code{"~documents"}.}
 }
 \value{
-CLI output as a character vector.
+\code{NULL}, invisibly.
 }
 \description{
-Set working directory inside the Threadle CLI environment
+\code{th_set_workdir()} sets the working directory used by the Threadle.
+}
+\details{
+In addition to absolute and relative paths, \code{dir} supports special values:
+\describe{
+\item{\code{"~"}}{Set the working directory to the user's home directory.}
+\item{\code{"~documents"}}{Set the working directory to the user's Documents folder.}
+}
+An error is raised if the target directory does not exist.
 }
 \examples{
 \dontrun{
-th_set_workdir("~/data")
+th_set_workdir("~documents")
 }
 }

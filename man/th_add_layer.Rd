@@ -2,7 +2,7 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_add_layer}
 \alias{th_add_layer}
-\title{Adds/defines a relational layer in a network}
+\title{Add a relational layer in a network}
 \usage{
 th_add_layer(
   network,
@@ -14,7 +14,7 @@ th_add_layer(
 )
 }
 \arguments{
-\item{network}{A `threadle_network` object or a character string giving
+\item{network}{A \code{threadle_network} object or a character string giving
 the name of a network in the Threadle CLI environment.}
 
 \item{layername}{Layer name.}
@@ -28,8 +28,8 @@ the name of a network in the Threadle CLI environment.}
 \item{selfties}{Logical; whether self-ties are allowed (only for 1-mode layers).}
 }
 \value{
-CLI output.
+\code{NULL}, invisibly.
 }
 \description{
-Adds/defines a relational layer in a network
+\code{th_add_layer()} adds a new layer to a network, which can be either one-mode or two-mode.
 }

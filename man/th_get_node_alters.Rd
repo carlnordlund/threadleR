@@ -2,28 +2,32 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_get_node_alters}
 \alias{th_get_node_alters}
-\title{Get alters of a node within a network layer}
+\title{Get alters of a node within a layer or across layers}
 \usage{
 th_get_node_alters(
   network,
   nodeid,
-  layername = "",
-  direction = c("both", "in", "out"),
+  layernames = "",
+  direction = "both",
   unique = FALSE
 )
 }
 \arguments{
-\item{network}{Name of the network.}
+\item{network}{A \code{threadle_network} object or a character string giving
+the name of a network in the Threadle CLI environment.}
 
 \item{nodeid}{Node ID.}
 
-\item{layername}{Layer to query.}
+\item{layernames}{Optional layer names.
+If \code{NULL}, alters are collected across all layers.}
 
-\item{direction}{Tie direction ("both", "in", "out").}
+\item{direction}{Which ties to count: \code{"both"} (default), \code{"in"}, or \code{"out"}.}
+
+\item{unique}{Logical; if \code{TRUE}, deduplicate alter IDs. Defaults to \code{FALSE}.}
 }
 \value{
-Parsed JSON list of alters.
+An integer vector giving alter node IDs.
 }
 \description{
-Get alters of a node within a network layer
+Get alters of a node within a layer or across layers
 }

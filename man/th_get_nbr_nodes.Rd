@@ -7,12 +7,12 @@
 th_get_nbr_nodes(structure)
 }
 \arguments{
-\item{structure}{A `threadle_nodeset` or `threadle_network` object, or a character
+\item{structure}{A \code{threadle_nodeset} or \code{threadle_network} object, or a character
 string naming a structure in the Threadle CLI environment.}
 }
 \value{
-A numeric value.
+An integer scalar giving the number of nodes.
 }
 \description{
-Get the number of nodes in a structure
+\code{th_get_nbr_nodes()} gets the number of nodes in the nodeset (or the nodeset of the provided network).
 }

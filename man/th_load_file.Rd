@@ -2,20 +2,32 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_load_file}
 \alias{th_load_file}
-\title{Load a file into Threadle and assigns the structure(s) to the provided variable name in the Threadle CLI environment}
+\title{Load a nodeset or network from file}
 \usage{
 th_load_file(name, file, type)
 }
 \arguments{
-\item{name}{Name of the assigned variable in the Threadle CLI environment.}
+\item{name}{Name of the assigned variable in Threadle.}
 
-\item{file}{File path.}
+\item{file}{Path to the input file.}
 
-\item{type}{Type of structure ("network" or "nodeset").}
+\item{type}{Structure type to load: \code{"nodeset"} or \code{"network"}.}
 }
 \value{
 An object with class corresponding to the loaded type.
 }
 \description{
-Load a file into Threadle and assigns the structure(s) to the provided variable name in the Threadle CLI environment
+\code{th_load_file()} loads a nodeset or network from a file in Threadle's internal format.
+}
+\details{
+When loading a network that refers to a nodeset file,
+the referenced nodeset is also loaded.
+
+Supported file extensions:
+\describe{
+\item{\code{.tsv}}{Text-based internal format.}
+\item{\code{.tsv.gz}}{Gzipped text-based internal format.}
+\item{\code{.bin}}{Threadle binary format (compact, not human-readable).}
+\item{\code{.bin.gz}}{Gzipped Threadle binary format.}
+}
 }

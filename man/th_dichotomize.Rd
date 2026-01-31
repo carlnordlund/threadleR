@@ -2,7 +2,7 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_dichotomize}
 \alias{th_dichotomize}
-\title{Dichotomize a layer}
+\title{Dichotomize a valued one-mode layer}
 \usage{
 th_dichotomize(
   network,
@@ -15,28 +15,29 @@ th_dichotomize(
 )
 }
 \arguments{
-\item{network}{A `threadle_network` object or a character string giving
+\item{network}{A \code{threadle_network} object or a character string giving
 the name of a network in the Threadle CLI environment.}
 
-\item{layername}{Layer name.}
+\item{layername}{Name of the valued one-mode layer to dichotomize.}
 
-\item{cond}{Comparison operator: `"eq"`, `"ne"`, `"gt"`, `"lt"`, `"ge"`, or `"le"`.
-Defaults to `"ge"`.}
+\item{cond}{Comparison operator used for dichotomization: \code{"eq"}, \code{"ne"}, \code{"gt"}, \code{"lt"}, \code{"ge"}, or \code{"le"}.
+Defaults to \code{"ge"}.}
 
-\item{threshold}{Threshold used with `cond`. Defaults to `1`.}
+\item{threshold}{Numeric threshold used with \code{cond}. Defaults to \code{1}.}
 
-\item{truevalue}{Value to assign when the condition is `TRUE`. Defaults to `1`.
-Can also be `"keep"` to retain the original value for ties that satisfy the condition.}
+\item{truevalue}{Value assigned when the condition is \code{TRUE}. Defaults to \code{1}.
+Can also be \code{"keep"} to retain the original value.}
 
-\item{falsevalue}{Value to assign when the condition is `FALSE`. Defaults to `0`.
-Can also be `"keep"` to retain the original value for ties that do not satisfy the condition.}
+\item{falsevalue}{Value assigned when the condition is \code{FALSE}. Defaults to \code{0}.
+Can also be \code{"keep"} to retain the original value.}
 
-\item{newlayername}{Optional name for the new layer.}
+\item{newlayername}{Optional name for the dichotomized layer.
+If \code{NULL}, a default name is used.}
 }
 \value{
-CLI output.
+\code{NULL}, invisibly.
 }
 \description{
-`th_dichotomize()` creates a recoded version of
-a layer based on a threshold rule.
+\code{th_dichotomize()} creates a recoded version of
+a valued one-mode layer based on a threshold rule.
 }

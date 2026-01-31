@@ -2,24 +2,23 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_check_edge}
 \alias{th_check_edge}
-\title{Check whether an edge exists in a layer}
+\title{Check if an edge exists between two nodes in a layer}
 \usage{
 th_check_edge(network, layername, node1id, node2id)
 }
 \arguments{
-\item{network}{A `threadle_network` object or a character string giving
+\item{network}{A \code{threadle_network} object or a character string giving
 the name of a network in the Threadle CLI environment.}
 
 \item{layername}{Layer name.}
 
-\item{node1id}{Node ID of the first vertex in the dyad.}
+\item{node1id}{Node ID of the first node.}
 
-\item{node2id}{Node ID of the second vertex in the dyad.}
+\item{node2id}{Node ID of the second node.}
 }
 \value{
-CLI output.
+A logical scalar indicating whether the specified tie exists.
 }
 \description{
-`th_check_edge()` checks whether an edge between
-two nodes exists in the specified layer.
+\code{th_check_edge()} checks if an edge exists between two nodes in a layer, which can be either one-mode or two-mode.
 }

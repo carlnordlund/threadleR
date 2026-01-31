@@ -13,9 +13,9 @@ a \%||\% b
 \item{b}{Fallback value.}
 }
 \value{
-`a` if non-`NULL`, else `b`.
+\code{a} if non-\code{NULL}, else \code{b}.
 }
 \description{
-Returns `a` if it is not `NULL`, otherwise returns `b`.
+Returns \code{a} if it is not \code{NULL}, otherwise returns \code{b}.
 }
 \keyword{internal}

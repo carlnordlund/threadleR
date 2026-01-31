@@ -7,7 +7,7 @@
 .th_name(x)
 }
 \arguments{
-\item{x}{A single character name, or a Threadle structure object with `$name`.}
+\item{x}{A single character name, or a Threadle structure object with \verb{$name}.}
 }
 \value{
 A length-1 character string giving the backend variable name.
@@ -15,6 +15,6 @@ A length-1 character string giving the backend variable name.
 \description{
 Internal helper to normalize inputs that can be either:
 a single character string (already a backend variable name),
-or a Threadle structure object (a list with a scalar character `$name`).
+or a Threadle structure object (a list with a scalar character \verb{$name}).
 }
 \keyword{internal}

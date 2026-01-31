@@ -2,36 +2,46 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_generate}
 \alias{th_generate}
-\title{Generate a random network layer}
+\title{Generate random ties in a layer}
 \usage{
 th_generate(network, layername, type, p, k, beta, m)
 }
 \arguments{
 \item{network}{Name of the new network variable to create.}
 
-\item{layername}{Name of the layer to create in `network`.}
+\item{layername}{Name of the layer to create in \code{network}.}
 
-\item{type}{Random graph model, one of `"er"` or `"ws"`.}
+\item{type}{Generator type: \code{"er"}, \code{"ws"}, \code{"ba"}, or \code{"2mode"}.}
 
-\item{p}{For `type = "er"`: edge probability in `[0, 1]`. Required when `type = "er"`.}
+\item{p}{For \code{type = "er"}: edge probability in \verb{[0, 1]}. Required when \code{type = "er"}.}
 
-\item{k}{For `type = "ws"`: mean degree (must be even). Required when `type = "ws"`.}
+\item{k}{For \code{type = "ws"}: mean degree (must be even). Required when \code{type = "ws"}.}
 
-\item{beta}{For `type = "ws"`: rewiring probability in `[0, 1]`. Required when `type = "ws"`.}
+\item{beta}{For \code{type = "ws"}: rewiring probability in \verb{[0, 1]}. Required when \code{type = "ws"}.}
+
+\item{m}{For \code{type = "ba"}: attachment parameter. Required when \code{type = "ba"}.}
+
+\item{h}{For \code{type = "2mode"}: number of hyperedges. Required when \code{type = "2mode"}.}
+
+\item{a}{For \code{type = "2mode"}: average affiliations per node. Required when \code{type = "2mode"}.}
 }
 \value{
-Invisibly returns the CLI response.
+\code{NULL}, invisibly.
 }
 \description{
-`th_generate()` creates a random
-network layer and store it under `network`.
+\code{th_generate()} creates random ties in an existing layer of a network.
 }
 \details{
-#' Two generators are supported:
+For one-mode generators, the layer must be binary;
+any existing ties in the layer are removed before generation.
+
+Four generators are supported:
 \describe{
-  \item{`type = "er"`}{Erdős–Rényi. Provide `p` (edge probability / density).}
-  \item{`type = "ws"`}{Watts–Strogatz. Provide `k` (even mean degree) and
-  `beta` (rewiring probability in [0,1]). The layer must be symmetric.}
-  \item{`type = "bt"`}{Barabási–Albert. Provide `m` (number of edges each new node attaches; must be >= 1 and typically < number of nodes).}
+\item{\code{type = "er"}}{Erdős–Rényi. Provide \code{p} (edge probability / density).}
+\item{\code{type = "ws"}}{Watts–Strogatz. Provide \code{k} (even mean degree) and
+\code{beta} (rewiring probability in \verb{[0,1]}). The layer must be symmetric.}
+\item{\code{type = "ba"}}{Barabási–Albert. Provide \code{m} (number of edges each new node attaches; must be >= 1 and typically < number of nodes).}
+\item{\code{type = "2mode"}}{Two-mode affiliations. Provide \code{h} (number of hyperedges)
+and \code{a} (average number of affiliations per node; Poisson mean). The layer must be two-mode.}
 }
 }

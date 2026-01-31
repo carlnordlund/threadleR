@@ -2,19 +2,19 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_remove_node}
 \alias{th_remove_node}
-\title{Remove a node from a network and its nodeset}
+\title{Remove a node from a nodeset}
 \usage{
 th_remove_node(structure, nodeid)
 }
 \arguments{
-\item{structure}{A `threadle_nodeset` or `threadle_network` object, or a character
+\item{structure}{A \code{threadle_nodeset} or \code{threadle_network} object, or a character
 string naming a structure in the Threadle CLI environment.}
 
-\item{nodeid}{Node ID.}
+\item{nodeid}{Node ID to remove.}
 }
 \value{
-CLI output.
+\code{NULL}, invisibly.
 }
 \description{
-`th_remove_node()` removes a node from a structure.
+\code{th_remove_node()} removes a node from a nodeset (or the nodeset of the provided network).
 }

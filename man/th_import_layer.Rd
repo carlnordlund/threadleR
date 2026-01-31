@@ -2,13 +2,19 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_import_layer}
 \alias{th_import_layer}
-\title{Import a layer into a network}
+\title{Import ties into an existing layer from file}
 \usage{
 th_import_layer(
   network,
   layername,
   file,
-  format = c("edgelist", "matrix"),
+  format,
+  node1col = 0,
+  node2col = 1,
+  valuecol = 2,
+  nodecol = 0,
+  affcol = 1,
+  header = FALSE,
   sep = "\\t",
   addmissingnodes = FALSE
 )
@@ -16,21 +22,22 @@ th_import_layer(
 \arguments{
 \item{network}{Name of the network}
 
-\item{layername}{Name of the layer to create inside `network`.}
+\item{layername}{Name of the layer to create inside \code{network}.}
 
 \item{file}{Path to the input file.}
 
-\item{format}{Input file format. One of `"edgelist"` or `"matrix"`.}
+\item{format}{Input file format. One of \code{"edgelist"} or \code{"matrix"}.}
 
-\item{sep}{Field separator used when `format = "edgelist"` (and for delimited
+\item{sep}{Field separator used when \code{format = "edgelist"} (and for delimited
 matrix formats, if applicable). Defaults to tab.}
 
-\item{addmissingnodes}{Logical; if `TRUE`, create nodes referenced in the file
-that are not yet present in `network`.}
+\item{addmissingnodes}{Logical; if \code{TRUE}, create nodes referenced in the file
+that are not yet present in \code{network}.}
 }
 \value{
-Invisibly returns the CLI response.
+\code{NULL}, invisibly.
 }
 \description{
-`th_import_layer()` imports a layer from a file into an existing network.
+\code{th_import_layer()} imports one-mode edges or two-mode affiliations
+into an existing layer of a network from a file.
 }

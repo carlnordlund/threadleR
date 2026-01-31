@@ -2,19 +2,24 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_undefine_attr}
 \alias{th_undefine_attr}
-\title{Undefine an attribute on a structure}
+\title{Undefine a node attribute}
 \usage{
 th_undefine_attr(structure, attrname)
 }
 \arguments{
-\item{structure}{Name of the structure.}
+\item{structure}{A \code{threadle_nodeset} or \code{threadle_network} object, or a character
+string naming a structure in the Threadle CLI environment.}
 
-\item{attrname}{Attribute name.}
+\item{attrname}{Attribute name to undefine.}
 }
 \value{
-CLI output.
+\code{NULL}, invisibly.
 }
 \description{
-`th_undefine_attr()` removes an attribute
-from a nodeset or network.
+\code{th_undefine_attr()} removes the definition of a node attribute from a nodeset
+(or the nodeset of the provided network).
+}
+\details{
+Undefining an attribute also removes its values from all nodes that currently have
+a value set for that attribute.
 }

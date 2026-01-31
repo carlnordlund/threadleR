@@ -2,13 +2,13 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_get_workdir}
 \alias{th_get_workdir}
-\title{Get the current working directory from Threadle CLI}
+\title{Get Threadle working directory}
 \usage{
 th_get_workdir()
 }
 \value{
-The working directory as returned by Threadle.
+A character scalar giving the current working directory used by Threadle.
 }
 \description{
-Get the current working directory from Threadle CLI
+\code{th_get_workdir} gets the working directory currently used by the Threadle.
 }

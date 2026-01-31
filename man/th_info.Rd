@@ -2,17 +2,17 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_info}
 \alias{th_info}
-\title{Retrieve meta information from a Threadle object}
+\title{Get structure metadata}
 \usage{
 th_info(structure)
 }
 \arguments{
-\item{structure}{A `threadle_nodeset` or `threadle_network` object, or a character
+\item{structure}{A \code{threadle_nodeset} or \code{threadle_network} object, or a character
 string naming a structure in the Threadle CLI environment.}
 }
 \value{
-Parsed JSON or raw CLI text.
+A named list containing structure metadata.
 }
 \description{
-Retrieve meta information from a Threadle object
+\code{th_info()} gets metadata about a nodeset or network.
 }

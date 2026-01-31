@@ -2,22 +2,21 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_get_hyperedge_nodes}
 \alias{th_get_hyperedge_nodes}
-\title{Get nodes affiliated to a hyperedge}
+\title{Get nodes affiliated with a hyperedge}
 \usage{
 th_get_hyperedge_nodes(network, layername, hypername)
 }
 \arguments{
-\item{network}{A `threadle_network` object or a character string giving
+\item{network}{A \code{threadle_network} object or a character string giving
 the name of a network in the Threadle CLI environment.}
 
-\item{layername}{Layer name (must be a 2-mode layer).}
+\item{layername}{Name of the two-mode layer to query.}
 
-\item{hypername}{Hyperedge name.}
+\item{hypername}{Name of the hyperedge.}
 }
 \value{
-A vector of node IDs (JSON mode payload), or raw CLI text.
+An integer vector of node IDs.
 }
 \description{
-`th_get_hyperedge_nodes()` returns the node IDs affiliated to the hyperedge
-`hypername` in the specified 2-mode `layername` of `network`.
+\code{th_get_hyperedge_nodes()} gets the node IDs affiliated with a hyperedge in a two-mode layer.
 }

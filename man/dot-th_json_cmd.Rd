@@ -9,9 +9,9 @@
 \arguments{
 \item{command}{Command name (character scalar).}
 
-\item{args}{Named list of arguments, or `NULL`.}
+\item{args}{Named list of arguments, or \code{NULL}.}
 
-\item{assign}{Optional backend variable name to assign output to, or `NULL`.}
+\item{assign}{Optional backend variable name to assign output to, or \code{NULL}.}
 }
 \value{
 A JSON string.

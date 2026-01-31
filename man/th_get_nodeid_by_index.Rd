@@ -2,18 +2,20 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_get_nodeid_by_index}
 \alias{th_get_nodeid_by_index}
-\title{Get a node ID by index}
+\title{Get node ID by index position}
 \usage{
 th_get_nodeid_by_index(structure, index)
 }
 \arguments{
-\item{structure}{Name of the structure (can be network or nodeset).}
+\item{structure}{A \code{threadle_nodeset} or \code{threadle_network} object, or a character
+string naming a structure in the Threadle CLI environment.}
 
-\item{index}{Numeric index.}
+\item{index}{Zero-based index position of the node in the nodeset.}
 }
 \value{
-The node ID.
+An integer scalar giving the node ID at the requested index position.
 }
 \description{
-Get a node ID by index
+\code{th_get_nodeid_by_index()} gets the node ID at a specified index position
+in a nodeset (or the nodeset of the provided network).
 }

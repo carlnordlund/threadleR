@@ -2,31 +2,31 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_get_random_alter}
 \alias{th_get_random_alter}
-\title{Get a random alter for a node}
+\title{Get a random alter of a node}
 \usage{
 th_get_random_alter(
   network,
   nodeid,
   layername = "",
-  direction = c("both", "in", "out"),
+  direction = "both",
   balanced = FALSE
 )
 }
 \arguments{
-\item{network}{Network name.}
+\item{network}{A \code{threadle_network} object or a character string giving the name of
+a network in the Threadle CLI environment.}
 
 \item{nodeid}{Node ID.}
 
-\item{layername}{Optional layer. If left blank, will pick from all layers}
+\item{layername}{Optional layer name. If \code{NULL}, alters are considered across all layers.}
 
-\item{direction}{Direction ("both"(default), "in", "out").}
+\item{direction}{Which ties to count: \code{"both"} (default), \code{"in"}, or \code{"out"}.}
 
-\item{balanced}{Whether selection should be balanced for multiple layers.
-Must be `TRUE` or `FALSE`. Defaults to `FALSE`.}
+\item{balanced}{Logical; only used when \code{layername} is \code{NULL}.}
 }
 \value{
-A node ID (numeric).
+An integer scalar giving the node ID of the sampled alter.
 }
 \description{
-`th_get_random_alter()` get a random alter for a node.
+\code{th_get_random_alter()} gets the node ID of a randomly selected alter of a given node.
 }

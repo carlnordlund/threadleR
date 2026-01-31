@@ -2,25 +2,19 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_density}
 \alias{th_density}
-\title{Calculate density of a layer}
+\title{Calculate the density of a layer}
 \usage{
 th_density(network, layername)
 }
 \arguments{
-\item{network}{A `threadle_network` object or a character string giving
+\item{network}{A \code{threadle_network} object or a character string giving
 the name of a network in the Threadle CLI environment.}
 
-\item{layername}{Layer name.}
+\item{layername}{Name of the layer for which density is computed.}
 }
 \value{
 A numeric scalar giving the layer density.
 }
 \description{
-`th_density()` computes the density of a layer in a Threadle network.
-}
-\details{
-Density is returned as a numeric scalar, typically defined as the ratio of the
-number of observed edges to the maximum possible number of edges for a simple
-graph (i.e., assuming no multi-edges). The exact treatment of self-loops and
-directionality follows Threadle's `density` implementation.
+\code{th_density()} computes the density of a layer, treating all existing ties as binary.
 }

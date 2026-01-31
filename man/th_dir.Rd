@@ -2,17 +2,24 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_dir}
 \alias{th_dir}
-\title{List directory contents in Threadle}
+\title{List directory contents}
 \usage{
 th_dir(path = NULL)
 }
 \arguments{
-\item{path}{Optional directory path. If `NULL` or empty, lists the current directory.}
+\item{path}{Optional directory path. If \code{NULL} or empty, lists the current Threadle working directory.}
 }
 \value{
-CLI output. In JSON mode, typically a parsed payload; in CLI mode, raw text lines.
+A named list with the following elements:
+\describe{
+\item{Path}{Character scalar; the listed directory path.}
+\item{Directories}{A data frame with a \code{Name} column listing subdirectories.}
+\item{Files}{A data frame with a \code{Name} column listing files.}
+\item{TotalDirectories}{Integer scalar; number of subdirectories.}
+\item{TotalFiles}{Integer scalar; number of files.}
+}
 }
 \description{
-`th_dir()` gets the content of the current Threadle working directory,
-or the directory specified by `path`.
+\code{th_dir()} gets files and folders in the current working directory used by Threadle,
+or in a specified directory.
 }

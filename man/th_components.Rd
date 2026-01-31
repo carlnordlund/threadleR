@@ -2,21 +2,25 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_components}
 \alias{th_components}
-\title{Calculates the number of components for the specified layer and network.}
+\title{Calculate connected components for the specified layer and network}
 \usage{
-th_components(network, layname, attrname)
+th_components(network, layername, attrname)
 }
 \arguments{
-\item{network}{A `threadle_network` object or a character string giving
+\item{network}{A \code{threadle_network} object or a character string giving
 the name of a network in the Threadle CLI environment.}
 
-\item{layname}{Layer name.}
-
 \item{attrname}{Attribute name.}
+
+\item{layname}{Layer name.}
 }
 \value{
-CLI output.
+A named list with:
+\describe{
+\item{NbrComponents}{Integer of length 1; number of connected components.}
+\item{ComponentSizes}{Integer vector; sizes of the connected components.}
+}
 }
 \description{
-Calculates the number of components for the specified layer and network, and storing the result as an integer node attribute representing which component it is part of.
+\code{th_components()} computes connected components for the specified layer and network.
 }

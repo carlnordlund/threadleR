@@ -2,7 +2,7 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_add_edge}
 \alias{th_add_edge}
-\title{Add an edge to a network}
+\title{Add an edge to a one-mode layer}
 \usage{
 th_add_edge(
   network,
@@ -14,22 +14,25 @@ th_add_edge(
 )
 }
 \arguments{
-\item{network}{A `threadle_network` object or a character string giving
+\item{network}{A \code{threadle_network} object or a character string giving
 the name of a network in the Threadle CLI environment.}
 
 \item{layername}{Layer name.}
 
-\item{node1id}{Node ID of the first vertex in the dyad.}
+\item{node1id}{Node ID of the first node.}
 
-\item{node2id}{Node ID of the second vertex in the dyad.}
+\item{node2id}{Node ID of the second node.}
 
 \item{value}{Edge value, defaults to 1.}
 
-\item{addmissingnodes}{Logical; if `TRUE`, missing nodes are created and added. Defaults to `TRUE`.}
+\item{addmissingnodes}{Logical; if \code{TRUE}, missing nodes are created and added. Defaults to \code{TRUE}.}
 }
 \value{
-CLI output.
+\code{NULL}, invisibly.
 }
 \description{
-`th_add_edge()` adds an edge between two nodes in a layer.
+\code{th_add_edge()} adds an edge between two nodes in a one-mode layer.
+}
+\details{
+If the layer is directional, node1id is the source (from) and node2id is the destination (to).
 }

@@ -2,12 +2,12 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_remove_attr}
 \alias{th_remove_attr}
-\title{Remove an attribute value from a node}
+\title{Remove a node attribute value}
 \usage{
 th_remove_attr(structure, nodeid, attrname)
 }
 \arguments{
-\item{structure}{A `threadle_nodeset` or `threadle_network` object, or a character
+\item{structure}{A \code{threadle_nodeset} or \code{threadle_network} object, or a character
 string naming a structure in the Threadle CLI environment.}
 
 \item{nodeid}{Node ID.}
@@ -15,9 +15,9 @@ string naming a structure in the Threadle CLI environment.}
 \item{attrname}{Attribute name.}
 }
 \value{
-CLI output.
+\code{NULL}, invisibly.
 }
 \description{
-`th_remove_attr()` removes an attribute value for
-a given node.
+\code{th_remove_attr()} removes an attribute value from a specific node
+in a nodeset (or in the nodeset of the provided network).
 }

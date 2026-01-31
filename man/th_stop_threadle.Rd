@@ -10,5 +10,5 @@ th_stop_threadle()
 None; prints status messages.
 }
 \description{
-Terminates the Threadle process previously started with `.start_threadle()`.
+Terminates the Threadle process previously started with \code{.start_threadle()}.
 }

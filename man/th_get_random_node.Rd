@@ -2,16 +2,17 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_get_random_node}
 \alias{th_get_random_node}
-\title{Get a random node from a structure}
+\title{Get a random node ID}
 \usage{
 th_get_random_node(structure)
 }
 \arguments{
-\item{structure}{Structure name.}
+\item{structure}{A \code{threadle_nodeset} or \code{threadle_network} object, or a character
+string naming a structure in the Threadle CLI environment.}
 }
 \value{
-A node ID (numeric).
+An integer scalar giving the sampled node ID.
 }
 \description{
-`th_get_random_node()` gets a random node.
+\code{th_get_random_node()} gets a randomly selected node ID from a nodeset (or the nodeset of the provided network).
 }

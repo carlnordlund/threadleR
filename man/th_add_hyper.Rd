@@ -2,7 +2,7 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_add_hyper}
 \alias{th_add_hyper}
-\title{Add a hyperedge to a specified layer of a network.}
+\title{Add a hyperedge to a two-mode layer}
 \usage{
 th_add_hyper(
   network,
@@ -13,21 +13,24 @@ th_add_hyper(
 )
 }
 \arguments{
-\item{network}{A `threadle_network` object or a character string giving
+\item{network}{A \code{threadle_network} object or a character string giving
 the name of a network in the Threadle CLI environment.}
 
 \item{layername}{Layer name.}
 
 \item{hypername}{Name of the hyperedge.}
 
-\item{nodes}{Vector of node to attach to the hyperedge. If `NULL`,
+\item{nodes}{Vector of node to attach to the hyperedge. If \code{NULL},
 creates the hyperedge without adding nodes.}
 
-\item{addmissingnodes}{Logical; if `TRUE`, missing nodes are created and added. Defaults to `FALSE`.}
+\item{addmissingnodes}{Logical; if \code{TRUE}, missing nodes are created and added. Defaults to \code{TRUE}.}
 }
 \value{
-CLI output.
+\code{NULL}, invisibly.
 }
 \description{
-`th_add_hyper()` adds a hyperedge to the hyperedge set of a 2-mode layer
+\code{th_add_hyper()} adds a hyperedge (affiliation) to the hyperedge set of a 2-mode layer.
+}
+\details{
+If a hyperedge with the same name already exists, it is replaced. Duplicate node IDs in \code{nodes} are ignored.
 }

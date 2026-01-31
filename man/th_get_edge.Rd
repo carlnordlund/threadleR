@@ -2,24 +2,24 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_get_edge}
 \alias{th_get_edge}
-\title{Get an edge value}
+\title{Get the value of an edge between two nodes}
 \usage{
 th_get_edge(network, layername, node1id, node2id)
 }
 \arguments{
-\item{network}{A `threadle_network` object or a character string giving
+\item{network}{A \code{threadle_network} object or a character string giving
 the name of a network in the Threadle CLI environment.}
 
-\item{layername}{Layer name.}
+\item{layername}{Name of the layer to query (one-mode or two-mode).}
 
-\item{node1id}{Node ID of the first vertex in the dyad.}
+\item{node1id}{Node ID of the first node.}
 
-\item{node2id}{Node ID of the second vertex in the dyad.}
+\item{node2id}{Node ID of the second node.}
 }
 \value{
-CLI output.
+A numeric scalar giving the edge value (0 if no edge exists).
 }
 \description{
-`th_get_edge()` retrieves the edge value between
-two nodes in the specified layer.
+\code{th_get_edge()} gets the edge value between
+two nodes in a specified layer.
 }

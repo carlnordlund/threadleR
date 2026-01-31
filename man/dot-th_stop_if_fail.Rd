@@ -7,13 +7,13 @@
 .th_stop_if_fail(resp)
 }
 \arguments{
-\item{resp}{Parsed JSON response (a list) from `.send_command()`.}
+\item{resp}{Parsed JSON response (a list) from \code{.send_command()}.}
 }
 \value{
-Invisibly returns `resp` when successful.
+Invisibly returns \code{resp} when successful.
 }
 \description{
 Validates that the backend response is a structured JSON object with a
-logical `Success` field and throws an R error when `Success` is not `TRUE`.
+logical \code{Success} field and throws an R error when \code{Success} is not \code{TRUE}.
 }
 \keyword{internal}

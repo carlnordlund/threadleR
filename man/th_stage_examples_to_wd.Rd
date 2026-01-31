@@ -7,7 +7,7 @@
 th_stage_examples_to_wd(folder = "threadle_examples", overwrite = TRUE)
 }
 \arguments{
-\item{folder}{Name of the destination subfolder under [getwd()].}
+\item{folder}{Name of the destination subfolder under \code{\link[=getwd]{getwd()}}.}
 
 \item{overwrite}{Logical; overwrite existing files in the destination.}
 }

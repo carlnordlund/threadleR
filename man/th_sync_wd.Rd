@@ -10,7 +10,7 @@ th_sync_wd()
 Invisibly returns the path to the synced working directory
 }
 \description{
-Sets the working directory used by the Threadle process to the current R working directory returned by [getwd()].
+Sets the working directory used by the Threadle process to the current R working directory returned by \code{\link[=getwd]{getwd()}}.
 }
 \details{
 This is useful when invoking Threadle from threadleR, as the Threadle process

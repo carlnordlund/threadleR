@@ -2,34 +2,33 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_shortest_path}
 \alias{th_shortest_path}
-\title{Calculate the shortest path length between two nodes
-`th_shortest_path()` computes the shortest path length from `node1id` to
-`node2id` in a Threadle network. By default, the computation uses all layers
-in the network. If `layername` is provided, the shortest path is computed
-using only that specific layer.}
+\title{Calculate shortest path distance between two nodes
+\code{th_shortest_path()} computes the shortest path distance from \code{node1id} to \code{node2id} in a network.}
 \usage{
 th_shortest_path(network, node1id, node2id, layername)
 }
 \arguments{
-\item{network}{A `threadle_network` object or a character string giving
+\item{network}{A \code{threadle_network} object or a character string giving
 the name of a network in the Threadle CLI environment.}
 
-\item{node1id}{Node ID of the first vertex in the dyad.}
+\item{node1id}{Node ID of the first node.}
 
-\item{node2id}{Node ID of the second vertex in the dyad.}
+\item{node2id}{Node ID of the second node.}
 
-\item{layername}{Optional layer name. If omitted or empty, all layers are used.}
+\item{layername}{Optional layer name. If \code{NULL}, all layers are used.}
 }
 \value{
-An integer giving the shortest path length.
+An integer scalar giving the shortest path distance.
 }
 \description{
-Note that shortest path measures are directional: for directed layers, the
-shortest path from `node1id` to `node2id` may differ from the shortest path
-from `node2id` to `node1id`. For undirected (symmetric) layers, directionality
-is moot.
+Calculate shortest path distance between two nodes
+\code{th_shortest_path()} computes the shortest path distance from \code{node1id} to \code{node2id} in a network.
 }
 \details{
-If no path exists from `node1id` to `node2id` under the specified layer
-selection, the backend returns `-1` to indicate that the target is unreachable.
+By default, all layers are used. If \code{layername} is provided, the shortest path is
+computed using that layer only.
+
+Shortest path distance is directional: in directed layers, the distance from \code{node1id}
+to \code{node2id} may differ from the distance in the reverse direction. For symmetric
+layers, this distinction is moot.
 }

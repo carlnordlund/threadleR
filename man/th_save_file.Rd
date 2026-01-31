@@ -7,15 +7,24 @@
 th_save_file(structure, file = "")
 }
 \arguments{
-\item{structure}{A `threadle_nodeset` or `threadle_network` object, or a character
+\item{structure}{A \code{threadle_nodeset} or \code{threadle_network} object, or a character
 string naming a structure in the Threadle CLI environment.}
 
-\item{file}{Output file path. Defaults to `""`.}
+\item{file}{Optional path to save the structure to. If omitted, the existing filepath
+of the structure is used. Defaults to \code{""}.}
 }
 \value{
-CLI output.
+\code{NULL}, invisibly.
 }
 \description{
-`th_save_file` saves a network or nodeset.
-If `file` is `""`, the file name defaults to `<structure-name>.tsv`.
+\code{th_save_file} saves a nodeset or network to disk using Threadle's internal file formats.
+}
+\details{
+Supported file extensions:
+\describe{
+\item{\code{.tsv}}{Tab-separated text format.}
+\item{\code{.tsv.gz}}{Gzipped tab-separated text format.}
+\item{\code{.bin}}{Threadle binary format (compact, not human-readable).}
+\item{\code{.bin.gz}}{Gzipped Threadle binary format.}
+}
 }

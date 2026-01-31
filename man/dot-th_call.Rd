@@ -15,16 +15,16 @@
 \arguments{
 \item{cmd}{Command name (character scalar).}
 
-\item{args}{Named list of command arguments, or `NULL`.}
+\item{args}{Named list of command arguments, or \code{NULL}.}
 
-\item{assign}{Optional backend variable name to assign the result to, or `NULL`.}
+\item{assign}{Optional backend variable name to assign the result to, or \code{NULL}.}
 
-\item{return}{What to return: `"payload"` (default) or `"response"`.}
+\item{return}{What to return: \code{"payload"} (default) or \code{"response"}.}
 
-\item{.print_message}{Logical; if `TRUE`, print `resp$Message` when present.}
+\item{.print_message}{Logical; if \code{TRUE}, print \code{resp$Message} when present.}
 }
 \value{
-If `return = "payload"`, returns `resp$Payload`; otherwise returns the full response.
+If \code{return = "payload"}, returns \code{resp$Payload}; otherwise returns the full response.
 }
 \description{
 Internal helper for wrappers. Builds a JSON DTO, sends it to the running

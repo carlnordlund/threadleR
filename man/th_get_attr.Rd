@@ -2,12 +2,12 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_get_attr}
 \alias{th_get_attr}
-\title{Get the value of a node attribute for a nodeset (or network)}
+\title{Get the value of a node attribute}
 \usage{
 th_get_attr(structure, nodeid, attrname)
 }
 \arguments{
-\item{structure}{A `threadle_nodeset` or `threadle_network` object, or a character
+\item{structure}{A \code{threadle_nodeset} or \code{threadle_network} object, or a character
 string naming a structure in the Threadle CLI environment.}
 
 \item{nodeid}{Node ID.}
@@ -15,8 +15,8 @@ string naming a structure in the Threadle CLI environment.}
 \item{attrname}{Attribute name.}
 }
 \value{
-CLI output.
+A scalar giving the attribute value for the specified node.
 }
 \description{
-Get the value of a node attribute for a nodeset (or network)
+\code{th_get_attr} gets the value of a node attribute for a single node in a nodeset (or the nodeset of the provided network).
 }

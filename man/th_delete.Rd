@@ -7,12 +7,18 @@
 th_delete(structure)
 }
 \arguments{
-\item{structure}{A `threadle_nodeset` or `threadle_network` object, or a character
+\item{structure}{A \code{threadle_nodeset} or \code{threadle_network} object, or a character
 string naming a structure in the Threadle CLI environment.}
 }
 \value{
-CLI output.
+\code{NULL}, invisibly.
 }
 \description{
-Delete a structure
+\code{th_delete()} removes a nodeset or network.
+}
+\details{
+A nodeset cannot be deleted if it is currently used by another structure; delete
+the dependent structures first.
+
+Deleting a network does not delete its nodeset; the nodeset remains available.
 }

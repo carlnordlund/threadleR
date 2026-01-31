@@ -2,22 +2,21 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_remove_hyper}
 \alias{th_remove_hyper}
-\title{Remove a hyperedge from a 2-mode layer}
+\title{Remove a hyperedge from a two-mode layer}
 \usage{
 th_remove_hyper(network, layername, hypername)
 }
 \arguments{
-\item{network}{A `threadle_network` object or a character string giving
+\item{network}{A \code{threadle_network} object or a character string giving
 the name of a network in the Threadle CLI environment.}
 
-\item{layername}{Layer name.}
+\item{layername}{Name of the two-mode layer.}
 
-\item{hypername}{Name of the hyperedge.}
+\item{hypername}{Name of the hyperedge to remove.}
 }
 \value{
-CLI output.
+\code{NULL}, invisibly.
 }
 \description{
-`th_remove_hyper()` remove a hyperedge from the
-specified layer.
+\code{th_remove_hyper()} remove a hyperedge from a two-mode layer.
 }

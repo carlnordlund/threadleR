@@ -2,17 +2,19 @@
 % Please edit documentation in R/threadle_client.R
 \name{th_load_script}
 \alias{th_load_script}
-\title{Load and execute a Threadle CLI script}
+\title{Load and run a Threadle script}
 \usage{
 th_load_script(file)
 }
 \arguments{
-\item{file}{Path to the script file.}
+\item{file}{Path to a script file containing CLI commands.}
 }
 \value{
-CLI output.
+\code{NULL}, invisibly.
 }
 \description{
-`th_load_script()` loads and executes a script file containing text CLI commands.
-The backend will abort if it encounters an error in the script.
+\code{th_load_script()} loads and executes a script file containing Threadle CLI commands.
+}
+\details{
+Execution aborts if an error is encountered.
 }
