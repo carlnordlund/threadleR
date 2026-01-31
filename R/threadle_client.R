@@ -1252,7 +1252,7 @@ th_load_file <- function(name, file, type) {
 #' @param structure A `threadle_nodeset` or `threadle_network` object, or a character
 #'   string naming a structure in the Threadle CLI environment.
 #' @param maxlines Maximum number of lines to output. Defaults to `50`.
-#' @returns CLI output (typically text lines; JSON mode may return a payload depending on backend).
+#' @returns A character vector of preview lines.
 #' @export
 th_preview <- function(structure, maxlines = 50) {
   args <- .th_args(environment())

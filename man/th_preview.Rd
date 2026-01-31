@@ -13,7 +13,7 @@ string naming a structure in the Threadle CLI environment.}
 \item{maxlines}{Maximum number of lines to output. Defaults to \code{50}.}
 }
 \value{
-CLI output (typically text lines; JSON mode may return a payload depending on backend).
+A character vector of preview lines.
 }
 \description{
 \code{th_preview()} previews the content of a structure stored in the Threadle CLI
