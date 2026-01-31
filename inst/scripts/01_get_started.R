@@ -92,7 +92,7 @@ walk1 <- th_attr_walk(
   layernames = c("friends"),
   direction = "both",
   attrname  = "Gender",
-  keep      = c("f"),
+  keep      = c("M"),
   fallback  = "any"
 )
 
