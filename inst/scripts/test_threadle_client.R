@@ -194,7 +194,7 @@ class(th_add_edge(lazeganet, "friends", 1, 100))
 th_add_edge("lazega", "test122", 1, 70)
 th_add_edge("lazega", "test122", 1, 3, 1, "true")
 
-
+th_info(mynet_nodeset)
 sub_ns <- th_filter(name="sub_nodeset", nodeset=mynet_nodeset, attrname="gender", cond="eq", attrvalue="f")
 th_info(sub_ns)
 

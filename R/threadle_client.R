@@ -499,11 +499,11 @@ th_add_layer <- function(network, layername, mode, directed=FALSE, valuetype = c
 #'
 #' @param structure A `threadle_nodeset` or `threadle_network` object, or a character
 #'   string naming a structure in the Threadle CLI environment.
-#' @param id Node ID (unsigned integer).
+#' @param nodeid Node ID (unsigned integer).
 #'
 #' @returns `NULL`, invisibly.
 #' @export
-th_add_node <- function(structure, id) {
+th_add_node <- function(structure, nodeid) {
   args <- .th_args(environment())
   cmd <- "addnode"
   assign <- NULL
