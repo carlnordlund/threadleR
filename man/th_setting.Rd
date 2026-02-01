@@ -27,3 +27,12 @@ and direction.}
 usage for walker-only applications.}
 }
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+th_setting("nodecache", TRUE)
+th_setting("nodecache", FALSE)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

@@ -18,3 +18,16 @@ the name of a network in the Threadle CLI environment.}
 \description{
 \code{th_remove_layer()} removes a layer from a network, including all ties in that layer.
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 3)
+net <- th_create_network("net", ns)
+th_add_layer(net, "l1", mode = 1)
+
+th_remove_layer(net, "l1")
+th_info(net)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

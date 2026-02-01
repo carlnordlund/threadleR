@@ -4,13 +4,13 @@
 \alias{th_set_attr}
 \title{Set a node attribute value}
 \usage{
-th_set_attr(structure, nodeId, attrname, attrvalue)
+th_set_attr(structure, nodeid, attrname, attrvalue)
 }
 \arguments{
 \item{structure}{A \code{threadle_nodeset} or \code{threadle_network} object, or a character
 string naming a structure in the Threadle CLI environment.}
 
-\item{nodeId}{Node ID.}
+\item{nodeid}{Node ID.}
 
 \item{attrname}{Attribute name.}
 
@@ -22,4 +22,15 @@ string naming a structure in the Threadle CLI environment.}
 \description{
 \code{th_set_attr()} sets the value of a node attribute for a specific node
 in a nodeset (or the nodeset of the provided network).
+}
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 3)
+th_define_attr(ns, "grp", "int")
+th_set_attr(ns, nodeid = 1, attrname = "grp", attrvalue = 1)
+th_get_attr(ns, nodeid = 1, attrname = "grp")
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
 }

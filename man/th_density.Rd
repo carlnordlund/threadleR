@@ -18,3 +18,15 @@ A numeric scalar giving the layer density.
 \description{
 \code{th_density()} computes the density of a layer, treating all existing ties as binary.
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 4)
+net <- th_create_network("net", ns)
+th_add_layer(net, "l1", mode = 1)
+th_add_edge(net, "l1", node1id = 1, node2id = 2)
+th_density(net, "l1")
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

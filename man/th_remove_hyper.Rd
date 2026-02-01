@@ -20,3 +20,17 @@ the name of a network in the Threadle CLI environment.}
 \description{
 \code{th_remove_hyper()} remove a hyperedge from a two-mode layer.
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 3)
+net <- th_create_network("net", ns)
+th_add_layer(net, "t2", mode = 2)
+th_add_hyper(net, "t2", "group1", nodes = c(1, 2))
+
+th_remove_hyper(net, "t2", hypername = "group1")
+th_get_all_hyperedges(net, "t2", offset = 0, limit = 10)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

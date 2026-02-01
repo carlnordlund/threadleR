@@ -23,3 +23,15 @@ A character vector of hyperedge names (JSON mode payload), or raw CLI text.
 \code{th_get_all_hyperedges()} returns the hyperedge names that exist in the specified
 2-mode \code{layername} of \code{network}. Supports pagination via \code{offset}/\code{limit}.
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 3)
+net <- th_create_network("net", ns)
+th_add_layer(net, "t2", mode = 2)
+th_add_hyper(net, "t2", "group1", nodes = c(1, 2))
+th_get_all_hyperedges(net, "t2", offset = 0, limit = 10)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

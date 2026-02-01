@@ -20,3 +20,12 @@ An integer vector of node IDs.
 \description{
 \code{th_get_all_nodes} gets node IDs from a nodeset (or the nodeset of the provided network).
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 5)
+th_get_all_nodes(ns, offset = 0, limit = 10)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

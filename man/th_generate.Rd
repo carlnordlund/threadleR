@@ -45,3 +45,15 @@ Four generators are supported:
 and \code{a} (average number of affiliations per node; Poisson mean). The layer must be two-mode.}
 }
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 20)
+net <- th_create_network("net", ns)
+th_add_layer(net, "l1", mode = 1)
+th_generate(net, "l1", type = "er", p = 0.1)
+th_density(net, "l1")
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

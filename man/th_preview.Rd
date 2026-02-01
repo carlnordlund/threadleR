@@ -19,3 +19,12 @@ A character vector of preview lines.
 \code{th_preview()} previews the content of a structure stored in the Threadle CLI
 environment under the variable name \code{structure}.
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 3)
+th_preview(ns, maxlines = 10)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

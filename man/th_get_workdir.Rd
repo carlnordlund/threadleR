@@ -12,3 +12,11 @@ A character scalar giving the current working directory used by Threadle.
 \description{
 \code{th_get_workdir} gets the working directory currently used by the Threadle.
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+th_get_workdir()
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

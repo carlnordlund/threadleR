@@ -4,17 +4,28 @@
 \alias{th_remove_node}
 \title{Remove a node from a nodeset}
 \usage{
-th_remove_node(structure, nodeId)
+th_remove_node(structure, nodeid)
 }
 \arguments{
 \item{structure}{A \code{threadle_nodeset} or \code{threadle_network} object, or a character
 string naming a structure in the Threadle CLI environment.}
 
-\item{nodeId}{Node ID to remove.}
+\item{nodeid}{Node ID to remove.}
 }
 \value{
 \code{NULL}, invisibly.
 }
 \description{
 \code{th_remove_node()} removes a node from a nodeset (or the nodeset of the provided network).
+}
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 0)
+th_add_node(ns, nodeid = 1)
+th_remove_node(ns, nodeid = 1)
+th_get_all_nodes(ns, offset = 0, limit = 10)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
 }

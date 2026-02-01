@@ -28,3 +28,17 @@ or \code{"product"}. Defaults to \code{"max"}.}
 \description{
 \code{th_symmetrize()} generates a symmetric version of a one-mode layer in a network.
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 3)
+net <- th_create_network("net", ns)
+th_add_layer(net, "l1", mode = 1, directed = TRUE, valuetype = "valued", selfties = FALSE)
+th_add_edge(net, "l1", node1id = 1, node2id = 2, value = 2)
+
+th_symmetrize(net, "l1", method = "max", newlayername = "l1_sym")
+th_get_edge(net, "l1_sym", node1id = 1, node2id = 2)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

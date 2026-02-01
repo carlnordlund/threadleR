@@ -48,3 +48,13 @@ The meaning of the parameters depends on \code{attrtype}:
 \item{\code{attrtype = "char"}}{Uses \code{chars} as a \verb{;}-separated set of values (default \code{"m;f;o"}).}
 }
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 5)
+th_generate_attr(ns, "x", attrtype = "int", min = 1, max = 10)
+th_get_attr_summary(ns, "x")
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

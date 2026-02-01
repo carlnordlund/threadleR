@@ -21,3 +21,12 @@ A \code{threadle_nodeset} object.
 \code{th_create_nodeset()} creates an empty nodeset by default,
 but you can create nodes by setting \code{createnodes}.
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 3)
+th_get_nbr_nodes(ns)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

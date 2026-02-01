@@ -10,11 +10,27 @@ th_load_script(file)
 \item{file}{Path to a script file containing CLI commands.}
 }
 \value{
-\code{NULL}, invisibly.
+A named list.
 }
 \description{
 \code{th_load_script()} loads and executes a script file containing Threadle CLI commands.
 }
 \details{
 Execution aborts if an error is encountered.
+}
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+f <- tempfile(fileext = ".txt")
+writeLines(c(
+"ns = createnodeset(name=ns, createnodes=3)",
+"net = createnetwork(name=net, nodeset=ns)",
+"addlayer(network=net, layername=l1, mode=1, directed=false, valuetype=binary, selfties=false)"
+), con = f)
+th_load_script(f)
+th_i()
+unlink(f)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
 }

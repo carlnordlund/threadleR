@@ -7,7 +7,7 @@
 th_add_aff(
   network,
   layername,
-  nodeId,
+  nodeid,
   hypername,
   addmissingnode = TRUE,
   addmissingaffiliation = TRUE
@@ -19,7 +19,7 @@ the name of a network in the Threadle CLI environment.}
 
 \item{layername}{Layer name.}
 
-\item{nodeId}{Node ID.}
+\item{nodeid}{Node ID.}
 
 \item{hypername}{Name of the hyperedge.}
 
@@ -32,4 +32,16 @@ the name of a network in the Threadle CLI environment.}
 }
 \description{
 \code{th_add_aff()} adds an affiliation (hyperedge membership) between a node and a hyperedge in a two-mode layer.
+}
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+ns <- th_create_nodeset("ns", createnodes = 5)
+net <- th_create_network("net", ns)
+th_add_layer(net, "t2", mode = 2)
+th_add_hyper(net, "t2", "group1", c(1,2))
+th_add_aff(net, "t2", nodeid = 1, hypername = "group1")
+th_get_node_hyperedges(net, "t2", nodeid = 1)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
 }

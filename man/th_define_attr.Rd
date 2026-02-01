@@ -24,3 +24,14 @@ string naming a structure in the Threadle CLI environment.}
 \description{
 \code{th_define_attr()} defines a node attribute for a nodeset or the nodeset of the provided network.
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 3)
+th_define_attr(ns, "score", "int")
+th_set_attr(ns, nodeid = 1, attrname = "score", attrvalue = 10)
+th_get_attr(ns, nodeid = 1, attrname = "score")
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

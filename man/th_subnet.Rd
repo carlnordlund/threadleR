@@ -26,3 +26,21 @@ nodes in a specified nodeset.
 This is useful for creating a network subset after creating a subset nodeset (e.g.,
 with \code{th_filter()}).
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 5)
+net <- th_create_network("net", ns)
+
+# make a subset nodeset containing nodes 1 and 2
+ns_sub <- th_create_nodeset("ns_sub", createnodes = 0)
+th_add_node(ns_sub, nodeid = 1)
+th_add_node(ns_sub, nodeid = 2)
+
+# create subnetwork induced by ns_sub
+net_sub <- th_subnet("net_sub", net, ns_sub)
+th_get_nbr_nodes(net_sub)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

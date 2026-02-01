@@ -23,3 +23,15 @@ string naming a structure in the Threadle CLI environment.}
 Undefining an attribute also removes its values from all nodes that currently have
 a value set for that attribute.
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 3)
+th_define_attr(ns, "grp", "int")
+th_set_attr(ns, nodeid = 1, attrname = "grp", attrvalue = 1)
+th_undefine_attr(ns, "grp")
+th_info(ns)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

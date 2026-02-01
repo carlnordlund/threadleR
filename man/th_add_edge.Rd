@@ -7,8 +7,8 @@
 th_add_edge(
   network,
   layername,
-  node1Id,
-  node2Id,
+  node1id,
+  node2id,
   value = 1,
   addmissingnodes = TRUE
 )
@@ -19,9 +19,9 @@ the name of a network in the Threadle CLI environment.}
 
 \item{layername}{Layer name.}
 
-\item{node1Id}{Node ID of the first node.}
+\item{node1id}{Node ID of the first node.}
 
-\item{node2Id}{Node ID of the second node.}
+\item{node2id}{Node ID of the second node.}
 
 \item{value}{Edge value, defaults to 1.}
 
@@ -34,5 +34,17 @@ the name of a network in the Threadle CLI environment.}
 \code{th_add_edge()} adds an edge between two nodes in a one-mode layer.
 }
 \details{
-If the layer is directional, node1Id is the source (from) and node2Id is the destination (to).
+If the layer is directional, node1id is the source (from) and node2id is the destination (to).
+}
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 5)
+net <- th_create_network("net", ns)
+th_add_layer(net, "l1", mode = 1, directed = FALSE, valuetype = "binary")
+th_add_edge(net, "l1", 1, 2)
+th_check_edge(net, "l1", 1, 2)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
 }

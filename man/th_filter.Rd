@@ -26,3 +26,18 @@ A \code{threadle_nodeset} object.
 \code{th_filter()} creates a new nodeset containing the nodes that satisfy a condition on a specified
 node attribute.
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 4)
+th_define_attr(ns, "score", "int")
+th_set_attr(ns, nodeid = 0, "score", 10)
+th_set_attr(ns, nodeid = 1, "score", 20)
+th_set_attr(ns, nodeid = 2, "score", 30)
+th_set_attr(ns, nodeid = 3, "score", 40)
+hi <- th_filter("hi", ns, attrname = "score", cond = "ge", attrvalue = 30)
+th_get_all_nodes(hi, offset = 0, limit = 10)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

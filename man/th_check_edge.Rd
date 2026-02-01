@@ -4,7 +4,7 @@
 \alias{th_check_edge}
 \title{Check if an edge exists between two nodes in a layer}
 \usage{
-th_check_edge(network, layername, node1Id, node2Id)
+th_check_edge(network, layername, node1id, node2id)
 }
 \arguments{
 \item{network}{A \code{threadle_network} object or a character string giving
@@ -12,13 +12,25 @@ the name of a network in the Threadle CLI environment.}
 
 \item{layername}{Layer name.}
 
-\item{node1Id}{Node ID of the first node.}
+\item{node1id}{Node ID of the first node.}
 
-\item{node2Id}{Node ID of the second node.}
+\item{node2id}{Node ID of the second node.}
 }
 \value{
 A logical scalar indicating whether the specified tie exists.
 }
 \description{
 \code{th_check_edge()} checks if an edge exists between two nodes in a layer, which can be either one-mode or two-mode.
+}
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 3)
+net <- th_create_network("net", ns)
+th_add_layer(net, "l1", mode = 1)
+th_add_edge(net, "l1", node1id = 1, node2id = 2)
+th_check_edge(net, "l1", node1id = 1, node2id = 2)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
 }

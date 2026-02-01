@@ -22,3 +22,13 @@ the dependent structures first.
 
 Deleting a network does not delete its nodeset; the nodeset remains available.
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 3)
+th_delete(ns)
+th_i()
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

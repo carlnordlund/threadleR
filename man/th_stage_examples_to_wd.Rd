@@ -18,3 +18,12 @@ A character string giving the path to the staged examples folder.
 Copies example files shipped with \pkg{threadleR} into \code{file.path(getwd(), folder)}
 and returns the destination path.
 }
+\examples{
+td <- tempdir()
+old <- getwd()
+setwd(td)
+
+exdir <- th_stage_examples_to_wd(folder = "threadle_examples", overwrite = TRUE)
+list.files(exdir)
+setwd(old)
+}

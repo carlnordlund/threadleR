@@ -16,6 +16,26 @@ string naming a structure in the Threadle CLI environment.}
 
 \item{limit}{Maximum number of edges to return. Defaults to \code{1000}.}
 }
+\value{
+A data frame with one row per edge and the following columns:
+\describe{
+\item{node1}{Integer; node1 id.}
+\item{node2}{Integer; node2 id.}
+\item{value}{Numeric; edge value.}
+}
+}
 \description{
 \code{th_get_all_edges} gets the edges in a specified one-mode layer.
+}
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 4)
+net <- th_create_network("net", ns)
+th_add_layer(net, "l1", mode = 1)
+th_add_edge(net, "l1", node1id = 1, node2id = 2)
+th_get_all_edges(net, "l1", offset = 0, limit = 10)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
 }

@@ -26,3 +26,15 @@ A named list with:
 \description{
 \code{th_get_random_edge()} gets a randomly sampled edge from a specified layer.
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 5)
+net <- th_create_network("net", ns)
+th_add_layer(net, "l1", mode = 1)
+th_generate(net, "l1", type = "er", p = 1)
+th_get_random_edge(net, "l1")
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

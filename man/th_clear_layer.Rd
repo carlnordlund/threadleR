@@ -19,3 +19,16 @@ the name of a network in the Threadle CLI environment.}
 \code{th_clear_layer()} removes all edges in a layer but keep the layer.
 For two-mode layers, all hyperedges are removed.
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 3)
+net <- th_create_network("net", ns)
+th_add_layer(net, "l1", mode = 1)
+th_add_edge(net, "l1", node1id = 1, node2id = 2)
+th_clear_layer(net, "l1")
+th_check_edge(net, "l1", node1id = 1, node2id = 2)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

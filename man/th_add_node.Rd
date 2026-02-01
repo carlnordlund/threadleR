@@ -4,17 +4,27 @@
 \alias{th_add_node}
 \title{Add a node to a nodeset}
 \usage{
-th_add_node(structure, nodeId)
+th_add_node(structure, nodeid)
 }
 \arguments{
 \item{structure}{A \code{threadle_nodeset} or \code{threadle_network} object, or a character
 string naming a structure in the Threadle CLI environment.}
 
-\item{nodeId}{Node ID (unsigned integer).}
+\item{nodeid}{Node ID (unsigned integer).}
 }
 \value{
 \code{NULL}, invisibly.
 }
 \description{
 \code{th_add_node()} adds a node to a nodeset (or the nodeset of the provided network).
+}
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 0)
+th_add_node(ns, nodeid = 1)
+th_get_nbr_nodes(ns)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
 }

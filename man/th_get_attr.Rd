@@ -4,13 +4,13 @@
 \alias{th_get_attr}
 \title{Get the value of a node attribute}
 \usage{
-th_get_attr(structure, nodeId, attrname)
+th_get_attr(structure, nodeid, attrname)
 }
 \arguments{
 \item{structure}{A \code{threadle_nodeset} or \code{threadle_network} object, or a character
 string naming a structure in the Threadle CLI environment.}
 
-\item{nodeId}{Node ID.}
+\item{nodeid}{Node ID.}
 
 \item{attrname}{Attribute name.}
 }
@@ -19,4 +19,15 @@ A scalar giving the attribute value for the specified node.
 }
 \description{
 \code{th_get_attr} gets the value of a node attribute for a single node in a nodeset (or the nodeset of the provided network).
+}
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 3)
+th_define_attr(ns, "score", "int")
+th_set_attr(ns, nodeid = 1, attrname = "score", attrvalue = 7)
+th_get_attr(ns, nodeid = 1, attrname = "score")
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
 }

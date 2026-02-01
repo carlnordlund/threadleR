@@ -22,3 +22,17 @@ the name of a network in the Threadle CLI environment.}
 \description{
 \code{th_degree()} computes node degree centrality for a specified layer and stores the result as a node attribute.
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 4)
+net <- th_create_network("net", ns)
+th_add_layer(net, "l1", mode = 1, directed = FALSE)
+th_add_edge(net, "l1", node1id = 1, node2id = 2)
+th_add_edge(net, "l1", node1id = 2, node2id = 3)
+th_degree(net, "l1", attrname = "deg", direction = "both")
+th_get_attr(net, nodeid = 2, attrname = "deg")
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

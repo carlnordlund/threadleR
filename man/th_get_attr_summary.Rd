@@ -28,3 +28,13 @@ The reported statistics depend on the attribute type:
 }
 All types include Count, Missing, and PercentageWithValue.
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 5)
+th_generate_attr(ns, "x", attrtype = "int", min = 1, max = 10)
+th_get_attr_summary(ns, "x")
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

@@ -22,3 +22,13 @@ A \code{threadle_network} object.
 \description{
 \code{th_create_network()} creates a new network from an existing nodeset.
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 5)
+net <- th_create_network("net", ns)
+th_info(net)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

@@ -20,3 +20,15 @@ An integer vector of node IDs.
 \description{
 \code{th_get_hyperedge_nodes()} gets the node IDs affiliated with a hyperedge in a two-mode layer.
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 3)
+net <- th_create_network("net", ns)
+th_add_layer(net, "t2", mode = 2)
+th_add_hyper(net, "t2", "group1", nodes = c(1, 2))
+th_get_hyperedge_nodes(net, "t2", hypername = "group1")
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

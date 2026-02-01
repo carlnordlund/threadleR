@@ -12,3 +12,9 @@ th_stop_threadle()
 \description{
 Terminates the Threadle process previously started with \code{.start_threadle()}.
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

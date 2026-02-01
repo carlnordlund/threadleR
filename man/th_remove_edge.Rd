@@ -4,7 +4,7 @@
 \alias{th_remove_edge}
 \title{Remove an edge from a one-mode layer}
 \usage{
-th_remove_edge(network, layername, node1Id, node2Id)
+th_remove_edge(network, layername, node1id, node2id)
 }
 \arguments{
 \item{network}{A \code{threadle_network} object or a character string giving
@@ -12,13 +12,27 @@ the name of a network in the Threadle CLI environment.}
 
 \item{layername}{Layer name.}
 
-\item{node1Id}{Node ID of the first node.}
+\item{node1id}{Node ID of the first node.}
 
-\item{node2Id}{Node ID of the second node.}
+\item{node2id}{Node ID of the second node.}
 }
 \value{
 \code{NULL}, invisibly.
 }
 \description{
 \code{th_remove_edge} removes an edge between two nodes in a one-mode layer.
+}
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 3)
+net <- th_create_network("net", ns)
+th_add_layer(net, "l1", mode = 1)
+th_add_edge(net, "l1", node1id = 1, node2id = 2, value = 1)
+
+th_remove_edge(net, "l1", node1id = 1, node2id = 2)
+th_check_edge(net, "l1", node1id = 1, node2id = 2)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
 }

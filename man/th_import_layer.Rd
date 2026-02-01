@@ -57,3 +57,21 @@ that are not yet present in \code{network}.}
 \code{th_import_layer()} imports one-mode edges or two-mode affiliations
 into an existing layer of a network from a file.
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 3)
+net <- th_create_network("net", ns)
+th_add_layer(net, "l1", mode = 1)
+
+tmp <- tempfile(fileext = ".tsv")
+write.table(data.frame(node1 = c(1, 2), node2 = c(2, 3), value = c(1, 1)),
+            file = tmp, sep = "\t", row.names = FALSE, col.names = FALSE, quote = FALSE)
+th_import_layer("net", "l1", file = tmp, format = "edgelist",
+                node1col = 0, node2col = 1, valuecol = 2, header = FALSE, sep = "\t")
+th_check_edge(net, "l1", node1id = 1, node2id = 2)
+unlink(tmp)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

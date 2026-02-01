@@ -19,3 +19,12 @@ An integer scalar giving the node ID at the requested index position.
 \code{th_get_nodeid_by_index()} gets the node ID at a specified index position
 in a nodeset (or the nodeset of the provided network).
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 3)
+th_get_nodeid_by_index(ns, index = 0)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

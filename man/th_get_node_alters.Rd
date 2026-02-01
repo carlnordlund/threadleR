@@ -6,7 +6,7 @@
 \usage{
 th_get_node_alters(
   network,
-  nodeId,
+  nodeid,
   layernames = "",
   direction = "both",
   unique = FALSE
@@ -16,7 +16,7 @@ th_get_node_alters(
 \item{network}{A \code{threadle_network} object or a character string giving
 the name of a network in the Threadle CLI environment.}
 
-\item{nodeId}{Node ID.}
+\item{nodeid}{Node ID.}
 
 \item{layernames}{Optional layer names.
 If \code{NULL}, alters are collected across all layers.}
@@ -30,4 +30,16 @@ An integer vector giving alter node IDs.
 }
 \description{
 Get alters of a node within a layer or across layers
+}
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+ns <- th_create_nodeset("ns", createnodes = 4)
+net <- th_create_network("net", ns)
+th_add_layer(net, "l1", mode = 1, directed = FALSE, valuetype = "binary")
+th_add_edge(net, "l1", node1id = 1, node2id = 2)
+th_add_edge(net, "l1", node1id = 2, node2id = 3)
+th_get_node_alters(net, nodeid = 2, layernames = "l1", direction = "both")
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
 }

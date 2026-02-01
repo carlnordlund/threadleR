@@ -24,3 +24,20 @@ A named list with:
 \description{
 \code{th_components()} computes connected components for the specified layer and network.
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 5)
+net <- th_create_network("net", ns)
+th_add_layer(net, "l1", mode = 1)
+
+# make two components: {1,2,3} and {4,5}
+th_add_edge(net, "l1", node1id = 1, node2id = 2)
+th_add_edge(net, "l1", node1id = 2, node2id = 3)
+th_add_edge(net, "l1", node1id = 4, node2id = 5)
+
+th_components(net, "l1", attrname = "comp")
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

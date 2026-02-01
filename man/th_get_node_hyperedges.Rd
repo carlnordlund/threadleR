@@ -4,7 +4,7 @@
 \alias{th_get_node_hyperedges}
 \title{Get hyperedges affiliated with a node}
 \usage{
-th_get_node_hyperedges(network, layername, nodeId)
+th_get_node_hyperedges(network, layername, nodeid)
 }
 \arguments{
 \item{network}{A \code{threadle_network} object or a character string giving
@@ -12,7 +12,7 @@ the name of a network in the Threadle CLI environment.}
 
 \item{layername}{Name of the two-mode layer to query.}
 
-\item{nodeId}{Node ID.}
+\item{nodeid}{Node ID.}
 }
 \value{
 A character vector of hyperedge names.
@@ -20,4 +20,17 @@ A character vector of hyperedge names.
 \description{
 \code{th_get_node_hyperedges()} gets the names of hyperedges
 that a node is affiliated with in a two-mode layer.
+}
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 5)
+net <- th_create_network("net", ns)
+th_add_layer(net, "t2", mode = 2)
+th_add_hyper(net, "t2", "group1", c(1,2))
+th_add_aff(net, "t2", nodeid = 1, hypername = "group1")
+th_get_node_hyperedges(net, "t2", nodeid = 1)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
 }

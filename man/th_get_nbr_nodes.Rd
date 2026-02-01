@@ -16,3 +16,12 @@ An integer scalar giving the number of nodes.
 \description{
 \code{th_get_nbr_nodes()} gets the number of nodes in the nodeset (or the nodeset of the provided network).
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 5)
+th_get_nbr_nodes(ns)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

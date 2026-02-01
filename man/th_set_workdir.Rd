@@ -24,7 +24,13 @@ In addition to absolute and relative paths, \code{dir} supports special values:
 An error is raised if the target directory does not exist.
 }
 \examples{
-\dontrun{
-th_set_workdir("~documents")
-}
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+old <- th_get_workdir()
+th_set_workdir("~")
+th_get_workdir()
+th_set_workdir(old)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
 }

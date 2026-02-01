@@ -41,3 +41,16 @@ If \code{NULL}, a default name is used.}
 \code{th_dichotomize()} creates a recoded version of
 a valued one-mode layer based on a threshold rule.
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 3)
+net <- th_create_network("net", ns)
+th_add_layer(net, "w", mode = 1, valuetype = "valued")
+th_add_edge(net, "w", node1id = 1, node2id = 2, value = 2)
+th_dichotomize(net, "w", cond = "ge", threshold = 2, newlayername = "b")
+th_check_edge(net, "b", node1id = 1, node2id = 2)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

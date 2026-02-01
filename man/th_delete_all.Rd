@@ -12,3 +12,14 @@ th_delete_all()
 \description{
 \code{th_delete_all()} removes all current structures.
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 3)
+net <- th_create_network("net", ns)
+th_delete_all()
+th_i()
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

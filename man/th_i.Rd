@@ -16,3 +16,11 @@ A named list mapping object names to their types.
 This command is in honor of all 1970's text adventure games,
 where 'i' was used to check what you were carrying.
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+th_i()
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

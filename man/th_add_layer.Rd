@@ -33,3 +33,15 @@ the name of a network in the Threadle CLI environment.}
 \description{
 \code{th_add_layer()} adds a new layer to a network, which can be either one-mode or two-mode.
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 5)
+net <- th_create_network("net", ns)
+th_add_layer(net, "l1", mode = 1)
+th_add_layer(net, "t2", mode = 2)
+th_info(net)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

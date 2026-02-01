@@ -16,3 +16,12 @@ A named list containing structure metadata.
 \description{
 \code{th_info()} gets metadata about a nodeset or network.
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 3)
+th_info(ns)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

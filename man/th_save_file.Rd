@@ -28,3 +28,16 @@ Supported file extensions:
 \item{\code{.bin.gz}}{Gzipped Threadle binary format.}
 }
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+ns <- th_create_nodeset("ns", createnodes = 3)
+tmp <- tempfile(fileext = ".tsv")
+
+th_save_file(ns, file = tmp)
+file.exists(tmp)
+unlink(tmp)
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}

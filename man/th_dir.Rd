@@ -23,3 +23,11 @@ A named list with the following elements:
 \code{th_dir()} gets files and folders in the current working directory used by Threadle,
 or in a specified directory.
 }
+\examples{
+\dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
+th_start_threadle()
+
+th_dir()
+th_stop_threadle()
+\dontshow{\}) # examplesIf}
+}
