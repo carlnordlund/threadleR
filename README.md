@@ -5,6 +5,7 @@
 
 <!-- badges: start -->
 
+[![R-CMD-check](https://github.com/YukunJiao/threadleR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/YukunJiao/threadleR/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 threadleR is an R client for the Threadle CLI console. It allows you to
