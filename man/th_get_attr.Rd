@@ -4,13 +4,13 @@
 \alias{th_get_attr}
 \title{Get the value of a node attribute}
 \usage{
-th_get_attr(structure, nodeid, attrname)
+th_get_attr(structure, nodeId, attrname)
 }
 \arguments{
 \item{structure}{A \code{threadle_nodeset} or \code{threadle_network} object, or a character
 string naming a structure in the Threadle CLI environment.}
 
-\item{nodeid}{Node ID.}
+\item{nodeId}{Node ID.}
 
 \item{attrname}{Attribute name.}
 }

@@ -7,7 +7,7 @@
 th_add_aff(
   network,
   layername,
-  nodeid,
+  nodeId,
   hypername,
   addmissingnode = TRUE,
   addmissingaffiliation = TRUE
@@ -19,7 +19,7 @@ the name of a network in the Threadle CLI environment.}
 
 \item{layername}{Layer name.}
 
-\item{nodeid}{Node ID.}
+\item{nodeId}{Node ID.}
 
 \item{hypername}{Name of the hyperedge.}
 

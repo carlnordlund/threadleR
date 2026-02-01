@@ -4,13 +4,13 @@
 \alias{th_set_attr}
 \title{Set a node attribute value}
 \usage{
-th_set_attr(structure, nodeid, attrname, attrvalue)
+th_set_attr(structure, nodeId, attrname, attrvalue)
 }
 \arguments{
 \item{structure}{A \code{threadle_nodeset} or \code{threadle_network} object, or a character
 string naming a structure in the Threadle CLI environment.}
 
-\item{nodeid}{Node ID.}
+\item{nodeId}{Node ID.}
 
 \item{attrname}{Attribute name.}
 

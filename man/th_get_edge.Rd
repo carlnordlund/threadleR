@@ -4,7 +4,7 @@
 \alias{th_get_edge}
 \title{Get the value of an edge between two nodes}
 \usage{
-th_get_edge(network, layername, node1id, node2id)
+th_get_edge(network, layername, node1Id, node2Id)
 }
 \arguments{
 \item{network}{A \code{threadle_network} object or a character string giving
@@ -12,9 +12,9 @@ the name of a network in the Threadle CLI environment.}
 
 \item{layername}{Name of the layer to query (one-mode or two-mode).}
 
-\item{node1id}{Node ID of the first node.}
+\item{node1Id}{Node ID of the first node.}
 
-\item{node2id}{Node ID of the second node.}
+\item{node2Id}{Node ID of the second node.}
 }
 \value{
 A numeric scalar giving the edge value (0 if no edge exists).

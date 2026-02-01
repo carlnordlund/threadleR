@@ -4,13 +4,13 @@
 \alias{th_add_node}
 \title{Add a node to a nodeset}
 \usage{
-th_add_node(structure, nodeid)
+th_add_node(structure, nodeId)
 }
 \arguments{
 \item{structure}{A \code{threadle_nodeset} or \code{threadle_network} object, or a character
 string naming a structure in the Threadle CLI environment.}
 
-\item{nodeid}{Node ID (unsigned integer).}
+\item{nodeId}{Node ID (unsigned integer).}
 }
 \value{
 \code{NULL}, invisibly.

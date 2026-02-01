@@ -4,7 +4,7 @@
 \alias{th_remove_edge}
 \title{Remove an edge from a one-mode layer}
 \usage{
-th_remove_edge(network, layername, node1id, node2id)
+th_remove_edge(network, layername, node1Id, node2Id)
 }
 \arguments{
 \item{network}{A \code{threadle_network} object or a character string giving
@@ -12,9 +12,9 @@ the name of a network in the Threadle CLI environment.}
 
 \item{layername}{Layer name.}
 
-\item{node1id}{Node ID of the first node.}
+\item{node1Id}{Node ID of the first node.}
 
-\item{node2id}{Node ID of the second node.}
+\item{node2Id}{Node ID of the second node.}
 }
 \value{
 \code{NULL}, invisibly.

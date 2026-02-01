@@ -4,7 +4,7 @@
 \alias{th_check_edge}
 \title{Check if an edge exists between two nodes in a layer}
 \usage{
-th_check_edge(network, layername, node1id, node2id)
+th_check_edge(network, layername, node1Id, node2Id)
 }
 \arguments{
 \item{network}{A \code{threadle_network} object or a character string giving
@@ -12,9 +12,9 @@ the name of a network in the Threadle CLI environment.}
 
 \item{layername}{Layer name.}
 
-\item{node1id}{Node ID of the first node.}
+\item{node1Id}{Node ID of the first node.}
 
-\item{node2id}{Node ID of the second node.}
+\item{node2Id}{Node ID of the second node.}
 }
 \value{
 A logical scalar indicating whether the specified tie exists.

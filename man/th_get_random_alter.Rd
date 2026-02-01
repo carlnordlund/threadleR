@@ -6,7 +6,7 @@
 \usage{
 th_get_random_alter(
   network,
-  nodeid,
+  nodeId,
   layername = "",
   direction = "both",
   balanced = FALSE
@@ -16,7 +16,7 @@ th_get_random_alter(
 \item{network}{A \code{threadle_network} object or a character string giving the name of
 a network in the Threadle CLI environment.}
 
-\item{nodeid}{Node ID.}
+\item{nodeId}{Node ID.}
 
 \item{layername}{Optional layer name. If \code{NULL}, alters are considered across all layers.}
 

@@ -3,17 +3,17 @@
 \name{th_shortest_path}
 \alias{th_shortest_path}
 \title{Calculate shortest path distance between two nodes
-\code{th_shortest_path()} computes the shortest path distance from \code{node1id} to \code{node2id} in a network.}
+\code{th_shortest_path()} computes the shortest path distance from \code{node1Id} to \code{node2Id} in a network.}
 \usage{
-th_shortest_path(network, node1id, node2id, layername)
+th_shortest_path(network, node1Id, node2Id, layername)
 }
 \arguments{
 \item{network}{A \code{threadle_network} object or a character string giving
 the name of a network in the Threadle CLI environment.}
 
-\item{node1id}{Node ID of the first node.}
+\item{node1Id}{Node ID of the first node.}
 
-\item{node2id}{Node ID of the second node.}
+\item{node2Id}{Node ID of the second node.}
 
 \item{layername}{Optional layer name. If \code{NULL}, all layers are used.}
 }
@@ -22,13 +22,13 @@ An integer scalar giving the shortest path distance.
 }
 \description{
 Calculate shortest path distance between two nodes
-\code{th_shortest_path()} computes the shortest path distance from \code{node1id} to \code{node2id} in a network.
+\code{th_shortest_path()} computes the shortest path distance from \code{node1Id} to \code{node2Id} in a network.
 }
 \details{
 By default, all layers are used. If \code{layername} is provided, the shortest path is
 computed using that layer only.
 
-Shortest path distance is directional: in directed layers, the distance from \code{node1id}
-to \code{node2id} may differ from the distance in the reverse direction. For symmetric
+Shortest path distance is directional: in directed layers, the distance from \code{node1Id}
+to \code{node2Id} may differ from the distance in the reverse direction. For symmetric
 layers, this distinction is moot.
 }

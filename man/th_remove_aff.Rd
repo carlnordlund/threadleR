@@ -4,7 +4,7 @@
 \alias{th_remove_aff}
 \title{Remove an affiliation from a two-mode layer}
 \usage{
-th_remove_aff(network, layername, nodeid, hypername)
+th_remove_aff(network, layername, nodeId, hypername)
 }
 \arguments{
 \item{network}{A \code{threadle_network} object or a character string giving
@@ -12,7 +12,7 @@ the name of a network in the Threadle CLI environment.}
 
 \item{layername}{Name of the two-mode layer.}
 
-\item{nodeid}{Node ID.}
+\item{nodeId}{Node ID.}
 
 \item{hypername}{Name of the hyperedge.}
 }

@@ -4,13 +4,13 @@
 \alias{th_remove_attr}
 \title{Remove a node attribute value}
 \usage{
-th_remove_attr(structure, nodeid, attrname)
+th_remove_attr(structure, nodeId, attrname)
 }
 \arguments{
 \item{structure}{A \code{threadle_nodeset} or \code{threadle_network} object, or a character
 string naming a structure in the Threadle CLI environment.}
 
-\item{nodeid}{Node ID.}
+\item{nodeId}{Node ID.}
 
 \item{attrname}{Attribute name.}
 }

@@ -6,7 +6,7 @@
 \usage{
 th_get_node_alters(
   network,
-  nodeid,
+  nodeId,
   layernames = "",
   direction = "both",
   unique = FALSE
@@ -16,7 +16,7 @@ th_get_node_alters(
 \item{network}{A \code{threadle_network} object or a character string giving
 the name of a network in the Threadle CLI environment.}
 
-\item{nodeid}{Node ID.}
+\item{nodeId}{Node ID.}
 
 \item{layernames}{Optional layer names.
 If \code{NULL}, alters are collected across all layers.}

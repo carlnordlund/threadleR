@@ -4,13 +4,13 @@
 \alias{th_remove_node}
 \title{Remove a node from a nodeset}
 \usage{
-th_remove_node(structure, nodeid)
+th_remove_node(structure, nodeId)
 }
 \arguments{
 \item{structure}{A \code{threadle_nodeset} or \code{threadle_network} object, or a character
 string naming a structure in the Threadle CLI environment.}
 
-\item{nodeid}{Node ID to remove.}
+\item{nodeId}{Node ID to remove.}
 }
 \value{
 \code{NULL}, invisibly.
