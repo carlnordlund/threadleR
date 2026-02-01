@@ -7,7 +7,7 @@
 #' or a Threadle structure object (a list with a scalar character `$name`).
 #'
 #' @param x A single character name, or a Threadle structure object with `$name`.
-#' @returns A length-1 character string giving the backend variable name.
+#' @return A length-1 character string giving the backend variable name.
 #' @keywords internal
 .th_name <- function(x) {
   if (is.null(x)) return(NULL)
@@ -30,7 +30,7 @@
 #'
 #' @param env An environment, usually `environment()` from the wrapper.
 #' @param drop Character vector of argument names to drop.
-#' @returns A named list of arguments suitable for `.th_json_cmd()`.
+#' @return A named list of arguments suitable for `.th_json_cmd()`.
 #' @keywords internal
 .th_args <- function(env, drop = character()) {
   fmls <- names(formals(sys.function(sys.parent())))
@@ -55,7 +55,7 @@
 #' @param command Command name (character scalar).
 #' @param args Named list of arguments, or `NULL`.
 #' @param assign Optional backend variable name to assign output to, or `NULL`.
-#' @returns A JSON string.
+#' @return A JSON string.
 #' @keywords internal
 .th_json_cmd <- function(command, args = NULL, assign = NULL) {
   mode <- getOption("threadle.command", default = "json")
@@ -121,7 +121,7 @@
 #' @aliases %||%
 #' @param a First value.
 #' @param b Fallback value.
-#' @returns `a` if non-`NULL`, else `b`.
+#' @return `a` if non-`NULL`, else `b`.
 #' @keywords internal
 NULL
 
@@ -134,7 +134,7 @@ NULL
 #' logical `Success` field and throws an R error when `Success` is not `TRUE`.
 #'
 #' @param resp Parsed JSON response (a list) from `.send_command()`.
-#' @returns Invisibly returns `resp` when successful.
+#' @return Invisibly returns `resp` when successful.
 #' @keywords internal
 .th_stop_if_fail <- function(resp) {
   mode <- getOption("threadle.command", "json")
@@ -164,7 +164,7 @@ NULL
 #' waits for a complete one-line JSON response. It also support CLI command now.
 #'
 #' @param cmd A JSON command string to send to the Threadle CLI process.
-#' @returns A parsed JSON response as a list.
+#' @return A parsed JSON response as a list.
 #' @keywords internal
 .send_command <- function(cmd) {
   if (length(cmd) == 0 || !nzchar(cmd)) return(NULL)
@@ -244,7 +244,7 @@ NULL
 #' @param assign Optional backend variable name to assign the result to, or `NULL`.
 #' @param return What to return: `"payload"` (default) or `"response"`.
 #' @param .print_message Logical; if `TRUE`, print `resp$Message` when present.
-#' @returns If `return = "payload"`, returns `resp$Payload`; otherwise returns the full response.
+#' @return If `return = "payload"`, returns `resp$Payload`; otherwise returns the full response.
 #' @keywords internal
 .th_call <- function(cmd,
                      args = NULL,
@@ -303,7 +303,7 @@ NULL
 #'
 #' @param path Optional path to the Threadle CLI executable. If `NULL`, tries to
 #'   locate `threadle` on `PATH` via [Sys.which()].
-#' @returns The `processx` process object, invisibly.
+#' @return The `processx` process object, invisibly.
 #' @export
 th_start_threadle <- function(path = NULL) {
   if (is.null(path) || !nzchar(path)) {
@@ -347,7 +347,7 @@ th_start_threadle <- function(path = NULL) {
 #'
 #' Terminates the Threadle process previously started with `.start_threadle()`.
 #'
-#' @returns `NULL`, invisibly.
+#' @return `NULL`, invisibly.
 #' @export
 th_stop_threadle <- function() {
   if (.th_has_proc()) {
@@ -389,7 +389,7 @@ th_sync_wd <- function() {
 #'
 #' @param folder Name of the destination subfolder under [getwd()].
 #' @param overwrite Logical; overwrite existing files in the destination.
-#' @returns A character string giving the path to the staged examples folder.
+#' @return A character string giving the path to the staged examples folder.
 #' @export
 th_stage_examples_to_wd <- function(folder = "threadle_examples", overwrite = TRUE) {
   from <- system.file("extdata", "Examples", package = "threadleR")
@@ -417,7 +417,7 @@ th_stage_examples_to_wd <- function(folder = "threadle_examples", overwrite = TR
 #' @param addmissingnode Logical; if `TRUE`, missing nodes are created automatically.
 #' @param addmissingaffiliation Logical; if `TRUE`, missing affiliations are created automatically.
 #'
-#' @returns `NULL`, invisibly.
+#' @return `NULL`, invisibly.
 #' @export
 th_add_aff <- function(network, layername, nodeid, hypername,
                        addmissingnode = TRUE, addmissingaffiliation = TRUE) {
@@ -442,7 +442,7 @@ th_add_aff <- function(network, layername, nodeid, hypername,
 #' @param value Edge value, defaults to 1.
 #' @param addmissingnodes Logical; if `TRUE`, missing nodes are created and added. Defaults to `TRUE`.
 #'
-#' @returns `NULL`, invisibly.
+#' @return `NULL`, invisibly.
 #' @export
 th_add_edge <- function(network, layername, node1id, node2id,
                         value = 1, addmissingnodes = TRUE) {
@@ -468,7 +468,7 @@ th_add_edge <- function(network, layername, node1id, node2id,
 #'   creates the hyperedge without adding nodes.
 #' @param addmissingnodes Logical; if `TRUE`, missing nodes are created and added. Defaults to `TRUE`.
 #'
-#' @returns `NULL`, invisibly.
+#' @return `NULL`, invisibly.
 #' @export
 th_add_hyper <- function(network, layername, hypername,
                          nodes = c(), addmissingnodes = TRUE) {
@@ -491,7 +491,7 @@ th_add_hyper <- function(network, layername, hypername,
 #' @param valuetype "binary" or "valued" (only for 1-mode layers).
 #' @param selfties Logical; whether self-ties are allowed (only for 1-mode layers).
 #'
-#' @returns `NULL`, invisibly.
+#' @return `NULL`, invisibly.
 #' @export
 th_add_layer <- function(network, layername, mode, directed=FALSE, valuetype = c("binary", "valued"), selfties=FALSE) {
   valuetype <- match.arg(valuetype)
@@ -509,7 +509,7 @@ th_add_layer <- function(network, layername, mode, directed=FALSE, valuetype = c
 #'   string naming a structure in the Threadle CLI environment.
 #' @param nodeid Node ID (unsigned integer).
 #'
-#' @returns `NULL`, invisibly.
+#' @return `NULL`, invisibly.
 #' @export
 th_add_node <- function(structure, nodeid) {
   args <- .th_args(environment())
@@ -528,7 +528,7 @@ th_add_node <- function(structure, nodeid) {
 #' @param node1id Node ID of the first node.
 #' @param node2id Node ID of the second node.
 #'
-#' @returns A logical scalar indicating whether the specified tie exists.
+#' @return A logical scalar indicating whether the specified tie exists.
 #' @export
 th_check_edge <- function(network, layername, node1id, node2id) {
   args <- .th_args(environment())
@@ -545,7 +545,7 @@ th_check_edge <- function(network, layername, node1id, node2id) {
 #' @param network A `threadle_network` object or a character string giving
 #' the name of a network in the Threadle CLI environment.
 #' @param layername Layer name.
-#' @returns `NULL`, invisibly.
+#' @return `NULL`, invisibly.
 #' @export
 th_clear_layer <- function(network, layername) {
   args <- .th_args(environment())
@@ -562,7 +562,7 @@ th_clear_layer <- function(network, layername) {
 #' the name of a network in the Threadle CLI environment.
 #' @param layername Layer name.
 #' @param attrname Attribute name.
-#' @returns A named list with:
+#' @return A named list with:
 #' \describe{
 #'  \item{NbrComponents}{Integer of length 1; number of connected components.}
 #'  \item{ComponentSizes}{Integer vector; sizes of the connected components.}
@@ -587,7 +587,7 @@ th_components <- function(network, layername, attrname) {
 #'   This does not affect how the object is referenced in commands; commands
 #'   use 'var'.
 #'
-#' @returns A `threadle_network` object.
+#' @return A `threadle_network` object.
 #' @export
 th_create_network <- function(var, nodeset, name = NULL) {
   args <- .th_args(environment(), drop = "var")
@@ -606,7 +606,7 @@ th_create_network <- function(var, nodeset, name = NULL) {
 #' @param name Optional internal name stored in the Threadle object metadata.
 #'   This does not affect how the object is referenced in commands.
 #' @param createnodes Number of nodes to create in the nodeset. Default is 0.
-#' @returns A `threadle_nodeset` object.
+#' @return A `threadle_nodeset` object.
 #' @export
 th_create_nodeset <- function(var, name = NULL, createnodes = 0) {
   args <- .th_args(environment(), drop = "var")
@@ -625,7 +625,7 @@ th_create_nodeset <- function(var, name = NULL, createnodes = 0) {
 #' @param attrname Attribute name.
 #' @param attrtype Attribute type ("int","char", "float", or "bool")
 #'
-#' @returns `NULL`, invisibly.
+#' @return `NULL`, invisibly.
 #' @export
 th_define_attr <- function(structure, attrname, attrtype = c('int','char','float','bool')) {
   attrtype <- match.arg(attrtype)
@@ -644,7 +644,7 @@ th_define_attr <- function(structure, attrname, attrtype = c('int','char','float
 #' @param layername Name of the layer for which degree centrality is computed.
 #' @param attrname Optional name for the node attribute storing degree values.
 #' @param direction Which ties to count: `"in"`, `"out"`, or `"both"`. Defaults to `"in"`.
-#' @returns `NULL`, invisibly.
+#' @return `NULL`, invisibly.
 #' @export
 th_degree <- function(network, layername, attrname = NULL, direction = "in") {
   direction <- match.arg(direction, c("in", "out", "both"))
@@ -667,7 +667,7 @@ th_degree <- function(network, layername, attrname = NULL, direction = "in") {
 #' @param structure A `threadle_nodeset` or `threadle_network` object, or a character
 #'   string naming a structure in the Threadle CLI environment.
 #'
-#' @returns `NULL`, invisibly.
+#' @return `NULL`, invisibly.
 #' @export
 th_delete <- function(structure) {
   args <- .th_args(environment())
@@ -680,7 +680,7 @@ th_delete <- function(structure) {
 #'
 #' `th_delete_all()` removes all current structures.
 #'
-#' @returns `NULL`, invisibly.
+#' @return `NULL`, invisibly.
 th_delete_all <- function() {
   args <- NULL
   cmd <- "deleteall"
@@ -695,7 +695,7 @@ th_delete_all <- function() {
 #' @param network A `threadle_network` object or a character string giving
 #' the name of a network in the Threadle CLI environment.
 #' @param layername Name of the layer for which density is computed.
-#' @returns A numeric scalar giving the layer density.
+#' @return A numeric scalar giving the layer density.
 #' @export
 th_density <- function(network, layername) {
   args <- .th_args(environment())
@@ -721,7 +721,7 @@ th_density <- function(network, layername) {
 #' Can also be `"keep"` to retain the original value.
 #' @param newlayername Optional name for the dichotomized layer.
 #' If `NULL`, a default name is used.
-#' @returns `NULL`, invisibly.
+#' @return `NULL`, invisibly.
 #' @export
 th_dichotomize <- function(network, layername,
                            cond = c('ge','eq','ne','gt','lt','le','isnull','notnull'),
@@ -741,7 +741,7 @@ th_dichotomize <- function(network, layername,
 #' or in a specified directory.
 #'
 #' @param path Optional directory path. If `NULL` or empty, lists the current Threadle working directory.
-#' @returns A named list with the following elements:
+#' @return A named list with the following elements:
 #'   \describe{
 #'     \item{Path}{Character scalar; the listed directory path.}
 #'     \item{Directories}{A data frame with a `Name` column listing subdirectories.}
@@ -769,7 +769,7 @@ th_dir <- function(path = NULL) {
 #' @param cond Condition operator: `"eq"`, `"ne"`, `"gt"`, `"lt"`, `"ge"`, `"le"`,
 #'   `"isnull"`, or `"notnull"`.
 #' @param attrvalue Attribute value used for the condition.
-#' @returns A `threadle_nodeset` object.
+#' @return A `threadle_nodeset` object.
 #' @export
 th_filter <- function(name, nodeset, attrname, cond, attrvalue) {
   args <- .th_args(environment(), drop = "name")
@@ -806,7 +806,7 @@ th_filter <- function(name, nodeset, attrname, cond, attrvalue) {
 #' @param h For `type = "2mode"`: number of hyperedges. Required when `type = "2mode"`.
 #' @param a For `type = "2mode"`: average affiliations per node. Required when `type = "2mode"`.
 #'
-#' @returns `NULL`, invisibly.
+#' @return `NULL`, invisibly.
 #' @export
 th_generate <- function(network, layername, type, p, k, beta, m, h, a) {
   args <- .th_args(environment())
@@ -838,7 +838,7 @@ th_generate <- function(network, layername, type, p, k, beta, m, h, a) {
 #' @param p For `"bool"` type: probability of `"true"`. Default `0.5`.
 #' @param chars For `"char"` type: `;`-separated candidate values, e.g. `"a;c;f;g;z"`.
 #'   Default `"m;f;o"`.
-#' @returns `NULL`, invisibly.
+#' @return `NULL`, invisibly.
 #' @export
 th_generate_attr <- function(structure,
                              attrname,
@@ -882,7 +882,7 @@ th_get_all_edges <- function(network, layername, offset = 0, limit = 1000) {
 #' @param layername Layer name (must be a 2-mode layer).
 #' @param offset Starting index (0-based). Defaults to `0`.
 #' @param limit Maximum number of hyperedges to return. Defaults to `1000`.
-#' @returns A character vector of hyperedge names (JSON mode payload), or raw CLI text.
+#' @return A character vector of hyperedge names (JSON mode payload), or raw CLI text.
 #' @export
 th_get_all_hyperedges <- function(network, layername, offset = 0, limit = 1000) {
   args <- .th_args(environment())
@@ -900,7 +900,7 @@ th_get_all_hyperedges <- function(network, layername, offset = 0, limit = 1000) 
 #' @param offset Starting index (0-based). Defaults to `0`.
 #' @param limit Maximum number of nodes to return. Defaults to 1000.
 #'
-#' @returns An integer vector of node IDs.
+#' @return An integer vector of node IDs.
 #' @export
 th_get_all_nodes <- function(structure, offset, limit = 1000) {
   args <- .th_args(environment())
@@ -918,7 +918,7 @@ th_get_all_nodes <- function(structure, offset, limit = 1000) {
 #' @param nodeid Node ID.
 #' @param attrname Attribute name.
 #'
-#' @returns A scalar giving the attribute value for the specified node.
+#' @return A scalar giving the attribute value for the specified node.
 #' @export
 th_get_attr <- function(structure, nodeid, attrname) {
   args <- .th_args(environment())
@@ -943,7 +943,7 @@ th_get_attr <- function(structure, nodeid, attrname) {
 #' @param structure A `threadle_nodeset` or `threadle_network` object, or a character
 #'   string naming a structure in the Threadle CLI environment.
 #' @param attrname Name of the node attribute to summarize.
-#' @returns In JSON mode: a parsed summary payload (often a list); in CLI mode: raw text.
+#' @return In JSON mode: a parsed summary payload (often a list); in CLI mode: raw text.
 #' @export
 th_get_attr_summary <- function(structure, attrname) {
   args <- .th_args(environment())
@@ -962,7 +962,7 @@ th_get_attr_summary <- function(structure, attrname) {
 #' @param layername Name of the layer to query (one-mode or two-mode).
 #' @param node1id Node ID of the first node.
 #' @param node2id Node ID of the second node.
-#' @returns A numeric scalar giving the edge value (0 if no edge exists).
+#' @return A numeric scalar giving the edge value (0 if no edge exists).
 #' @export
 th_get_edge <- function(network, layername, node1id, node2id) {
   args <- .th_args(environment())
@@ -979,7 +979,7 @@ th_get_edge <- function(network, layername, node1id, node2id) {
 #'   the name of a network in the Threadle CLI environment.
 #' @param layername Name of the two-mode layer to query.
 #' @param hypername Name of the hyperedge.
-#' @returns An integer vector of node IDs.
+#' @return An integer vector of node IDs.
 #' @export
 th_get_hyperedge_nodes <- function(network, layername, hypername) {
   args <- .th_args(environment())
@@ -994,7 +994,7 @@ th_get_hyperedge_nodes <- function(network, layername, hypername) {
 #' @param structure A `threadle_nodeset` or `threadle_network` object, or a character
 #'   string naming a structure in the Threadle CLI environment.
 #'
-#' @returns An integer scalar giving the number of nodes.
+#' @return An integer scalar giving the number of nodes.
 #' @export
 th_get_nbr_nodes <- function(structure) {
   args <- .th_args(environment())
@@ -1013,7 +1013,7 @@ th_get_nbr_nodes <- function(structure) {
 #' @param direction Which ties to count: `"both"` (default), `"in"`, or `"out"`.
 #' @param unique Logical; if `TRUE`, deduplicate alter IDs. Defaults to `FALSE`.
 #'
-#' @returns An integer vector giving alter node IDs.
+#' @return An integer vector giving alter node IDs.
 #' @export
 th_get_node_alters <- function(network, nodeid, layernames = "", direction="both", unique = FALSE) {
   direction <- match.arg(direction, c("both", "in", "out"))
@@ -1037,7 +1037,7 @@ th_get_node_alters <- function(network, nodeid, layernames = "", direction="both
 #'   the name of a network in the Threadle CLI environment.
 #' @param layername Name of the two-mode layer to query.
 #' @param nodeid Node ID.
-#' @returns A character vector of hyperedge names.
+#' @return A character vector of hyperedge names.
 #' @export
 th_get_node_hyperedges <- function(network, layername, nodeid) {
   args <- .th_args(environment())
@@ -1055,7 +1055,7 @@ th_get_node_hyperedges <- function(network, layername, nodeid) {
 #'   string naming a structure in the Threadle CLI environment.
 #' @param index Zero-based index position of the node in the nodeset.
 #'
-#' @returns An integer scalar giving the node ID at the requested index position.
+#' @return An integer scalar giving the node ID at the requested index position.
 #' @export
 th_get_nodeid_by_index <- function(structure, index) {
   cmd <- "getnodeidbyindex"
@@ -1074,7 +1074,7 @@ th_get_nodeid_by_index <- function(structure, index) {
 #' @param layername Optional layer name. If `NULL`, alters are considered across all layers.
 #' @param direction Which ties to count: `"both"` (default), `"in"`, or `"out"`.
 #' @param balanced Logical; only used when `layername` is `NULL`.
-#' @returns An integer scalar giving the node ID of the sampled alter.
+#' @return An integer scalar giving the node ID of the sampled alter.
 #' @export
 th_get_random_alter <- function(network, nodeid, layername="", direction="both", balanced=FALSE) {
   direction <- match.arg(direction, c("both", "in", "out"))
@@ -1094,7 +1094,7 @@ th_get_random_alter <- function(network, nodeid, layername="", direction="both",
 #' @param maxattempts Maximum number of uniform random node-pair attempts before switching to
 #'   the fallback heuristic (two-mode layers only). Defaults to 100.
 #'
-#' @returns A named list with:
+#' @return A named list with:
 #' \describe{
 #'  \item{node1}{Integer scalar; ID of the first node.}
 #'  \item{node2}{Integer scalar; ID of the second node.}
@@ -1114,7 +1114,7 @@ th_get_random_edge <- function(network, layername, maxattempts = 100) {
 #'
 #' @param structure A `threadle_nodeset` or `threadle_network` object, or a character
 #'   string naming a structure in the Threadle CLI environment.
-#' @returns An integer scalar giving the sampled node ID.
+#' @return An integer scalar giving the sampled node ID.
 #' @export
 th_get_random_node <- function(structure) {
   args <- .th_args(environment())
@@ -1127,7 +1127,7 @@ th_get_random_node <- function(structure) {
 #'
 #' `th_get_workdir` gets the working directory currently used by the Threadle.
 #'
-#' @returns A character scalar giving the current working directory used by Threadle.
+#' @return A character scalar giving the current working directory used by Threadle.
 #' @export
 th_get_workdir <- function() {
   .th_call(cmd = "getwd")
@@ -1157,7 +1157,7 @@ th_get_workdir <- function() {
 #' @param addmissingnodes Logical; if `TRUE`, create nodes referenced in the file
 #' that are not yet present in `network`.
 #'
-#' @returns `NULL`, invisibly.
+#' @return `NULL`, invisibly.
 #' @export
 th_import_layer <- function(network, layername, file,
                             format,
@@ -1179,7 +1179,7 @@ th_import_layer <- function(network, layername, file,
 #' @param structure A `threadle_nodeset` or `threadle_network` object, or a character
 #'   string naming a structure in the Threadle CLI environment.
 #'
-#' @returns A named list containing structure metadata.
+#' @return A named list containing structure metadata.
 #' @export
 th_info <- function(structure) {
   args <- list(structure = .th_name(structure))
@@ -1196,7 +1196,7 @@ th_info <- function(structure) {
 #' This command is in honor of all 1970's text adventure games,
 #' where 'i' was used to check what you were carrying.
 #'
-#' @returns A named list mapping object names to their types.
+#' @return A named list mapping object names to their types.
 #' @export
 th_i <- function() {
   cmd <- "i"
@@ -1213,7 +1213,7 @@ th_i <- function() {
 #' Execution aborts if an error is encountered.
 #'
 #' @param file Path to a script file containing CLI commands.
-#' @returns `NULL`, invisibly.
+#' @return `NULL`, invisibly.
 #' @export
 th_load_script <- function(file) {
   args <- .th_args(environment())
@@ -1242,7 +1242,7 @@ th_load_script <- function(file) {
 #' @param file Path to the input file.
 #' @param type Structure type to load: `"nodeset"` or `"network"`.
 #'
-#' @returns An object with class corresponding to the loaded type.
+#' @return An object with class corresponding to the loaded type.
 #' @export
 th_load_file <- function(name, file, type) {
   args <- .th_args(environment(), drop = "name")
@@ -1260,7 +1260,7 @@ th_load_file <- function(name, file, type) {
 #' @param structure A `threadle_nodeset` or `threadle_network` object, or a character
 #'   string naming a structure in the Threadle CLI environment.
 #' @param maxlines Maximum number of lines to output. Defaults to `50`.
-#' @returns A character vector of preview lines.
+#' @return A character vector of preview lines.
 #' @export
 th_preview <- function(structure, maxlines = 50) {
   args <- .th_args(environment())
@@ -1279,7 +1279,7 @@ th_preview <- function(structure, maxlines = 50) {
 #' @param layername Name of the two-mode layer.
 #' @param nodeid Node ID.
 #' @param hypername Name of the hyperedge.
-#' @returns `NULL`, invisibly.
+#' @return `NULL`, invisibly.
 #' @export
 th_remove_aff <- function(network, layername, nodeid, hypername) {
   args <- .th_args(environment())
@@ -1298,7 +1298,7 @@ th_remove_aff <- function(network, layername, nodeid, hypername) {
 #' @param nodeid Node ID.
 #' @param attrname Attribute name.
 #'
-#' @returns `NULL`, invisibly.
+#' @return `NULL`, invisibly.
 #' @export
 th_remove_attr <- function(structure, nodeid, attrname) {
   args <- .th_args(environment())
@@ -1316,7 +1316,7 @@ th_remove_attr <- function(structure, nodeid, attrname) {
 #' @param layername Layer name.
 #' @param node1id Node ID of the first node.
 #' @param node2id Node ID of the second node.
-#' @returns `NULL`, invisibly.
+#' @return `NULL`, invisibly.
 #' @export
 th_remove_edge <- function(network, layername, node1id, node2id) {
   args <- .th_args(environment())
@@ -1333,7 +1333,7 @@ th_remove_edge <- function(network, layername, node1id, node2id) {
 #' the name of a network in the Threadle CLI environment.
 #' @param layername Name of the two-mode layer.
 #' @param hypername Name of the hyperedge to remove.
-#' @returns `NULL`, invisibly.
+#' @return `NULL`, invisibly.
 #' @export
 th_remove_hyper <- function(network, layername, hypername) {
   args <- .th_args(environment())
@@ -1349,7 +1349,7 @@ th_remove_hyper <- function(network, layername, hypername) {
 #' @param network A `threadle_network` object or a character string giving
 #' the name of a network in the Threadle CLI environment.
 #' @param layername Name of the layer to remove.
-#' @returns `NULL`, invisibly.
+#' @return `NULL`, invisibly.
 #' @export
 th_remove_layer <- function(network, layername) {
   args <- .th_args(environment())
@@ -1366,7 +1366,7 @@ th_remove_layer <- function(network, layername) {
 #'   string naming a structure in the Threadle CLI environment.
 #' @param nodeid Node ID to remove.
 #'
-#' @returns `NULL`, invisibly.
+#' @return `NULL`, invisibly.
 #' @export
 th_remove_node <- function(structure, nodeid) {
   args <- .th_args(environment())
@@ -1392,7 +1392,7 @@ th_remove_node <- function(structure, nodeid) {
 #'   string naming a structure in the Threadle CLI environment.
 #' @param file Optional path to save the structure to. If omitted, the existing filepath
 #' of the structure is used. Defaults to `""`.
-#' @returns `NULL`, invisibly.
+#' @return `NULL`, invisibly.
 #' @export
 th_save_file <- function(structure, file = "") {
   args <- .th_args(environment())
@@ -1413,7 +1413,7 @@ th_save_file <- function(structure, file = "") {
 #' @param attrname Attribute name.
 #' @param attrvalue Attribute value to set.
 #'
-#' @returns `NULL`, invisibly.
+#' @return `NULL`, invisibly.
 #' @export
 th_set_attr <- function(structure, nodeid, attrname, attrvalue) {
   args <- .th_args(environment())
@@ -1437,7 +1437,7 @@ th_set_attr <- function(structure, nodeid, attrname, attrvalue) {
 #' @param name Setting name.
 #' @param value Logical; `TRUE` to enable, `FALSE` to disable.
 #'
-#' @returns `NULL`, invisibly.
+#' @return `NULL`, invisibly.
 #' @export
 th_setting <- function(name, value) {
   args <- .th_args(environment())
@@ -1457,7 +1457,7 @@ th_setting <- function(name, value) {
 #' }
 #' An error is raised if the target directory does not exist.
 #' @param dir Directory path, or one of the special values `"~"` or `"~documents"`.
-#' @returns `NULL`, invisibly.
+#' @return `NULL`, invisibly.
 #' @examples
 #' \dontrun{
 #' th_set_workdir("~documents")
@@ -1484,7 +1484,7 @@ th_set_workdir <- function(dir) {
 #' @param node1id Node ID of the first node.
 #' @param node2id Node ID of the second node.
 #' @param layername Optional layer name. If `NULL`, all layers are used.
-#' @returns An integer scalar giving the shortest path distance.
+#' @return An integer scalar giving the shortest path distance.
 #' @export
 th_shortest_path <- function(network, node1id, node2id, layername) {
   args <- .th_args(environment())
@@ -1507,7 +1507,7 @@ th_shortest_path <- function(network, node1id, node2id, layername) {
 #' the name of a network in the Threadle CLI environment.
 #' @param nodeset A `threadle_nodeset` object or a character string giving
 #' the name of a network in the Threadle CLI environment.
-#' @returns A `threadle_network` object.
+#' @return A `threadle_network` object.
 #' @export
 th_subnet <- function(name, network, nodeset) {
   args <- .th_args(environment(), drop = "name")
@@ -1528,7 +1528,7 @@ th_subnet <- function(name, network, nodeset) {
 #'   or `"product"`. Defaults to `"max"`.
 #' @param newlayername Optional name for the newly created symmetrized layer.
 #'
-#' @returns `NULL`, invisibly.
+#' @return `NULL`, invisibly.
 #' @export
 th_symmetrize <- function(network, layername,
                           method = c("max", "min", "minnonzero", "average", "sum", "product"),
@@ -1551,7 +1551,7 @@ th_symmetrize <- function(network, layername,
 #'   string naming a structure in the Threadle CLI environment.
 #' @param attrname Attribute name to undefine.
 #'
-#' @returns `NULL`, invisibly.
+#' @return `NULL`, invisibly.
 #' @export
 th_undefine_attr <- function(structure, attrname) {
   args <- .th_args(environment())
