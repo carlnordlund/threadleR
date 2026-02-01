@@ -22,7 +22,7 @@ ex_dir <- th_stage_examples_to_wd("./inst/examples")
 th_set_workdir(ex_dir)
 
 # Optional: return mode / message printing
-# options(threadle.return = "response") # for debugging only (default: "payload")
+options(threadle.return = "response") # for debugging only (default: "payload")
 # options(threadle.print_message = FALSE) # not recommended (messages are printed by default)
 
 # ---
