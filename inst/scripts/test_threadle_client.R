@@ -3,7 +3,7 @@
 # Install and load threadleR
 remotes::install_github("YukunJiao/threadleR")
 library(threadleR)
-# devtools::load_all()
+devtools::load_all()
 
 # Optional: switch protocol / command logging
 # options(threadle.command = "cli") # for debugging only (default: "json")

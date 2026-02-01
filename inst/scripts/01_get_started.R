@@ -117,3 +117,5 @@ ego_net <- th_subnet("ego_net", lazeganet, ego_nodeset)
 th_info(ego_net)
 
 th_preview(ego_net)
+
+th_stop_threadle()

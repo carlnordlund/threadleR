@@ -167,34 +167,31 @@ NULL
 #' @returns A parsed JSON response as a list.
 #' @keywords internal
 .send_command <- function(cmd) {
-  if (length(cmd) == 0) return(NULL)
-  if (!nzchar(cmd)) return(NULL)
+  if (length(cmd) == 0 || !nzchar(cmd)) return(NULL)
 
-  proc <- .th_get_proc()
-  proc$write_input(paste0(cmd, "\n"))
+  proc <- tryCatch(.th_get_proc(), error = function(e) NULL)
+  if (is.null(proc)) {
+    stop("Threadle is not running. Call th_start_threadle() first.", call. = FALSE)
+  }
+  if (!isTRUE(proc$is_alive())) {
+    .th_clear_proc()
+    stop("Threadle process is not alive. Restart with th_start_threadle().", call. = FALSE)
+  }
+
+  ok <- tryCatch({
+    proc$write_input(paste0(cmd, "\n"))
+    TRUE
+  }, error = function(e) e)
+
+  if (inherits(ok, "error")) {
+    err <- tryCatch(paste(proc$read_error_lines(), collapse = "\n"), error = function(e) "")
+    stop("Failed to send command to Threadle.\n", err, call. = FALSE)
+  }
 
   mode <- getOption("threadle.command", default = "json")
 
-  if (identical(mode, "cli")){
-    out <- character()
-    idle_ticks <- 0L
-    repeat {
-      new <- proc$read_output_lines()
-
-      if (length(new) > 0) {
-        out <- c(out, new)
-        idle_ticks <- 0L
-      } else {
-        Sys.sleep(0.01)
-        idle_ticks <- idle_ticks + 1L
-
-        # after ~200ms with no new output, treat as finished
-        if (idle_ticks >= 20L) {
-          return(out)
-        }
-      }
-    }
-  }
+  timeout <- getOption("threadle.timeout", 60)
+  t0 <- Sys.time()
 
   out <- character()
   repeat {
@@ -221,6 +218,17 @@ NULL
       }
     } else {
       Sys.sleep(0.01)
+    }
+
+    if (as.numeric(difftime(Sys.time(), t0, units = "secs")) > timeout) {
+      err <- tryCatch(paste(proc$read_error_lines(), collapse = "\n"), error = function(e) "")
+      stop("Timed out waiting for Threadle response.\n", err, call. = FALSE)
+    }
+
+    if (!isTRUE(proc$is_alive())) {
+      .th_clear_proc()
+      err <- tryCatch(paste(proc$read_error_lines(), collapse = "\n"), error = function(e) "")
+      stop("Threadle process exited while waiting for a response.\n", err, call. = FALSE)
     }
   }
 }
