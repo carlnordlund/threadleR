@@ -1659,8 +1659,8 @@ th_load_script <- function(file) {
 #' `th_load_file()` loads a nodeset or network from a file in Threadle's internal format.
 #'
 #' @details
-#' When loading a network that refers to a nodeset file,
-#' the referenced nodeset is also loaded.
+#' For `type = "network"`, also loads the referenced nodeset as `"<name>_nodeset"`
+#' (in the calling environment) and attaches it as `attr(x, "nodeset")`.
 #'
 #' Supported file extensions:
 #' \describe{
@@ -1692,7 +1692,17 @@ th_load_file <- function(name, file, type) {
   cmd <- "loadfile"
   assign <- name
   .th_call(cmd = cmd, args = args, assign = assign)
-  structure(list(name=name), class=paste0("threadle_",type))
+
+  envir <- parent.frame()
+  obj <- structure(list(name=name), class=paste0("threadle_",type))
+  if (identical(type, "network")) {
+    ns_name <- paste0(name, "_nodeset")
+    ns_obj  <- structure(list(name = ns_name), class = "threadle_nodeset")
+    attr(obj, "nodeset") <- ns_obj
+    assign(ns_name, ns_obj, envir)
+    assign(name, obj, envir)
+  }
+  obj
 }
 
 #' Preview a structure
