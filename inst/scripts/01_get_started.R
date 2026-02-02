@@ -3,8 +3,10 @@ library(threadleR)
 
 # basics
 th_start_threadle("~/Documents/Threadle/Threadle.CLIconsole/bin/Debug/net8.0/threadle")
-ex_dir <- th_stage_examples_to_wd("./inst/examples")
-th_set_workdir(ex_dir)
+net_file <- system.file("extdata", "lazega.tsv", package = "threadleR")
+lazega <- th_load_file("lazega", net_file, type = "network")
+# ex_dir <- th_stage_examples_to_wd("./inst/examples")
+# th_set_workdir(ex_dir)
 
 mynet_nodeset <- th_load_file("mynet_nodeset", "mynet_nodesetfile.tsv", type = "nodeset")
 mynet <- th_load_file("mynet", "mynet.tsv", type = "network")
