@@ -1,21 +1,66 @@
+# Install and load
 remotes::install_github("YukunJiao/threadleR")
 library(threadleR)
 
-# basics
-th_start_threadle("~/Documents/Threadle/Threadle.CLIconsole/bin/Debug/net8.0/threadle")
-net_file <- system.file("extdata", "lazega.tsv", package = "threadleR")
-lazega <- th_load_file("lazega", net_file, type = "network")
-# ex_dir <- th_stage_examples_to_wd("./inst/examples")
-# th_set_workdir(ex_dir)
 
-mynet_nodeset <- th_load_file("mynet_nodeset", "mynet_nodesetfile.tsv", type = "nodeset")
-mynet <- th_load_file("mynet", "mynet.tsv", type = "network")
+# Start Threadle
+# If 'threadle' is on your PATH, you can call th_start_threadle() with no args.
+# Otherwise, provide the full path to the Threadle executable.
+th_start_threadle()
 
-lazeganet_nodeset <- th_load_file("lazega_nodeset", "lazega_nodes.tsv", type = "nodeset")
-lazeganet <- th_load_file("lazega","lazega.tsv", type = "network")
+# Locate example data shipped with the package
+ext <- system.file("extdata", package = "threadleR")
 
-th_info(mynet)
-th_info(mynet_nodeset)
+# Set Threadle's working directory
+th_set_workdir(ext)
+# Alternatively, to keep both in sync:
+# th_set_workdir(getwd()) or th_sync_wd()
+
+#----
+
+# Load lazega.tsv from Threadle's workdir
+# This creates both a network and its associated nodeset in the Threadle
+lazeganet <- th_load_file("lazeganet", "lazega.tsv", type = "network")
+
+# Inspect structure metadata (e.g., number of nodes/edges, layers, attributes)
+th_info(lazeganet)
+
+# Preview a small sample of nodes and ties
+th_preview(lazeganet)
+
+
+# It is recommended to assign the returned handle when loading objects,
+# and to keep the R variable name consistent with the Threadle backend object name.
+
+# Load a nodeset
+mynet_nodeset <- th_load_file(
+  name = "mynet_nodeset",
+  file = "mynet_nodesetfile.tsv",
+  type = "nodeset"
+)
+
+# Load a network
+mynet <- th_load_file(
+  name = "mynet",
+  file = "mynet.tsv",
+  type = "network"
+)
+
+
+# Loading multiple nodesets
+# If you need multiple nodesets at the same time,
+# use distinct backend names to avoid overwriting existing objects:
+mynet_ns1 <- th_load_file("mynet_ns1", "mynet_nodesetfile.tsv", type = "nodeset")
+mynet_ns2 <- th_load_file("mynet_ns2", "mynet_nodesetfile.tsv", type = "nodeset")
+
+
+# Object handles
+# You can assign the returned handle to any R variable name:
+ns <- th_load_file("mynet_ns", "mynet_nodesetfile.tsv", type = "nodeset")
+
+# This does not duplicate data (handles only store the backend name),
+# but for clarity we recommend matching the R variable name to the backend name:
+mynet_ns <- th_load_file("mynet_ns", "mynet_nodesetfile.tsv", type = "nodeset")
 
 th_density(mynet, "trade")
 th_density(mynet, "work")
@@ -121,3 +166,4 @@ th_info(ego_net)
 th_preview(ego_net)
 
 th_stop_threadle()
+

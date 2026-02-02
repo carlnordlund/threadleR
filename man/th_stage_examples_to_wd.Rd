@@ -25,5 +25,6 @@ setwd(td)
 
 exdir <- th_stage_examples_to_wd(folder = "threadle_examples", overwrite = TRUE)
 list.files(exdir)
+unlink(exdir, recursive = TRUE, force = TRUE)
 setwd(old)
 }

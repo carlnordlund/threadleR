@@ -431,10 +431,11 @@ th_sync_wd <- function() {
 #'
 #' exdir <- th_stage_examples_to_wd(folder = "threadle_examples", overwrite = TRUE)
 #' list.files(exdir)
+#' unlink(exdir, recursive = TRUE, force = TRUE)
 #' setwd(old)
 #' @export
 th_stage_examples_to_wd <- function(folder = "threadle_examples", overwrite = TRUE) {
-  from <- system.file("extdata", "Examples", package = "threadleR")
+  from <- system.file("extdata", package = "threadleR")
   if (from == "") stop("Examples not found in threadleR extdata.", call. = FALSE)
 
   dest <- file.path(getwd(), folder)
@@ -1695,12 +1696,12 @@ th_load_file <- function(name, file, type) {
 
   envir <- parent.frame()
   obj <- structure(list(name=name), class=paste0("threadle_",type))
+  assign(name, obj, envir)
   if (identical(type, "network")) {
     ns_name <- paste0(name, "_nodeset")
     ns_obj  <- structure(list(name = ns_name), class = "threadle_nodeset")
     attr(obj, "nodeset") <- ns_obj
     assign(ns_name, ns_obj, envir)
-    assign(name, obj, envir)
   }
   obj
 }
