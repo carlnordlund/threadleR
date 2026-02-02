@@ -44,7 +44,7 @@ th_get_node_hyperedges(mynet,  "work", 123) |> class()
 
 th_get_attr_summary
 
-th_get_attr_summary(mynet, "gender")
+th_get_attr_summary(mynet_nodeset, "gender")
 
 NS <- th_create_nodeset(var = "ABC", name = "nodeSet", createnodes = 3)
 NS <- th_create_nodeset(var = "ABC", createnodes = 3)
@@ -68,7 +68,7 @@ th_generate_attr
 aa <-
 th_get_all_nodes(mynet)
 th_info(mynet_nodeset)
-aa <-
+
 th_get_attr(mynet, 123, attrname = "gender")
 aa |> class()
 th_get_attr_summary("mynet_nodeset", "weight")

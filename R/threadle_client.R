@@ -947,6 +947,55 @@ th_dir <- function(path = NULL) {
   .th_call(cmd = cmd, args = args, assign = assign)
 }
 
+#' Save layer as edge list
+#'
+#' Write the ties of an existing layer in a network to a file in edge list format.
+#' Matrix export is not supported (exported files can be very large).
+#' @details
+#' The layer can be either 1-mode or 2-mode. The output columns depend on the layer type.
+#'
+#' For binary 1-mode layers, the edgelist has two columns. Directional layers use the headers
+#' `from` and `to`, while symmetric layers use `node1` and `node2`.
+#'
+#' For valued 1-mode layers, the edgelist has three columns, with an additional `value` column
+#' (header `value`).
+#'
+#' For 2-mode layers, the edgelist has two columns with headers `node` and `affiliation`, where
+#' `affiliation` is the hyperedge name.
+#'
+#' Fields are tab-separated by default, but you can change the separator via `sep`. A header row
+#' is included by default, but can be disabled via `header`.
+#'
+#' @param network A `threadle_network` object or a character string giving
+#'   the name of a network in the Threadle CLI environment.
+#' @param layername Layer name to export.
+#' @param file Output file path.
+#' @param header Logical; whether to write a header row. Defaults to `TRUE`.
+#' @param sep Field separator as a **single character**. Defaults to tab (`"\\t"`).
+#'
+#' @return `NULL`, invisibly.
+#' @examplesIf th_is_available()
+#' th_start_threadle()
+#'
+#' ns <- th_create_nodeset("ns", createnodes = 5)
+#' net <- th_create_network("net", ns)
+#' th_add_layer(net, "l1", mode = 1, directed = FALSE, valuetype = "binary")
+#' th_add_edge(net, "l1", node1id = 1, node2id = 2)
+#'
+#' out <- tempfile(fileext = ".tsv")
+#' th_export_layer(net, "l1", file = out, header = TRUE, sep = "\t")
+#' readLines(out, n = 3)
+#' unlink(out)
+#'
+#' th_stop_threadle()
+#' @export
+th_export_layer <- function(network, layername, file, header = TRUE, sep = "\t") {
+  args <- .th_args(environment())
+  cmd <- "exportlayer"
+  assign <- NULL
+  .th_call(cmd = cmd, args = args, assign = assign)
+}
+
 #' Create a nodeset by a node attribute
 #'
 #' `th_filter()` creates a new nodeset containing the nodes that satisfy a condition on a specified
