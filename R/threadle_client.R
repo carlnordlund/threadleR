@@ -56,6 +56,14 @@ th_is_available <- function(path = "threadle") {
     if (is.null(args$nodeid) || length(args$nodeid) == 0L) {
       args$nodeid <- ""}
   }
+
+  args <- lapply(args, function(x) {
+    if (is.numeric(x) && length(x) == 1) {
+      return(format(x, scientific = FALSE, trim = TRUE))
+    }
+    x
+  }
+  )
   args
 }
 
