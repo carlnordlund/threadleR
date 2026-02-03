@@ -210,7 +210,7 @@ NULL
 
   mode <- getOption("threadle.command", default = "json")
 
-  timeout <- getOption("threadle.timeout", 60)
+  timeout <- getOption("threadle.timeout", 1800)
   t0 <- Sys.time()
 
   out <- character()
@@ -242,7 +242,15 @@ NULL
 
     if (as.numeric(difftime(Sys.time(), t0, units = "secs")) > timeout) {
       err <- tryCatch(paste(proc$read_error_lines(), collapse = "\n"), error = function(e) "")
-      stop("Timed out waiting for Threadle response.\n", err, call. = FALSE)
+
+      hint <- paste0(
+        "Timed out waiting for Threadle response after ", timeout, " seconds.\n",
+        "You can increase the timeout, e.g.:\n",
+        "  options(threadle.timeout = 3600)  # 1 hour\n",
+        "or disable timeout:\n",
+        "  options(threadle.timeout = Inf)\n"
+      )
+      stop(hint, if (nzchar(err)) paste0("\nThreadle stderr:\n", err) else "", call. = FALSE)
     }
 
     if (!isTRUE(proc$is_alive())) {
