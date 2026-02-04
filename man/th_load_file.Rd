@@ -20,6 +20,11 @@ An object with class corresponding to the loaded type.
 \code{th_load_file()} loads a nodeset or network from a file in Threadle's internal format.
 }
 \details{
+If \code{file} includes a directory path, \code{th_load_file()} temporarily sets Threadle's
+working directory to \code{dirname(file)} so that any referenced files (e.g., a nodeset
+file next to the network file) can be found. It restores the previous Threadle
+working directory before returning.
+
 For \code{type = "network"}, also loads the referenced nodeset as \code{"<name>_nodeset"}
 (in the calling environment) and attaches it as \code{attr(x, "nodeset")}.
 

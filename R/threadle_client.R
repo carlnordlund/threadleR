@@ -1608,6 +1608,11 @@ th_load_script <- function(file) {
 #' `th_load_file()` loads a nodeset or network from a file in Threadle's internal format.
 #'
 #' @details
+#' If `file` includes a directory path, `th_load_file()` temporarily sets Threadle's
+#' working directory to `dirname(file)` so that any referenced files (e.g., a nodeset
+#' file next to the network file) can be found. It restores the previous Threadle
+#' working directory before returning.
+#'
 #' For `type = "network"`, also loads the referenced nodeset as `"<name>_nodeset"`
 #' (in the calling environment) and attaches it as `attr(x, "nodeset")`.
 #'
@@ -1639,7 +1644,6 @@ th_load_script <- function(file) {
 th_load_file <- function(name, file, type) {
   file2 <- path.expand(file)
   dir2  <- dirname(file2)
-
   if (nzchar(dir2) && dir2 != ".") {
     dir2 <- tryCatch(normalizePath(dir2, mustWork = TRUE),
                      error = function(e) dir2)
@@ -1648,6 +1652,7 @@ th_load_file <- function(name, file, type) {
     on.exit(th_set_workdir(old), add = TRUE)
     file2 <- basename(file2)
   }
+  file <- file2
   args <- .th_args(environment(), drop = "name")
   cmd <- "loadfile"
   assign <- name
