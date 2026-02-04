@@ -14,8 +14,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r, include = FALSE}
 library(threadleR)
+can_run_threadle <- th_is_available()
 ```
 
 ## Overview
@@ -30,7 +31,7 @@ remotes::install_github("YukunJiao/threadleR")
 ```
 
 Load the package:
-```{r}
+```{r eval=can_run_threadle}
 library(threadleR)
 ```
 
@@ -52,13 +53,13 @@ th_start_threadle("/full/path/to/threadle")
 
 ### Start Threadle
 Start the Threadle background process:
-```{r}
+```{r eval=can_run_threadle}
 th_start_threadle()
 ```
 
 ### Stop Threadle
 Stop the Threadle process when you are done:
-```{r}
+```{r eval=can_run_threadle}
 th_stop_threadle()
 ```
 
@@ -86,7 +87,7 @@ Threadle network files may reference companion files (e.g., a nodeset file).
 When you load a network from disk, Threadle will also try to load the referenced nodeset file using its current working directory.
 
 ### Stage example files to your working directory
-```{r}
+```{r eval=can_run_threadle}
 th_start_threadle()
 
 th_sync_wd()
@@ -98,7 +99,7 @@ list.files(exdir)
 ```
 
 ### Load Lazega network (and its referenced nodeset)
-```{r}
+```{r eval=can_run_threadle}
 net_file <- file.path(exdir, "lazega.tsv")
 
 lazega <- th_load_file("lazega", net_file, type = "network")
@@ -111,7 +112,7 @@ th_info(lazega_nodeset)
 ```
 
 ### Preview and inventory
-```{r}
+```{r eval=can_run_threadle}
 th_preview(lazega, maxlines = 20)
 th_i()
 ```
@@ -120,7 +121,7 @@ th_i()
 
 ### One-mode layer: edges
 Create a layer and add a few edges:
-```{r}
+```{r eval=can_run_threadle}
 th_add_layer(lazega, "friends2", mode = 1, directed = FALSE, valuetype = "binary")
 
 th_add_edge(lazega, "friends2", node1id = 1, node2id = 2)
@@ -131,13 +132,13 @@ th_get_all_edges(lazega, "friends2", offset = 0, limit = 10)
 ```
 
 Remove an edge or clear a layer:
-```{r}
+```{r eval=can_run_threadle}
 th_remove_edge(lazega, "friends2", node1id = 1, node2id = 2)
 th_clear_layer(lazega, "friends2")
 ```
 
 ### Two-mode layer: affiliations (hyperedges)
-```{r}
+```{r eval=can_run_threadle}
 th_add_layer(lazega, "clubs", mode = 2)
 
 th_add_hyper(lazega, "clubs", hypername = "group1", nodes = c(1, 2, 3))
@@ -153,64 +154,64 @@ th_get_all_hyperedges(lazega, "clubs", offset = 0, limit = 10)
 ## Nodes and attributes
 ### Add nodes
 Add a node to the nodeset:
-```{r}
+```{r eval=can_run_threadle}
 th_add_node(lazega_nodeset, nodeid = 999)
 th_get_nbr_nodes(lazega_nodeset)
 ```
 
 ### Define and query attributes
 Define an integer attribute and set values:
-```{r}
+```{r eval=can_run_threadle}
 th_define_attr(lazega_nodeset, "score", "int")
 th_set_attr(lazega_nodeset, nodeid = 1, attrname = "score", attrvalue = 10)
 th_get_attr(lazega_nodeset, nodeid = 1, attrname = "score")
 th_get_attr_summary(lazega_nodeset, "score")
 ```
 Remove values or undefine the attribute:
-```{r}
+```{r eval=can_run_threadle}
 th_remove_attr(lazega_nodeset, nodeid = 1, attrname = "score")
 th_undefine_attr(lazega_nodeset, "score")
 ```
 
 Generate random attributes:
-```{r}
+```{r eval=can_run_threadle}
 th_generate_attr(lazega_nodeset, "x", attrtype = "int", min = 1, max = 10)
 th_get_attr_summary(lazega_nodeset, "x")
 ```
 
 ## Basic network routines
 Compute density (for a one-mode layer):
-```{r}
+```{r eval=can_run_threadle}
 th_density(lazega, "friends")
 ```
 Degree (writes an attribute):
-```{r}
+```{r eval=can_run_threadle}
 th_degree(lazega, "friends", attrname = "deg", direction = "both")
 th_get_attr(lazega, nodeid = 2, attrname = "deg")
 ```
 
 Connected components (writes component IDs to an attribute):
-```{r}
+```{r eval=can_run_threadle}
 th_components(lazega, "friends", attrname = "comp")
 th_get_attr_summary(lazega, "comp")
 ```
 
 Shortest path:
-```{r}
+```{r eval=can_run_threadle}
 th_shortest_path(lazega, node1id = 1, node2id = 3, layername = "friends")
 ```
 
 
 ## Import and export layer data
 Export a layer to an edge list:
-```{r}
+```{r eval=can_run_threadle}
 out <- tempfile(fileext = ".tsv")
 th_export_layer(lazega, "friends", file = out, header = TRUE, sep = "\t")
 readLines(out, n = 3)
 unlink(out)
 ```
 Import edges into an existing layer:
-```{r}
+```{r eval=can_run_threadle}
 tmp <- tempfile(fileext = ".tsv")
 write.table(
   data.frame(node1 = c(1, 2), node2 = c(2, 3), value = c(1, 1)),
@@ -230,14 +231,14 @@ unlink(tmp)
 ## Save and load Threadle structures
 Save nodeset or network:
 
-```{r}
+```{r eval=can_run_threadle}
 tmp_net <- tempfile(fileext = ".tsv")
 th_save_file(lazega, file = tmp_net)
 file.exists(tmp_net)
 unlink(tmp_net)
 ```
 Load back from file:
-```{r}
+```{r eval=can_run_threadle}
 # Ensure Threadle working directory can resolve referenced files if loading a network
 # (for a standalone roundtrip, prefer staging all required files into one folder first)
 ```
@@ -245,21 +246,21 @@ Load back from file:
 ## Cleanup
 
 Delete individual structures:
-```{r}
+```{r eval=can_run_threadle}
 th_delete(lazega)
 th_delete(lazega_nodeset)
 th_i()
 ```
 
 Or delete everything:
-```{r}
+```{r eval=can_run_threadle}
 th_delete_all()
 th_i()
 ```
 
 Stop Threadle:
 
-```{r}
+```{r eval=can_run_threadle}
 th_stop_threadle()
 
 if (exists("exdir", inherits = FALSE) && is.character(exdir) && nzchar(exdir) && dir.exists(exdir)) {
@@ -268,6 +269,6 @@ if (exists("exdir", inherits = FALSE) && is.character(exdir) && nzchar(exdir) &&
 ```
 
 ## Session info
-```{r session-ifo}
+```{r session-info}
 sessionInfo()
 ```
