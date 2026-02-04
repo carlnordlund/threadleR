@@ -6,3 +6,5 @@ threadle_examples/
 /inst/extdata/net100M.bin.gz
 /inst/extdata/nodes15M.bin.gz
 inst/doc
+/doc/
+/Meta/
