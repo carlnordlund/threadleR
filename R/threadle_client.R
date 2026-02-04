@@ -1637,6 +1637,17 @@ th_load_script <- function(file) {
 #' th_stop_threadle()
 #' @export
 th_load_file <- function(name, file, type) {
+  file2 <- path.expand(file)
+  dir2  <- dirname(file2)
+
+  if (nzchar(dir2) && dir2 != ".") {
+    dir2 <- tryCatch(normalizePath(dir2, mustWork = TRUE),
+                     error = function(e) dir2)
+    old <- th_get_workdir()
+    th_set_workdir(dir2)
+    on.exit(th_set_workdir(old), add = TRUE)
+    file2 <- basename(file2)
+  }
   args <- .th_args(environment(), drop = "name")
   cmd <- "loadfile"
   assign <- name
