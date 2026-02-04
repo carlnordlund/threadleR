@@ -16,7 +16,7 @@ The \code{processx} process object, invisibly.
 \description{
 Launches the Threadle CLI process executable and stores the process handle
 in the global environment as \code{.threadle_proc}. The process is started in
-silent mode (and optionally JSON mode).
+silent and JSON mode.
 }
 \examples{
 \dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}

@@ -13,7 +13,7 @@ string naming a structure in the Threadle CLI environment.}
 \item{attrname}{Name of the node attribute to summarize.}
 }
 \value{
-In JSON mode: a parsed summary payload (often a list); in CLI mode: raw text.
+A named list with elements \code{AttributeName}, \code{AttributeType}, and \code{Statistics}.
 }
 \description{
 \code{th_get_attr_summary()} calculates summary statistics for a node attribute

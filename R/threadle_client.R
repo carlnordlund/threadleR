@@ -80,42 +80,6 @@ th_is_available <- function(path = "threadle") {
 .th_json_cmd <- function(command, args = NULL, assign = NULL) {
   mode <- getOption("threadle.command", default = "json")
 
-  # plain cli mode
-  if (identical(mode, "cli")) {
-    cmd <- as.character(command)
-    asg <- if (!is.null(assign) && nzchar(as.character(assign))) as.character(assign) else NULL
-
-    fmt_val <- function(v) {
-      if (is.null(v)) "" else as.character(v)
-    }
-
-    fmt_one <- function(nm, v) {
-      v_out <- fmt_val(v)
-      if (!is.null(nm) && nzchar(nm)) {
-        paste0(nm, " = ", v_out)
-      } else {
-        v_out
-      }
-    }
-
-    if (is.null(args) || length(args) == 0) {
-      call_str <- paste0(cmd, "()")
-    } else {
-      nms <- names(args)
-      if (is.null(nms)) nms <- rep("", length(args))
-
-      parts <- Map(fmt_one, nms, args)
-
-      # optional
-      parts <- Filter(function(x) nzchar(x), parts)
-
-      call_str <- paste0(cmd, "(", paste(parts, collapse = ", "), ")")
-    }
-
-    if (!is.null(asg)) return(paste0(asg, " = ", call_str))
-    return(call_str)
-  }
-
   # default json mode
   dto <- list(
     Assign  = if (!is.null(assign)) as.character(assign) else NULL,
@@ -158,13 +122,6 @@ NULL
 #' @keywords internal
 .th_stop_if_fail <- function(resp) {
   mode <- getOption("threadle.command", "json")
-
-  if (identical(mode, "cli")) {
-    if (is.null(resp)) {
-      stop("No response from Threadle (CLI mode).", call. = FALSE)
-    }
-    return(invisible(resp))
-  }
 
   if (is.null(resp) || is.null(resp$Success)) {
     stop("Invalid JSON response from Threadle.", call. = FALSE)
@@ -282,25 +239,6 @@ NULL
 
   mode <- getOption("threadle.command", "json")
 
-  if (identical(mode, "cli")) {
-    if (!isTRUE(getOption("threadle.warn_return_cli_shown", FALSE))) {
-      if (!is.null(getOption("threadle.return", NULL)) || length(return) > 1L) {
-        message("Note: `threadle.return` = \"payload\"/\"response\" applies only in JSON mode; it is ignored in CLI mode.")
-        options(threadle.warn_return_cli_shown = TRUE)
-      }
-    }
-
-    cmd_str <- .th_json_cmd(command = cmd, args = args, assign = assign)
-    if (isTRUE(getOption("threadle.print_cmd", FALSE))) {
-      print(cmd_str)
-    }
-
-    out <- .send_command(cmd_str)
-    .th_stop_if_fail(out)
-    if (is.null(out) || length(out) == 0L) return(invisible(NULL))
-    return(out)
-  }
-
   cmd_json <- .th_json_cmd(command = cmd, args = args, assign = assign)
   if (isTRUE(getOption("threadle.print_cmd", FALSE))) {
     print(cmd_json)
@@ -327,7 +265,7 @@ NULL
 #'
 #' Launches the Threadle CLI process executable and stores the process handle
 #' in the global environment as `.threadle_proc`. The process is started in
-#' silent mode (and optionally JSON mode).
+#' silent and JSON mode.
 #'
 #' @param path Optional path to the Threadle CLI executable. If `NULL`, tries to
 #'   locate `threadle` on `PATH` via [Sys.which()].
@@ -361,13 +299,7 @@ th_start_threadle <- function(path = NULL) {
     stop("Threadle process already running.", call. = FALSE)
   }
 
-  if (identical(mode, "cli")) {
-    args <- c("--silent")
-  } else if (identical(mode, "json")) {
-    args <- c("--json", "--silent")
-  } else {
-    stop("Invalid option threadle.command. Use 'json' or 'cli'.", call. = FALSE)
-  }
+  args <- c("--json", "--silent")
   proc <- processx::process$new(
     path,
     args   = args,
@@ -1183,7 +1115,7 @@ th_get_all_edges <- function(network, layername, offset = 0, limit = 1000) {
 #' @param layername Layer name (must be a 2-mode layer).
 #' @param offset Starting index (0-based). Defaults to `0`.
 #' @param limit Maximum number of hyperedges to return. Defaults to `1000`.
-#' @return A character vector of hyperedge names (JSON mode payload), or raw CLI text.
+#' @return A character vector of hyperedge names.
 #' @examplesIf th_is_available()
 #' th_start_threadle()
 #'
@@ -1267,7 +1199,7 @@ th_get_attr <- function(structure, nodeid, attrname) {
 #' @param structure A `threadle_nodeset` or `threadle_network` object, or a character
 #'   string naming a structure in the Threadle CLI environment.
 #' @param attrname Name of the node attribute to summarize.
-#' @return In JSON mode: a parsed summary payload (often a list); in CLI mode: raw text.
+#' @return A named list with elements `AttributeName`, `AttributeType`, and `Statistics`.
 #' @examplesIf th_is_available()
 #' th_start_threadle()
 #'

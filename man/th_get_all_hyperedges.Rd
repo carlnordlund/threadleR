@@ -17,7 +17,7 @@ the name of a network in the Threadle CLI environment.}
 \item{limit}{Maximum number of hyperedges to return. Defaults to \code{1000}.}
 }
 \value{
-A character vector of hyperedge names (JSON mode payload), or raw CLI text.
+A character vector of hyperedge names.
 }
 \description{
 \code{th_get_all_hyperedges()} returns the hyperedge names that exist in the specified
