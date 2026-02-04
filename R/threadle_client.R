@@ -1947,6 +1947,14 @@ th_set_attr <- function(structure, nodeid, attrname, attrvalue) {
 #' th_stop_threadle()
 #' @export
 th_setting <- function(name, value) {
+  if (identical(tolower(name), "verbose")) {
+    if (identical(value, FALSE) || identical(tolower(as.character(value)), "false")) {
+      options(threadle.print_message = FALSE)
+    } else if (identical(value, TRUE) || identical(tolower(as.character(value)), "true")) {
+      options(threadle.print_message = TRUE)
+    }
+  }
+
   args <- .th_args(environment())
   cmd <- "setting"
   assign <- NULL
