@@ -1,0 +1,273 @@
+---
+title: "threadleR"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{threadleR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(threadleR)
+```
+
+## Overview
+
+threadleR is an R client for [Threadle](https://threadle.dev), a high-performance network engine. It starts a background Threadle process, sends commands, and returns results back to R. Most functions are thin wrappers around Threadle CLI commands.
+
+## Installation
+Install from GitHub:
+```{r eval=FALSE}
+# install.packages("remotes")
+remotes::install_github("YukunJiao/threadleR")
+```
+
+Load the package:
+```{r}
+library(threadleR)
+```
+
+## Prerequisites
+
+### Check whether Threadle is available
+
+`th_is_available()` checks whether the `threadle` executable can be found on your system.
+
+```{r eval=FALSE}
+th_is_available()
+```
+
+If it returns FALSE, either add threadle to your PATH or start Threadle with an explicit path:
+
+```{r eval=FALSE}
+th_start_threadle("/full/path/to/threadle")
+```
+
+### Start Threadle
+Start the Threadle background process:
+```{r}
+th_start_threadle()
+```
+
+### Stop Threadle
+Stop the Threadle process when you are done:
+```{r}
+th_stop_threadle()
+```
+
+## Working directory
+Threadle has its own working directory. Many file-based commands (especially `th_load_file()`) depend on it.
+
+To inspect Threadle working directory:
+```{r eval=FALSE}
+th_get_workdir()
+```
+
+To set it:
+```{r eval=FALSE}
+th_set_workdir("~documents")   # or "~", or an absolute path
+```
+
+To keep Threadle aligned with the current R working directory:
+```{r eval=FALSE}
+th_sync_wd()
+```
+
+## Example data: Lazega
+
+Threadle network files may reference companion files (e.g., a nodeset file).
+When you load a network from disk, Threadle will also try to load the referenced nodeset file using its current working directory.
+
+### Stage example files to your working directory
+```{r}
+th_start_threadle()
+
+th_sync_wd()
+exdir <- th_stage_examples_to_wd(folder = "threadle_examples", overwrite = TRUE)
+
+th_set_workdir(exdir)
+
+list.files(exdir)
+```
+
+### Load Lazega network (and its referenced nodeset)
+```{r}
+net_file <- file.path(exdir, "lazega.tsv")
+
+lazega <- th_load_file("lazega", net_file, type = "network")
+
+# th_load_file("lazega", ..., type = "network") also creates:
+# lazega_nodeset  (a threadle_nodeset handle in the calling environment)
+th_i()
+th_info(lazega)
+th_info(lazega_nodeset)
+```
+
+### Preview and inventory
+```{r}
+th_preview(lazega, maxlines = 20)
+th_i()
+```
+
+## Adding and removing ties
+
+### One-mode layer: edges
+Create a layer and add a few edges:
+```{r}
+th_add_layer(lazega, "friends2", mode = 1, directed = FALSE, valuetype = "binary")
+
+th_add_edge(lazega, "friends2", node1id = 1, node2id = 2)
+th_add_edge(lazega, "friends2", node1id = 2, node2id = 3)
+
+th_check_edge(lazega, "friends2", node1id = 1, node2id = 2)
+th_get_all_edges(lazega, "friends2", offset = 0, limit = 10)
+```
+
+Remove an edge or clear a layer:
+```{r}
+th_remove_edge(lazega, "friends2", node1id = 1, node2id = 2)
+th_clear_layer(lazega, "friends2")
+```
+
+### Two-mode layer: affiliations (hyperedges)
+```{r}
+th_add_layer(lazega, "clubs", mode = 2)
+
+th_add_hyper(lazega, "clubs", hypername = "group1", nodes = c(1, 2, 3))
+th_get_node_hyperedges(lazega, "clubs", nodeid = 1)
+th_get_hyperedge_nodes(lazega, "clubs", hypername = "group1")
+
+th_add_aff(lazega, "clubs", nodeid = 4, hypername = "group1")
+th_remove_aff(lazega, "clubs", nodeid = 4, hypername = "group1")
+
+th_get_all_hyperedges(lazega, "clubs", offset = 0, limit = 10)
+```
+
+## Nodes and attributes
+### Add nodes
+Add a node to the nodeset:
+```{r}
+th_add_node(lazega_nodeset, nodeid = 999)
+th_get_nbr_nodes(lazega_nodeset)
+```
+
+### Define and query attributes
+Define an integer attribute and set values:
+```{r}
+th_define_attr(lazega_nodeset, "score", "int")
+th_set_attr(lazega_nodeset, nodeid = 1, attrname = "score", attrvalue = 10)
+th_get_attr(lazega_nodeset, nodeid = 1, attrname = "score")
+th_get_attr_summary(lazega_nodeset, "score")
+```
+Remove values or undefine the attribute:
+```{r}
+th_remove_attr(lazega_nodeset, nodeid = 1, attrname = "score")
+th_undefine_attr(lazega_nodeset, "score")
+```
+
+Generate random attributes:
+```{r}
+th_generate_attr(lazega_nodeset, "x", attrtype = "int", min = 1, max = 10)
+th_get_attr_summary(lazega_nodeset, "x")
+```
+
+## Basic network routines
+Compute density (for a one-mode layer):
+```{r}
+th_density(lazega, "friends")
+```
+Degree (writes an attribute):
+```{r}
+th_degree(lazega, "friends", attrname = "deg", direction = "both")
+th_get_attr(lazega, nodeid = 2, attrname = "deg")
+```
+
+Connected components (writes component IDs to an attribute):
+```{r}
+th_components(lazega, "friends", attrname = "comp")
+th_get_attr_summary(lazega, "comp")
+```
+
+Shortest path:
+```{r}
+th_shortest_path(lazega, node1id = 1, node2id = 3, layername = "friends")
+```
+
+
+## Import and export layer data
+Export a layer to an edge list:
+```{r}
+out <- tempfile(fileext = ".tsv")
+th_export_layer(lazega, "friends", file = out, header = TRUE, sep = "\t")
+readLines(out, n = 3)
+unlink(out)
+```
+Import edges into an existing layer:
+```{r}
+tmp <- tempfile(fileext = ".tsv")
+write.table(
+  data.frame(node1 = c(1, 2), node2 = c(2, 3), value = c(1, 1)),
+  file = tmp, sep = "\t", row.names = FALSE, col.names = FALSE, quote = FALSE
+)
+
+th_import_layer(lazega, "friends",
+  file = tmp, format = "edgelist",
+  node1col = 0, node2col = 1, valuecol = 2,
+  header = FALSE, sep = "\t"
+)
+
+th_check_edge(lazega, "friends", node1id = 1, node2id = 2)
+unlink(tmp)
+```
+
+## Save and load Threadle structures
+Save nodeset or network:
+
+```{r}
+tmp_net <- tempfile(fileext = ".tsv")
+th_save_file(lazega, file = tmp_net)
+file.exists(tmp_net)
+unlink(tmp_net)
+```
+Load back from file:
+```{r}
+# Ensure Threadle working directory can resolve referenced files if loading a network
+# (for a standalone roundtrip, prefer staging all required files into one folder first)
+```
+
+## Cleanup
+
+Delete individual structures:
+```{r}
+th_delete(lazega)
+th_delete(lazega_nodeset)
+th_i()
+```
+
+Or delete everything:
+```{r}
+th_delete_all()
+th_i()
+```
+
+Stop Threadle:
+
+```{r}
+th_stop_threadle()
+
+if (exists("exdir", inherits = FALSE) && is.character(exdir) && nzchar(exdir) && dir.exists(exdir)) {
+  unlink(exdir, recursive = TRUE, force = TRUE)
+}
+```
+
+## Session info
+```{r session-ifo}
+sessionInfo()
+```
