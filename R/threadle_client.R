@@ -614,7 +614,9 @@ th_clear_layer <- function(network, layername) {
 #' @param network A `threadle_network` object or a character string giving
 #' the name of a network in the Threadle CLI environment.
 #' @param layername Layer name.
-#' @param attrname Attribute name.
+#' @param attrname Optional name for the node attribute that stores the component
+#'   membership index. If `NULL`, the attribute is automatically named from the
+#'   layer name.
 #' @return A named list with:
 #' \describe{
 #'  \item{NbrComponents}{Integer of length 1; number of connected components.}
@@ -635,7 +637,7 @@ th_clear_layer <- function(network, layername) {
 #' th_components(net, "l1", attrname = "comp")
 #' th_stop_threadle()
 #' @export
-th_components <- function(network, layername, attrname) {
+th_components <- function(network, layername, attrname = NULL) {
   args <- .th_args(environment())
   cmd <- "components"
   assign <- NULL
@@ -731,7 +733,8 @@ th_define_attr <- function(structure, attrname, attrtype = c('int','char','float
 #' the name of a network in the Threadle CLI environment.
 #' @param layername Name of the layer for which degree centrality is computed.
 #' @param attrname Optional name for the node attribute storing degree values.
-#' @param direction Which ties to count: `"in"`, `"out"`, or `"both"`. Defaults to `"in"`.
+#' @param direction Which ties to count: `"in"`, `"out"` (default), or `"both"`.
+#'   For symmetric layers this option has no effect.
 #' @return `NULL`, invisibly.
 #' @examplesIf th_is_available()
 #' th_start_threadle()
@@ -745,7 +748,7 @@ th_define_attr <- function(structure, attrname, attrtype = c('int','char','float
 #' th_get_attr(net, nodeid = 2, attrname = "deg")
 #' th_stop_threadle()
 #' @export
-th_degree <- function(network, layername, attrname = NULL, direction = "in") {
+th_degree <- function(network, layername, attrname = NULL, direction = "out") {
   direction <- match.arg(direction, c("in", "out", "both"))
   args <- .th_args(environment())
   cmd <- "degree"
@@ -808,8 +811,10 @@ th_delete_all <- function() {
 #' `th_density()` computes the density of a layer, treating all existing ties as binary.
 #'
 #' @param network A `threadle_network` object or a character string giving
-#' the name of a network in the Threadle CLI environment.
+#'   the name of a network in the Threadle CLI environment.
 #' @param layername Name of the layer for which density is computed.
+#' @param samplesize Optional integer. If provided, density is estimated from a
+#'   random sample of this size rather than the full layer.
 #' @return A numeric scalar giving the layer density.
 #' @examplesIf th_is_available()
 #' th_start_threadle()
@@ -821,7 +826,7 @@ th_delete_all <- function() {
 #' th_density(net, "l1")
 #' th_stop_threadle()
 #' @export
-th_density <- function(network, layername) {
+th_density <- function(network, layername, samplesize = NULL) {
   args <- .th_args(environment())
   cmd <- "density"
   assign <- NULL
@@ -836,13 +841,14 @@ th_density <- function(network, layername) {
 #' @param network A `threadle_network` object or a character string giving
 #' the name of a network in the Threadle CLI environment.
 #' @param layername Name of the valued one-mode layer to dichotomize.
-#' @param cond Comparison operator used for dichotomization: `"eq"`, `"ne"`, `"gt"`, `"lt"`, `"ge"`, or `"le"`.
-#'   Defaults to `"ge"`.
+#' @param cond Comparison operator used for dichotomization: `"eq"`, `"ne"`,
+#'   `"gt"`, `"lt"`, `"ge"` (default), or `"le"`. The conditions `"isnull"` and
+#'   `"notnull"` are not valid for this command.
 #' @param threshold Numeric threshold used with `cond`. Defaults to `1`.
 #' @param truevalue Value assigned when the condition is `TRUE`. Defaults to `1`.
-#' Can also be `"keep"` to retain the original value.
+#'   Pass the string `"keep"` to retain the original edge value for matching edges.
 #' @param falsevalue Value assigned when the condition is `FALSE`. Defaults to `0`.
-#' Can also be `"keep"` to retain the original value.
+#'   Pass the string `"keep"` to retain the original edge value for non-matching edges.
 #' @param newlayername Optional name for the dichotomized layer.
 #' If `NULL`, a default name is used.
 #' @return `NULL`, invisibly.
@@ -858,11 +864,12 @@ th_density <- function(network, layername) {
 #' th_stop_threadle()
 #' @export
 th_dichotomize <- function(network, layername,
-                           cond = c('ge','eq','ne','gt','lt','le','isnull','notnull'),
+                           cond = c('ge','eq','ne','gt','lt','le'),
                            threshold = 1,
                            truevalue = 1,
                            falsevalue = 0,
                            newlayername = NULL) {
+  cond <- match.arg(cond)
   args <- .th_args(environment())
   cmd <- "dichotomize"
   assign <- NULL
@@ -987,7 +994,9 @@ th_export_layer <- function(network, layername, file, header = TRUE, sep = "\t")
 #' @param attrname Name of the node attribute to filter on.
 #' @param cond Condition operator: `"eq"`, `"ne"`, `"gt"`, `"lt"`, `"ge"`, `"le"`,
 #'   `"isnull"`, or `"notnull"`.
-#' @param attrvalue Attribute value used for the condition.
+#' @param attrvalue Reference value for the condition. May be omitted (i.e. left
+#'   `NULL`) when `cond` is `"isnull"` or `"notnull"`, since those conditions do
+#'   not require a comparison value.
 #' @return A `threadle_nodeset` object.
 #' @examplesIf th_is_available()
 #' th_start_threadle()
@@ -1002,7 +1011,7 @@ th_export_layer <- function(network, layername, file, header = TRUE, sep = "\t")
 #' th_get_all_nodes(hi, offset = 0, limit = 10)
 #' th_stop_threadle()
 #' @export
-th_filter <- function(name, nodeset, attrname, cond, attrvalue) {
+th_filter <- function(name, nodeset, attrname, cond, attrvalue = NULL) {
   args <- .th_args(environment(), drop = "name")
   cmd <- "filter"
   assign <- name
@@ -1183,7 +1192,7 @@ th_get_all_hyperedges <- function(network, layername, offset = 0, limit = 1000) 
 #' th_get_all_nodes(ns, offset = 0, limit = 10)
 #' th_stop_threadle()
 #' @export
-th_get_all_nodes <- function(structure, offset, limit = 1000) {
+th_get_all_nodes <- function(structure, offset = 0, limit = 1000) {
   args <- .th_args(environment())
   cmd <- "getallnodes"
   assign <- NULL
@@ -1404,7 +1413,9 @@ th_get_nbr_nodes <- function(structure) {
 #' @param layernames Optional layer names.
 #'   If `NULL`, alters are collected across all layers.
 #' @param direction Which ties to count: `"both"` (default), `"in"`, or `"out"`.
-#' @param unique Logical; if `TRUE`, deduplicate alter IDs. Defaults to `FALSE`.
+#' @param unique Logical; if `TRUE` (default), deduplicate alter IDs across layers
+#'   (the returned vector will also be sorted as a side-effect of deduplication).
+#'   Set to `FALSE` to allow the same alter to appear once per layer it is found in.
 #'
 #' @return An integer vector giving alter node IDs.
 #' @examplesIf th_is_available()
@@ -1417,7 +1428,7 @@ th_get_nbr_nodes <- function(structure) {
 #' th_get_node_alters(net, nodeid = 2, layernames = "l1", direction = "both")
 #' th_stop_threadle()
 #' @export
-th_get_node_alters <- function(network, nodeid, layernames = "", direction="both", unique = FALSE) {
+th_get_node_alters <- function(network, nodeid, layernames = "", direction="both", unique = TRUE) {
   direction <- match.arg(direction, c("both", "in", "out"))
   if (is.null(layernames) || length(layernames) == 0L) {
     layernames <- ""
@@ -1489,9 +1500,18 @@ th_get_nodeid_by_index <- function(structure, index) {
 #' @param network A `threadle_network` object or a character string giving the name of
 #'   a network in the Threadle CLI environment.
 #' @param nodeid Node ID.
-#' @param layername Optional layer name. If `NULL`, alters are considered across all layers.
-#' @param direction Which ties to count: `"both"` (default), `"in"`, or `"out"`.
-#' @param balanced Logical; only used when `layername` is `NULL`.
+#' @param layernames Optional layer name(s) to restrict the search. A character
+#'   vector of layer names, or a single semicolon-separated string. If `NULL` or
+#'   `""`, alters are considered across all layers.
+#' @param direction Which ties to consider: `"both"` (default), `"in"`, or `"out"`.
+#' @param balanced Logical; only meaningful when multiple layers are in scope. If
+#'   `TRUE`, a layer is picked uniformly at random first, then an alter within that
+#'   layer. If `FALSE` (default), all alters across layers are pooled first and one
+#'   is drawn from the combined pool (an alter in many layers is more likely to be
+#'   picked).
+#' @param weighted Logical; if `TRUE`, edge weights are used as transition
+#'   probabilities. For binary layers each alter is treated as having weight 1.
+#'   Defaults to `FALSE`.
 #' @return An integer scalar giving the node ID of the sampled alter.
 #' @examplesIf th_is_available()
 #' th_start_threadle()
@@ -1501,10 +1521,10 @@ th_get_nodeid_by_index <- function(structure, index) {
 #' th_add_layer(net, "l1", mode = 1)
 #' th_add_edge(net, "l1", node1id = 1, node2id = 2)
 #' th_add_edge(net, "l1", node1id = 1, node2id = 3)
-#' th_get_random_alter(net, nodeid = 1, layername = "l1", direction = "both")
+#' th_get_random_alter(net, nodeid = 1, layernames = "l1", direction = "both")
 #' th_stop_threadle()
 #' @export
-th_get_random_alter <- function(network, nodeid, layername="", direction="both", balanced=FALSE) {
+th_get_random_alter <- function(network, nodeid, layernames = "", direction = "both", balanced = FALSE, weighted = FALSE) {
   direction <- match.arg(direction, c("both", "in", "out"))
   args <- .th_args(environment())
   cmd <- "getrandomalter"
@@ -1733,6 +1753,10 @@ th_load_script <- function(file) {
 #' @param name Name of the assigned variable in Threadle.
 #' @param file Path to the input file.
 #' @param type Structure type to load: `"nodeset"` or `"network"`.
+#' @param pack Logical; if `TRUE`, network layers are stored in packed (immutable,
+#'   memory-efficient) format immediately on load. Defaults to `FALSE`. Only
+#'   meaningful when `type = "network"`. Use [th_pack()] / [th_unpack()] to
+#'   convert individual layers afterwards.
 #'
 #' @return An object with class corresponding to the loaded type.
 #' @examplesIf th_is_available()
@@ -1747,7 +1771,7 @@ th_load_script <- function(file) {
 #' unlink(tmp)
 #' th_stop_threadle()
 #' @export
-th_load_file <- function(name, file, type) {
+th_load_file <- function(name, file, type, pack = FALSE) {
   file2 <- path.expand(file)
   dir2  <- dirname(file2)
   if (nzchar(dir2) && dir2 != ".") {
@@ -1811,16 +1835,15 @@ th_pack <- function(network, layername = NULL) {
 #'
 #' @param structure A `threadle_nodeset` or `threadle_network` object, or a character
 #'   string naming a structure in the Threadle CLI environment.
-#' @param maxlines Maximum number of lines to output. Defaults to `50`.
 #' @return A character vector of preview lines.
 #' @examplesIf th_is_available()
 #' th_start_threadle()
 #'
 #' ns <- th_create_nodeset("ns", createnodes = 3)
-#' th_preview(ns, maxlines = 10)
+#' th_preview(ns)
 #' th_stop_threadle()
 #' @export
-th_preview <- function(structure, maxlines = 50) {
+th_preview <- function(structure) {
   args <- .th_args(environment())
   cmd <- "preview"
   assign <- NULL
@@ -2323,7 +2346,8 @@ th_set_workdir <- function(dir) {
 #' the name of a network in the Threadle CLI environment.
 #' @param node1id Node ID of the first node.
 #' @param node2id Node ID of the second node.
-#' @param layername Optional layer name. If `NULL`, all layers are used.
+#' @param layername Optional layer name. If `NULL` (default), all layers are used
+#'   to find the shortest path.
 #' @return An integer scalar giving the shortest path distance.
 #' @examplesIf th_is_available()
 #' th_start_threadle()
@@ -2337,7 +2361,7 @@ th_set_workdir <- function(dir) {
 #' th_shortest_path(net, node1id = 1, node2id = 3, layername = "l1")
 #' th_stop_threadle()
 #' @export
-th_shortest_path <- function(network, node1id, node2id, layername) {
+th_shortest_path <- function(network, node1id, node2id, layername = NULL) {
   args <- .th_args(environment())
   cmd <- "shortestpath"
   assign <- NULL
