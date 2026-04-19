@@ -320,7 +320,7 @@ th_start_threadle <- function(path = NULL) {
 
 #' Stop the running Threadle CLI process
 #'
-#' Terminates the Threadle process previously started with `.start_threadle()`.
+#' Terminates the Threadle process previously started with `th_start_threadle()`.
 #'
 #' @return `NULL`, invisibly.
 #' @examplesIf th_is_available()
@@ -466,7 +466,8 @@ th_add_edge <- function(network, layername, node1id, node2id,
 #' `th_add_hyper()` adds a hyperedge (affiliation) to the hyperedge set of a 2-mode layer.
 #'
 #' @details
-#' If a hyperedge with the same name already exists, it is replaced. Duplicate node IDs in `nodes` are ignored.
+#' If a hyperedge with the same name already exists, an error is returned.
+#' Remove it first with [th_remove_hyper()].
 #'
 #'
 #' @param network A `threadle_network` object or a character string giving
@@ -617,11 +618,10 @@ th_clear_layer <- function(network, layername) {
 #' @param attrname Optional name for the node attribute that stores the component
 #'   membership index. If `NULL`, the attribute is automatically named from the
 #'   layer name.
-#' @return A named list with:
-#' \describe{
-#'  \item{NbrComponents}{Integer of length 1; number of connected components.}
-#'  \item{ComponentSizes}{Integer vector; sizes of the connected components.}
-#' }
+#' @return `NULL`, invisibly. The component membership index is stored as a node
+#'   attribute (named from `layername` unless overridden by `attrname`). Use
+#'   [th_get_attr_summary()] on this attribute to explore the number of components
+#'   (the maximum value equals the number of components minus one) and their sizes.
 #' @examplesIf th_is_available()
 #' th_start_threadle()
 #'
@@ -1036,8 +1036,10 @@ th_filter <- function(name, nodeset, attrname, cond, attrvalue = NULL) {
 #'   \item{`type = "2mode"`}{Two-mode affiliations. Provide `h` (number of hyperedges)
 #'   and `a` (average number of affiliations per node; Poisson mean). The layer must be two-mode.}
 #' }
-#' @param network Name of the new network variable to create.
-#' @param layername Name of the layer to create in `network`.
+#' @param network A `threadle_network` object or a character string giving
+#'   the name of a network in the Threadle CLI environment.
+#' @param layername Name of the existing binary layer in `network` where random
+#'   ties will be generated. Any existing ties in this layer are removed first.
 #' @param type Generator type: `"er"`, `"ws"`, `"ba"`, or `"2mode"`.
 #' @param p For `type = "er"`: edge probability in `[0, 1]`. Required when `type = "er"`.
 #' @param k For `type = "ws"`: mean degree (must be even). Required when `type = "ws"`.
@@ -1076,6 +1078,8 @@ th_generate <- function(network, layername, type, p, k, beta, m, h, a) {
 #'   \item{`attrtype = "float"`}{Uses `min` and `max` (defaults 0.0 and 1.0).}
 #'   \item{`attrtype = "bool"`}{Uses `p` as the probability of `"true"` (default 0.5).}
 #'   \item{`attrtype = "char"`}{Uses `chars` as a `;`-separated set of values (default `"m;f;o"`).}
+#'   \item{`attrtype = "string"`}{Uses `values` as a `;`-separated list of
+#'     candidate strings, e.g. `"lawyer;carpenter;nurse"`.}
 #' }
 #'
 #' @param structure A `threadle_nodeset` or `threadle_network` object, or a character
@@ -1234,7 +1238,7 @@ th_get_attr <- function(structure, nodeid, attrname) {
 #' \describe{
 #'   \item{`int` / `float`}{Mean, Median, StdDev, Min, Max, Q1, Q3.}
 #'   \item{`bool`}{Count_true, Count_false, Ratio_true.}
-#'   \item{`char`}{Frequency distribution, Mode, Unique_values.}
+#'   \item{`char` / `string`}{Frequency distribution (top 50), Mode, Unique_values.}
 #' }
 #' All types include Count, Missing, and PercentageWithValue.
 #'
@@ -1407,6 +1411,9 @@ th_get_nbr_nodes <- function(structure) {
 
 #' Get alters of a node within a layer or across layers
 #'
+#' `th_get_node_alters()` returns the node IDs of all alters of a given node,
+#' optionally restricted to one or more named layers and a specific tie direction.
+#'
 #' @param network A `threadle_network` object or a character string giving
 #'   the name of a network in the Threadle CLI environment.
 #' @param nodeid Node ID.
@@ -1526,6 +1533,8 @@ th_get_nodeid_by_index <- function(structure, index) {
 #' @export
 th_get_random_alter <- function(network, nodeid, layernames = "", direction = "both", balanced = FALSE, weighted = FALSE) {
   direction <- match.arg(direction, c("both", "in", "out"))
+  if (!is.null(layernames) && length(layernames) > 1L)
+    layernames <- paste(layernames, collapse = ";")
   args <- .th_args(environment())
   cmd <- "getrandomalter"
   assign <- NULL
@@ -2332,6 +2341,7 @@ th_set_workdir <- function(dir) {
 }
 
 #' Calculate shortest path distance between two nodes
+#'
 #' `th_shortest_path()` computes the shortest path distance from `node1id` to `node2id` in a network.
 #'
 #' @details
