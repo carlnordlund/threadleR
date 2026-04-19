@@ -522,6 +522,7 @@ th_add_hyper <- function(network, layername, hypername,
 #' th_stop_threadle()
 #' @export
 th_add_layer <- function(network, layername, mode, directed=FALSE, valuetype = c("binary", "valued"), selfties=FALSE) {
+  mode <- match.arg(as.character(mode), c("1", "2"))
   valuetype <- match.arg(valuetype)
   args <- .th_args(environment())
   cmd <- "addlayer"
@@ -1063,6 +1064,7 @@ th_filter <- function(name, nodeset, attrname, cond, attrvalue = NULL) {
 th_generate <- function(network, layername, type,
                         p = NULL, k = NULL, beta = NULL,
                         m = NULL, h = NULL, a = NULL) {
+  type <- match.arg(type, c("er", "ws", "ba", "2mode"))
   args <- .th_args(environment())
   cmd <- "generate"
   assign <- NULL
@@ -2247,7 +2249,7 @@ th_rwfpt <- function(name, network, attrname, maxsteps,
 #' @export
 th_save_file <- function(structure, file = "") {
   args <- .th_args(environment())
-  if (!nzchar(file)) args$file <- shQuote(paste0(args$structure, ".tsv"), "cmd2")
+  if (!nzchar(file)) args$file <- paste0(args$structure, ".tsv")
   cmd <- "savefile"
   assign <- NULL
   .th_call(cmd = cmd, args = args, assign = assign)
