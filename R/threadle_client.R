@@ -2313,6 +2313,7 @@ th_setting <- function(name, value) {
     } else if (identical(value, TRUE) || identical(tolower(as.character(value)), "true")) {
       options(threadle.print_message = TRUE)
     }
+    return(invisible(NULL))
   }
 
   args <- .th_args(environment())
