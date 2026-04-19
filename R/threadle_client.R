@@ -1012,6 +1012,7 @@ th_export_layer <- function(network, layername, file, header = TRUE, sep = "\t")
 #' th_stop_threadle()
 #' @export
 th_filter <- function(name, nodeset, attrname, cond, attrvalue = NULL) {
+  cond <- match.arg(cond, c('eq','ne','gt','lt','ge','le','isnull','notnull'))
   args <- .th_args(environment(), drop = "name")
   cmd <- "filter"
   assign <- name
@@ -1059,7 +1060,9 @@ th_filter <- function(name, nodeset, attrname, cond, attrvalue = NULL) {
 #' th_density(net, "l1")
 #' th_stop_threadle()
 #' @export
-th_generate <- function(network, layername, type, p, k, beta, m, h, a) {
+th_generate <- function(network, layername, type,
+                        p = NULL, k = NULL, beta = NULL,
+                        m = NULL, h = NULL, a = NULL) {
   args <- .th_args(environment())
   cmd <- "generate"
   assign <- NULL
@@ -1110,8 +1113,10 @@ th_generate_attr <- function(structure,
                              chars = "m;f;o",
                              values = NULL) {
   attrtype <- match.arg(attrtype)
-  if (is.null(min)) min <- if (attrtype == "int") 0L else 0
-  if (is.null(max)) max <- if (attrtype == "int") 100L else 1
+  if (attrtype %in% c("int", "float")) {
+    if (is.null(min)) min <- if (attrtype == "int") 0L else 0.0
+    if (is.null(max)) max <- if (attrtype == "int") 100L else 1.0
+  }
   args <- .th_args(environment())
   cmd <- "generateattr"
   assign <- NULL
