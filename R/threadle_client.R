@@ -2205,9 +2205,7 @@ th_rwfpt <- function(name, network, attrname, maxsteps,
                      walkfactor = 1.0,
                      minpairobs = 10L,
                      balanced = FALSE,
-                     weighted = FALSE,
-                     backtrack = FALSE,
-                     savesteps = FALSE) {
+                     weighted = FALSE) {
   if (!is.null(layernames) && length(layernames) > 1L)
     layernames <- paste(layernames, collapse = ";")
   args <- .th_args(environment(), drop = "name")
@@ -2353,8 +2351,8 @@ th_set_workdir <- function(dir) {
 #' `th_shortest_path()` computes the shortest path distance from `node1id` to `node2id` in a network.
 #'
 #' @details
-#' By default, all layers are used. If `layername` is provided, the shortest path is
-#' computed using that layer only.
+#' By default, all layers are used. If `layernames` is provided, the shortest path is
+#' computed using the specified layers only.
 #'
 #' Shortest path distance is directional: in directed layers, the distance from `node1id`
 #' to `node2id` may differ from the distance in the reverse direction. For symmetric
@@ -2376,15 +2374,63 @@ th_set_workdir <- function(dir) {
 #' th_add_edge(net, "l1", node1id = 1, node2id = 2, value = 1)
 #' th_add_edge(net, "l1", node1id = 2, node2id = 3, value = 1)
 #'
-#' th_shortest_path(net, node1id = 1, node2id = 3, layername = "l1")
+#' th_shortest_path(net, node1id = 1, node2id = 3)
 #' th_stop_threadle()
 #' @export
-th_shortest_path <- function(network, node1id, node2id, layername = NULL) {
+th_shortest_path <- function(network, node1id, node2id, layernames = NULL) {
+  if (!is.null(layernames) && length(layernames) > 1L)
+    layernames <- paste(layernames, collapse = ";")
   args <- .th_args(environment())
   cmd <- "shortestpath"
   assign <- NULL
   .th_call(cmd = cmd, args = args, assign = assign)
 }
+
+#' Calculate average shortest paths between node attribute categories
+#'
+#' Calculates the exact BFS shortest path between all ordered node pairs in the
+#' network, then aggregates the distances by the values of a specified node
+#' attribute. Unreachable pairs are excluded from all statistics. The result is a
+#' new network whose nodes represent the unique attribute values and whose directed
+#' valued edges hold the aggregated path lengths between categories. A companion
+#' nodeset with the category labels is also registered under \code{<name>_nodeset}.
+#'
+#' @note This command runs BFS from every node — O(N x (N+E)) — and is only
+#'   feasible for smaller networks.
+#'
+#' @param name Character. Variable name for the resulting network in the Threadle
+#'   session. A companion category nodeset is also registered as
+#'   \code{<name>_nodeset}.
+#' @param network A \code{threadle_network} object. The source network.
+#' @param attrname Character. Name of the node attribute used for category
+#'   grouping. Must be of type \code{char}, \code{int}, or \code{string}.
+#' @param layernames Optional character vector of one or more layer names to
+#'   include in the path calculation. If \code{NULL} (default), all layers are
+#'   used. Multiple names are collapsed to a semicolon-separated string before
+#'   being sent to the CLI.
+#'
+#' @return A \code{threadle_network} object named \code{name}. The result network
+#'   contains three directed valued layers:
+#'   \itemize{
+#'     \item \code{<attrname>_sp_avg} — mean shortest path length between categories.
+#'     \item \code{<attrname>_sp_se} — standard error of the mean.
+#'     \item \code{<attrname>_sp_count} — number of reachable ordered node pairs.
+#'   }
+#'
+#' @seealso \code{\link{th_shortest_path}} for the path between two specific
+#'   nodes; \code{\link{th_rwdistances}} and \code{\link{th_rwfpt}} for
+#'   stochastic alternatives suited to larger networks.
+th_shortest_paths <- function(name, network, attrname, layernames = NULL) {
+th_shortest_paths <- function(name, network, attrname, layernames = NULL) {
+  if (!is.null(layernames) && length(layernames) > 1L)
+    layernames <- paste(layernames, collapse = ";")
+  args <- .th_args(environment(), drop = "name")
+  cmd <- "shortestpaths"
+  assign <- name
+  .th_call(cmd = cmd, args = args, assign = assign)
+  structure(list(name = name), class = "threadle_network")
+}
+
 
 #' Create a subnetwork from a network and nodeset
 #'
