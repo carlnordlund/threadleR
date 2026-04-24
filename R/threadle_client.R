@@ -396,6 +396,69 @@ th_stage_examples_to_wd <- function(folder = "threadle_examples", overwrite = TR
   invisible(normalizePath(dest, mustWork = TRUE))
 }
 
+#' Send a raw command to the Threadle CLI
+#'
+#' A generic escape hatch for any Threadle CLI command, making threadleR
+#' future-proof without requiring updates for each new command. For commands
+#' that assign a result, set \code{assign} and \code{type} to get a properly
+#' classed R object back; for commands that only print output, leave both as
+#' \code{NULL}.
+#'
+#' @param cmd Character. The CLI command name (e.g. \code{"shortestpaths"},
+#'   \code{"density"}).
+#' @param args Named list of arguments to pass to the CLI command. Any
+#'   \code{threadle_*} object in the list is automatically resolved to its
+#'   variable name, so you can pass \code{network = mynet} directly. Character
+#'   vectors that the CLI expects as semicolon-separated values (e.g.
+#'   \code{layernames}) must be collapsed manually beforehand with
+#'   \code{paste(..., collapse = ";")}.
+#' @param assign Character or \code{NULL}. The variable name to assign the
+#'   result to — the left-hand side of \code{[var] = cmd(...)} in the CLI. Set
+#'   to \code{NULL} (default) for commands that do not assign.
+#' @param type Character or \code{NULL}. The class suffix for the returned R
+#'   object, e.g. \code{"network"} yields class \code{"threadle_network"}.
+#'   Only used when \code{assign} is also set. If \code{NULL}, the function
+#'   returns \code{invisible(NULL)}.
+#'
+#' @return If both \code{assign} and \code{type} are non-\code{NULL}, a
+#'   \code{threadle_{type}} object. Otherwise the raw payload returned by the
+#'   CLI command, invisibly — a scalar value for value-returning commands, or
+#'   \code{NULL} for void commands.
+#'
+#' @examples
+#' \dontrun{
+#' # Command that only prints (no assignment)
+#' th_cmd("density", list(network = mynet, layername = "friends"))
+#'
+#' # Command that assigns a network result
+#' result <- th_cmd("shortestpaths",
+#'                  list(network = mynet, attrname = "gender"),
+#'                  assign = "sp_result", type = "network")
+#'
+#' # Semicolon-separated layernames must be collapsed manually
+#' result <- th_cmd("shortestpaths",
+#'                  list(network  = mynet,
+#'                       attrname = "gender",
+#'                       layernames = paste(c("friends", "work"), collapse = ";")),
+#'                  assign = "sp_result", type = "network")
+#' }
+#'
+#' @seealso The specific wrapper functions such as \code{\link{th_shortest_paths}}
+#'   and \code{\link{th_rwdistances}} for type-safe alternatives with full
+#'   argument validation.
+th_cmd <- function(cmd, args = list(), assign = NULL, type = NULL) {
+  args <- lapply(args, function(x) {
+    if (any(startsWith(class(x), "threadle_"))) .th_name(x) else x
+  })
+  payload <- .th_call(cmd = cmd, args = args, assign = assign)
+  if (!is.null(assign) && !is.null(type)) {
+    structure(list(name = assign), class = paste0("threadle_", type))
+  } else {
+    invisible(payload)
+  }
+}
+
+
 #' Add an affiliation to a two-mode layer
 #'
 #' `th_add_aff()` adds an affiliation (hyperedge membership) between a node and a hyperedge in a two-mode layer.
