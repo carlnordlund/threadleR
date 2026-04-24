@@ -252,7 +252,7 @@ NULL
 
   if (return == "payload") {
     p <- resp$Payload
-    if (is.null(p) || (is.atomic(p) && length(p) == 0L)) {
+    if (is.null(p)) {
       return(invisible(NULL))
     }
     return(p)
@@ -468,8 +468,8 @@ th_cmd <- function(cmd, args = list(), assign = NULL, type = NULL) {
 #' @param layername Layer name.
 #' @param nodeid Node ID.
 #' @param hypername Name of the hyperedge.
-#' @param addmissingnode Logical; if `TRUE`, missing nodes are created automatically.
-#' @param addmissingaffiliation Logical; if `TRUE`, missing affiliations are created automatically.
+#' @param addmissingnode Logical; if `TRUE`, a missing node is created automatically.
+#' @param addmissinghyperedge Logical; if `TRUE`, a missing hyperedge is created automatically.
 #'
 #' @return `NULL`, invisibly.
 #' @examplesIf th_is_available()
@@ -483,7 +483,7 @@ th_cmd <- function(cmd, args = list(), assign = NULL, type = NULL) {
 #' th_stop_threadle()
 #' @export
 th_add_aff <- function(network, layername, nodeid, hypername,
-                       addmissingnode = TRUE, addmissingaffiliation = TRUE) {
+                       addmissingnode = TRUE, addmissinghyperedge = TRUE) {
   args <- .th_args(environment())
   cmd <- "addaff"
   assign <- NULL
@@ -554,6 +554,7 @@ th_add_edge <- function(network, layername, node1id, node2id,
 #' @export
 th_add_hyper <- function(network, layername, hypername,
                          nodes = c(), addmissingnodes = TRUE) {
+  nodes_str <- if (length(nodes) == 0L) "" else paste(as.character(nodes), collapse = ";")
   args <- .th_args(environment())
   args$nodes <- if (is.null(args$nodes)) "" else paste(args$nodes, collapse = ";")
   cmd <- "addhyper"
@@ -2483,7 +2484,6 @@ th_shortest_path <- function(network, node1id, node2id, layernames = NULL) {
 #' @seealso \code{\link{th_shortest_path}} for the path between two specific
 #'   nodes; \code{\link{th_rwdistances}} and \code{\link{th_rwfpt}} for
 #'   stochastic alternatives suited to larger networks.
-th_shortest_paths <- function(name, network, attrname, layernames = NULL) {
 th_shortest_paths <- function(name, network, attrname, layernames = NULL) {
   if (!is.null(layernames) && length(layernames) > 1L)
     layernames <- paste(layernames, collapse = ";")
