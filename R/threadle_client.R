@@ -396,56 +396,21 @@ th_stage_examples_to_wd <- function(folder = "threadle_examples", overwrite = TR
   invisible(normalizePath(dest, mustWork = TRUE))
 }
 
-#' Send a raw command to the Threadle CLI
+#' Send a raw command to the Threadle backend
 #'
-#' A generic escape hatch for any Threadle CLI command, making threadleR
-#' future-proof without requiring updates for each new command. For commands
-#' that assign a result, set \code{assign} and \code{type} to get a properly
-#' classed R object back; for commands that only print output, leave both as
-#' \code{NULL}.
+#' `th_cmd()` is a low-level escape hatch that sends any command directly to
+#' the Threadle CLI, bypassing the typed wrapper functions. Useful for commands
+#' not yet wrapped in threadleR, or for advanced scripting.
 #'
-#' @param cmd Character. The CLI command name (e.g. \code{"shortestpaths"},
-#'   \code{"density"}).
-#' @param args Named list of arguments to pass to the CLI command. Any
-#'   \code{threadle_*} object in the list is automatically resolved to its
-#'   variable name, so you can pass \code{network = mynet} directly. Character
-#'   vectors that the CLI expects as semicolon-separated values (e.g.
-#'   \code{layernames}) must be collapsed manually beforehand with
-#'   \code{paste(..., collapse = ";")}.
-#' @param assign Character or \code{NULL}. The variable name to assign the
-#'   result to — the left-hand side of \code{[var] = cmd(...)} in the CLI. Set
-#'   to \code{NULL} (default) for commands that do not assign.
-#' @param type Character or \code{NULL}. The class suffix for the returned R
-#'   object, e.g. \code{"network"} yields class \code{"threadle_network"}.
-#'   Only used when \code{assign} is also set. If \code{NULL}, the function
-#'   returns \code{invisible(NULL)}.
-#'
-#' @return If both \code{assign} and \code{type} are non-\code{NULL}, a
-#'   \code{threadle_{type}} object. Otherwise the raw payload returned by the
-#'   CLI command, invisibly — a scalar value for value-returning commands, or
-#'   \code{NULL} for void commands.
-#'
-#' @examples
-#' \dontrun{
-#' # Command that only prints (no assignment)
-#' th_cmd("density", list(network = mynet, layername = "friends"))
-#'
-#' # Command that assigns a network result
-#' result <- th_cmd("shortestpaths",
-#'                  list(network = mynet, attrname = "gender"),
-#'                  assign = "sp_result", type = "network")
-#'
-#' # Semicolon-separated layernames must be collapsed manually
-#' result <- th_cmd("shortestpaths",
-#'                  list(network  = mynet,
-#'                       attrname = "gender",
-#'                       layernames = paste(c("friends", "work"), collapse = ";")),
-#'                  assign = "sp_result", type = "network")
-#' }
-#'
-#' @seealso The specific wrapper functions such as \code{\link{th_shortest_paths}}
-#'   and \code{\link{th_rwdistances}} for type-safe alternatives with full
-#'   argument validation.
+#' @param cmd Command name string (e.g. `"density"`, `"i"`).
+#' @param args Named list of arguments. `threadle_*` objects are automatically
+#'   resolved to their backend name.
+#' @param assign Optional variable name to assign the result to in the backend.
+#' @param type If `assign` is set, the type string for the returned handle
+#'   (e.g. `"network"`, `"nodeset"`). If `NULL`, the payload is returned directly.
+#' @return A `threadle_*` handle if `assign` and `type` are both set; otherwise
+#'   the payload value, invisibly.
+#' @export
 th_cmd <- function(cmd, args = list(), assign = NULL, type = NULL) {
   args <- lapply(args, function(x) {
     if (any(startsWith(class(x), "threadle_"))) .th_name(x) else x
@@ -555,8 +520,8 @@ th_add_edge <- function(network, layername, node1id, node2id,
 th_add_hyper <- function(network, layername, hypername,
                          nodes = c(), addmissingnodes = TRUE) {
   nodes_str <- if (length(nodes) == 0L) "" else paste(as.character(nodes), collapse = ";")
-  args <- .th_args(environment())
-  args$nodes <- if (is.null(args$nodes)) "" else paste(args$nodes, collapse = ";")
+  args <- .th_args(environment(), drop = "nodes")
+  args$nodes <- nodes_str
   cmd <- "addhyper"
   assign <- NULL
   .th_call(cmd = cmd, args = args, assign = NULL)
@@ -2484,6 +2449,7 @@ th_shortest_path <- function(network, node1id, node2id, layernames = NULL) {
 #' @seealso \code{\link{th_shortest_path}} for the path between two specific
 #'   nodes; \code{\link{th_rwdistances}} and \code{\link{th_rwfpt}} for
 #'   stochastic alternatives suited to larger networks.
+#' @export
 th_shortest_paths <- function(name, network, attrname, layernames = NULL) {
   if (!is.null(layernames) && length(layernames) > 1L)
     layernames <- paste(layernames, collapse = ";")
