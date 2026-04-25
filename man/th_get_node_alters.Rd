@@ -9,7 +9,7 @@ th_get_node_alters(
   nodeid,
   layernames = "",
   direction = "both",
-  unique = FALSE
+  unique = TRUE
 )
 }
 \arguments{
@@ -23,13 +23,16 @@ If \code{NULL}, alters are collected across all layers.}
 
 \item{direction}{Which ties to count: \code{"both"} (default), \code{"in"}, or \code{"out"}.}
 
-\item{unique}{Logical; if \code{TRUE}, deduplicate alter IDs. Defaults to \code{FALSE}.}
+\item{unique}{Logical; if \code{TRUE} (default), deduplicate alter IDs across layers
+(the returned vector will also be sorted as a side-effect of deduplication).
+Set to \code{FALSE} to allow the same alter to appear once per layer it is found in.}
 }
 \value{
 An integer vector giving alter node IDs.
 }
 \description{
-Get alters of a node within a layer or across layers
+\code{th_get_node_alters()} returns the node IDs of all alters of a given node,
+optionally restricted to one or more named layers and a specific tie direction.
 }
 \examples{
 \dontshow{if (th_is_available()) withAutoprint(\{ # examplesIf}
