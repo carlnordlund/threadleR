@@ -8,7 +8,7 @@ th_get_node_alters(
   network,
   nodeid,
   layernames = "",
-  direction = "both",
+  direction = "out",
   unique = TRUE
 )
 }
@@ -21,7 +21,7 @@ the name of a network in the Threadle CLI environment.}
 \item{layernames}{Optional layer names.
 If \code{NULL}, alters are collected across all layers.}
 
-\item{direction}{Which ties to count: \code{"both"} (default), \code{"in"}, or \code{"out"}.}
+\item{direction}{Which ties to count: \code{"both"}, \code{"in"}, or \code{"out"} (default).}
 
 \item{unique}{Logical; if \code{TRUE} (default), deduplicate alter IDs across layers
 (the returned vector will also be sorted as a side-effect of deduplication).

@@ -14,7 +14,7 @@ the name of a network in the Threadle CLI environment.}
 
 \item{node2id}{Node ID of the second node.}
 
-\item{layername}{Optional layer name. If \code{NULL} (default), all layers are used
+\item{layernames}{Optional layer names. If \code{NULL} (default), all layers are used
 to find the shortest path.}
 }
 \value{

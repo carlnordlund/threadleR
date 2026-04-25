@@ -40,11 +40,6 @@ Defaults to \code{FALSE}.}
 
 \item{weighted}{Logical; if \code{TRUE}, uses edge weights to bias walk steps.
 Defaults to \code{FALSE}.}
-
-\item{backtrack}{Logical; if \code{TRUE}, allows walkers to return to the
-previous node. Defaults to \code{FALSE}.}
-
-\item{savesteps}{Logical; if \code{TRUE}, saves per-step data. Defaults to \code{FALSE}.}
 }
 \value{
 A \code{threadle_network} object containing result layers.

@@ -4,7 +4,7 @@
 \alias{th_density}
 \title{Calculate the density of a layer}
 \usage{
-th_density(network, layername, samplesize = NULL)
+th_density(network, layername, samplesize = 200L)
 }
 \arguments{
 \item{network}{A \code{threadle_network} object or a character string giving
@@ -12,8 +12,8 @@ the name of a network in the Threadle CLI environment.}
 
 \item{layername}{Name of the layer for which density is computed.}
 
-\item{samplesize}{Optional integer. If provided, density is estimated from a
-random sample of this size rather than the full layer.}
+\item{samplesize}{Sample size for density estimation. If \code{NULL} (default),
+the default is 200.}
 }
 \value{
 A numeric scalar giving the layer density.
