@@ -843,8 +843,8 @@ th_delete_all <- function() {
 #' @param network A `threadle_network` object or a character string giving
 #'   the name of a network in the Threadle CLI environment.
 #' @param layername Name of the layer for which density is computed.
-#' @param samplesize Optional integer. If provided, density is estimated from a
-#'   random sample of this size rather than the full layer.
+#' @param samplesize Sample size for density estimation. If `NULL` (default),
+#'   the default is 200.
 #' @return A numeric scalar giving the layer density.
 #' @examplesIf th_is_available()
 #' th_start_threadle()
@@ -856,7 +856,7 @@ th_delete_all <- function() {
 #' th_density(net, "l1")
 #' th_stop_threadle()
 #' @export
-th_density <- function(network, layername, samplesize = NULL) {
+th_density <- function(network, layername, samplesize = 200L) {
   args <- .th_args(environment())
   cmd <- "density"
   assign <- NULL
@@ -1455,7 +1455,7 @@ th_get_nbr_nodes <- function(structure) {
 #' @param nodeid Node ID.
 #' @param layernames Optional layer names.
 #'   If `NULL`, alters are collected across all layers.
-#' @param direction Which ties to count: `"both"` (default), `"in"`, or `"out"`.
+#' @param direction Which ties to count: `"both"`, `"in"`, or `"out"` (default).
 #' @param unique Logical; if `TRUE` (default), deduplicate alter IDs across layers
 #'   (the returned vector will also be sorted as a side-effect of deduplication).
 #'   Set to `FALSE` to allow the same alter to appear once per layer it is found in.
@@ -1471,7 +1471,7 @@ th_get_nbr_nodes <- function(structure) {
 #' th_get_node_alters(net, nodeid = 2, layernames = "l1", direction = "both")
 #' th_stop_threadle()
 #' @export
-th_get_node_alters <- function(network, nodeid, layernames = "", direction="both", unique = TRUE) {
+th_get_node_alters <- function(network, nodeid, layernames = "", direction="out", unique = TRUE) {
   direction <- match.arg(direction, c("both", "in", "out"))
   if (is.null(layernames) || length(layernames) == 0L) {
     layernames <- ""
@@ -2206,9 +2206,6 @@ th_rwdistances <- function(name, network, attrname, maxsteps,
 #'   Defaults to `FALSE`.
 #' @param weighted Logical; if `TRUE`, uses edge weights to bias walk steps.
 #'   Defaults to `FALSE`.
-#' @param backtrack Logical; if `TRUE`, allows walkers to return to the
-#'   previous node. Defaults to `FALSE`.
-#' @param savesteps Logical; if `TRUE`, saves per-step data. Defaults to `FALSE`.
 #' @return A `threadle_network` object containing result layers.
 #' @examplesIf th_is_available()
 #' th_start_threadle()
@@ -2276,7 +2273,6 @@ th_rwfpt <- function(name, network, attrname, maxsteps,
 #' @export
 th_save_file <- function(structure, file = "") {
   args <- .th_args(environment())
-  if (!nzchar(file)) args$file <- paste0(args$structure, ".tsv")
   cmd <- "savefile"
   assign <- NULL
   .th_call(cmd = cmd, args = args, assign = assign)
@@ -2391,7 +2387,7 @@ th_set_workdir <- function(dir) {
 #' the name of a network in the Threadle CLI environment.
 #' @param node1id Node ID of the first node.
 #' @param node2id Node ID of the second node.
-#' @param layername Optional layer name. If `NULL` (default), all layers are used
+#' @param layernames Optional layer names. If `NULL` (default), all layers are used
 #'   to find the shortest path.
 #' @return An integer scalar giving the shortest path distance.
 #' @examplesIf th_is_available()
