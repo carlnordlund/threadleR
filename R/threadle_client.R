@@ -87,7 +87,7 @@ th_is_available <- function(path = "threadle") {
     Args    = NULL
   )
 
-  if (!is.null(args)) {
+  if (!is.null(args) && length(args) > 0) {
     args <- lapply(args, function(x) {
       if (is.null(x)) "" else as.character(x)
     })
