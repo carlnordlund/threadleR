@@ -2062,12 +2062,24 @@ th_preview <- function(structure) {
 #'     hyperedge of size \eqn{k} contributes \eqn{1/(k-1)}.}
 #' }
 #'
+#' Before projecting a layer that may result in a lot of edges, check
+#' [th_get_layer_stats()] on the 2-mode layer first (`EstimatedProjectedEdgesUpperBound`/
+#' `EstimatedProjectionMemoryBytes`) to see whether this is memory-feasible.
+#'
 #' @param network A `threadle_network` object or a character string giving
 #'   the name of a network in the Threadle CLI environment.
 #' @param layername Name of the two-mode layer to project.
 #' @param method Projection method: `"count"` (default), `"newman"`, or `"binary"`.
 #' @param newlayername Optional name for the resulting one-mode layer. If `NULL`,
 #'   a default name is used by the backend.
+#' @param lowmemory Logical; if `FALSE` (default), builds the result in a single
+#'   pass as an ordinary layer. If `TRUE`, instead takes two passes to build the
+#'   result directly as a packed layer, with no ordinary layer ever created along
+#'   the way - this keeps peak memory to roughly just the finished layer's own
+#'   size, at roughly twice the time cost (each node's projected edges are
+#'   computed twice: once to size its slot, once to fill it). Same result either
+#'   way; worth enabling specifically when the projected layer itself is expected
+#'   to be large.
 #' @return `NULL`, invisibly.
 #' @examplesIf th_is_available()
 #' th_start_threadle()
@@ -2083,7 +2095,7 @@ th_preview <- function(structure) {
 #' @export
 th_project_two_mode <- function(network, layername,
                                 method = c("count", "newman", "binary"),
-                                newlayername = NULL) {
+                                newlayername = NULL, lowmemory = FALSE) {
   method <- match.arg(method)
   args <- .th_args(environment())
   cmd <- "projecttwomode"
