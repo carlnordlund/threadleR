@@ -3973,17 +3973,29 @@ th_get_attrs_table <- function(structure, nodes = NULL, attrnames = NULL,
   data.table::as.data.table(payload)
 }
 
-#' Get summary statistics for a valued layer's edge values
+#' Get summary statistics for a layer
 #'
-#' `th_get_layer_stats()` calculates and returns summary statistics (mean,
-#' median, standard deviation, min, max, quartiles, edge count) over the
-#' edge values of a valued 1-mode layer.
+#' `th_get_layer_stats()`, for a valued 1-mode layer, calculates and returns
+#' summary statistics (mean, median, standard deviation, min, max,
+#' quartiles, edge count) over the edge values. For a 2-mode layer, no
+#' projection is performed; instead it returns the same statistics computed
+#' over hyperedge *sizes*, plus `NbrHyperedges`, `NbrAffiliations`, and two
+#' estimates meant to help decide whether [th_project_two_mode()] is
+#' memory-feasible before calling it: `EstimatedProjectedEdgesUpperBound` (a
+#' safe upper bound on the number of distinct projected edges, dominated by
+#' the single largest hyperedge) and `EstimatedProjectionMemoryBytes` (a
+#' rough, order-of-magnitude byte estimate from that bound) — neither is a
+#' precise prediction, just a smell test.
 #'
 #' @param network A `threadle_network` object or a character string giving
 #'   the name of a network in the Threadle CLI environment.
-#' @param layername Name of the valued 1-mode layer.
-#' @return A named list with `Mean`, `Median`, `StdDev`, `Min`, `Max`, `Q1`,
-#'   `Q3`, and `EdgeCount`.
+#' @param layername Name of the layer (valued 1-mode, or 2-mode).
+#' @return For a 1-mode layer, a named list with `Mean`, `Median`, `StdDev`,
+#'   `Min`, `Max`, `Q1`, `Q3`, and `EdgeCount`. For a 2-mode layer, the same
+#'   `Mean`/`Median`/`StdDev`/`Min`/`Max`/`Q1`/`Q3` (over hyperedge sizes),
+#'   plus `NbrHyperedges`, `NbrAffiliations`,
+#'   `EstimatedProjectedEdgesUpperBound`, and
+#'   `EstimatedProjectionMemoryBytes`.
 #' @examplesIf th_is_available()
 #' th_start_threadle()
 #'
