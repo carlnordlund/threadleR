@@ -1,3 +1,25 @@
+# threadleR 0.6.1
+
+Catches threadleR up with Threadle 1.3.1's extended 2-mode support. No new wrapper
+functions — the existing ones now accept a 2-mode layer where they previously
+refused one, so this is purely additive and backward-compatible.
+
+* `th_diameter()`/`th_eccentricity()` now accept a 2-mode layer directly,
+  pseudo-projected (traversed node-hyperedge-node, without materializing a 1-mode
+  projection). `th_components()`/`th_shortest_paths_attributes()` turn out to already
+  have worked this way.
+* `th_assortativity()`/`th_degree_assortativity()` now accept a 2-mode layer, with a
+  new `projection = c("binary", "count")` argument controlling how a pair of
+  co-affiliates is counted. Degree itself is always the existing binary projected
+  degree regardless of `projection`.
+* `th_community_detection()` (`type = "louvain"/"leiden"/"lp"/"lpam"`) now accepts a
+  single 2-mode layer on its own (not combined with other layers), genuinely
+  pseudo-projected. Tie strength is always count-weighted - there is no
+  `projection` argument for this one. `type = "gn"` has no 2-mode support.
+* `th_constraint()`/`th_effective_size()` now accept a single 2-mode layer on its own,
+  with a new `samplesize` argument that becomes required (`> 0`) for a 2-mode layer.
+* `th_dyad_census()` now accepts a 2-mode layer.
+
 # threadleR 0.6.0
 
 Catches threadleR up with the Threadle 1.3 CLI.

@@ -3106,16 +3106,28 @@ th_coreness <- function(network, layernames = NULL, attrname = NULL) {
 #' Compute Burt's constraint
 #'
 #' `th_constraint()` computes Burt's constraint for each node in the
-#' specified 1-mode layer(s) and stores the result as a float node
-#' attribute. Refused for any layer that allows self-ties, since the
+#' specified layer(s) and stores the result as a float node attribute.
+#' Accepts any number of 1-mode layers (weights symmetrized across them), or
+#' a single 2-mode layer on its own, not combined with other layers
+#' (pseudo-projected: traversed node-hyperedge-node directly, without
+#' materializing a 1-mode projection; tie strength is the count-weighted
+#' shared-hyperedge count). Because a 2-mode ego network is every co-member
+#' and cost grows with the square of that count, a 2-mode layer requires
+#' `samplesize > 0`: only that many randomly sampled nodes get an exact (not
+#' approximated) value, and all others are left unset; `samplesize` is
+#' ignored for 1-mode layers, which are always computed exactly for every
+#' node. Refused for any 1-mode layer that allows self-ties, since the
 #' underlying formula has no defined treatment for a self-tie.
 #'
 #' @param network A `threadle_network` object or a character string giving
 #'   the name of a network in the Threadle CLI environment.
-#' @param layernames Optional character vector of 1-mode layer names to
-#'   include (weights are symmetrized across layers). If `NULL`, all layers
-#'   are used.
+#' @param layernames Optional character vector of layer names to include
+#'   (weights are symmetrized across 1-mode layers; a single 2-mode layer
+#'   cannot be combined with other layers). If `NULL`, all layers are used.
 #' @param attrname Optional name for the node attribute storing the result.
+#' @param samplesize For a 2-mode layer, the number of randomly sampled
+#'   nodes to compute an exact value for (required, must be `> 0`). Ignored
+#'   for 1-mode layers. Defaults to `0`.
 #' @return `NULL`, invisibly.
 #' @examplesIf th_is_available()
 #' th_start_threadle()
@@ -3129,7 +3141,7 @@ th_coreness <- function(network, layernames = NULL, attrname = NULL) {
 #' th_get_attr(net, nodeid = 2, attrname = "constr")
 #' th_stop_threadle()
 #' @export
-th_constraint <- function(network, layernames = NULL, attrname = NULL) {
+th_constraint <- function(network, layernames = NULL, attrname = NULL, samplesize = 0) {
   if (!is.null(layernames) && length(layernames) > 1L)
     layernames <- paste(layernames, collapse = ";")
   args <- .th_args(environment())
@@ -3141,16 +3153,28 @@ th_constraint <- function(network, layernames = NULL, attrname = NULL) {
 #' Compute Burt's effective size
 #'
 #' `th_effective_size()` computes Burt's effective size for each node in the
-#' specified 1-mode layer(s) and stores the result as a float node
-#' attribute: the number of non-redundant contacts. Refused for any layer
+#' specified layer(s) and stores the result as a float node attribute: the
+#' number of non-redundant contacts. Accepts any number of 1-mode layers
+#' (weights symmetrized across them), or a single 2-mode layer on its own,
+#' not combined with other layers (pseudo-projected: traversed
+#' node-hyperedge-node directly, without materializing a 1-mode projection;
+#' tie strength is the count-weighted shared-hyperedge count). Because a
+#' 2-mode ego network is every co-member and cost grows with the square of
+#' that count, a 2-mode layer requires `samplesize > 0`: only that many
+#' randomly sampled nodes get an exact (not approximated) value, and all
+#' others are left unset; `samplesize` is ignored for 1-mode layers, which
+#' are always computed exactly for every node. Refused for any 1-mode layer
 #' that allows self-ties, for the same reason as [th_constraint()].
 #'
 #' @param network A `threadle_network` object or a character string giving
 #'   the name of a network in the Threadle CLI environment.
-#' @param layernames Optional character vector of 1-mode layer names to
-#'   include (weights are symmetrized across layers). If `NULL`, all layers
-#'   are used.
+#' @param layernames Optional character vector of layer names to include
+#'   (weights are symmetrized across 1-mode layers; a single 2-mode layer
+#'   cannot be combined with other layers). If `NULL`, all layers are used.
 #' @param attrname Optional name for the node attribute storing the result.
+#' @param samplesize For a 2-mode layer, the number of randomly sampled
+#'   nodes to compute an exact value for (required, must be `> 0`). Ignored
+#'   for 1-mode layers. Defaults to `0`.
 #' @return `NULL`, invisibly.
 #' @examplesIf th_is_available()
 #' th_start_threadle()
@@ -3164,7 +3188,7 @@ th_constraint <- function(network, layernames = NULL, attrname = NULL) {
 #' th_get_attr(net, nodeid = 2, attrname = "esize")
 #' th_stop_threadle()
 #' @export
-th_effective_size <- function(network, layernames = NULL, attrname = NULL) {
+th_effective_size <- function(network, layernames = NULL, attrname = NULL, samplesize = 0) {
   if (!is.null(layernames) && length(layernames) > 1L)
     layernames <- paste(layernames, collapse = ";")
   args <- .th_args(environment())
@@ -3175,16 +3199,27 @@ th_effective_size <- function(network, layernames = NULL, attrname = NULL) {
 
 #' Detect communities
 #'
-#' `th_community_detection()` detects communities for the specified 1-mode
+#' `th_community_detection()` detects communities for the specified
 #' layer(s), storing the community index as an integer node attribute. Five
 #' methods are available via `type`: Louvain (default), Leiden, label
 #' propagation (`"lp"`), modularity-constrained label propagation
-#' (`"lpam"`), and Girvan-Newman (`"gn"`).
+#' (`"lpam"`), and Girvan-Newman (`"gn"`). All methods except `"gn"` also
+#' accept a single 2-mode layer on its own, not combined with other layers
+#' (pseudo-projected: traversed node-hyperedge-node directly, without
+#' materializing a 1-mode projection; tie strength is always count-weighted,
+#' matching [th_eigenvector_centrality()]'s convention - there is no binary
+#' option, since deduplicating a co-affiliate pair across hyperedges would
+#' need the same global pairwise structure this feature exists to avoid).
+#' For `"leiden"` on a 2-mode layer, only the very first (hyperedge-direct)
+#' level skips the usual connectivity-guaranteeing refinement step;
+#' refinement applies normally from the first aggregation onward. `"gn"`
+#' has no 2-mode support (edge betweenness has no hyperedge analogue).
 #'
 #' @param network A `threadle_network` object or a character string giving
 #'   the name of a network in the Threadle CLI environment.
-#' @param layernames Optional character vector of 1-mode layer names to
-#'   combine (summed edge weight). If `NULL`, all layers are used.
+#' @param layernames Optional character vector of layer names to combine
+#'   (summed edge weight for 1-mode layers; a single 2-mode layer cannot be
+#'   combined with other layers). If `NULL`, all layers are used.
 #' @param attrname Optional name for the node attribute storing the
 #'   community index.
 #' @param type One of `"louvain"` (default), `"leiden"`, `"lp"`, `"lpam"`,
@@ -3268,12 +3303,20 @@ th_small_world_coefficient <- function(network, layername, nulltrials = 10,
 #' `th_assortativity()` computes attribute assortativity: the tendency of
 #' connected nodes to share similar values of a node attribute. Uses Pearson
 #' correlation for numeric attributes, Newman's nominal mixing formula for
-#' categorical ones.
+#' categorical ones. `layername` may be a 1-mode or a 2-mode layer
+#' (pseudo-projected: traversed node-hyperedge-node directly, without
+#' materializing a 1-mode projection); for a 2-mode layer, `projection`
+#' controls how a pair of co-affiliates (members sharing a hyperedge) is
+#' counted. `projection` is ignored for 1-mode layers.
 #'
 #' @param network A `threadle_network` object or a character string giving
 #'   the name of a network in the Threadle CLI environment.
 #' @param layername Name of the layer.
 #' @param attrname Name of the node attribute to test.
+#' @param projection For a 2-mode layer: `"binary"` (default) counts a pair
+#'   of co-affiliates once regardless of how many hyperedges it shares;
+#'   `"count"` counts it once per shared hyperedge (matching
+#'   [th_get_edge()]'s count-weighted projection).
 #' @return A numeric scalar in `[-1, 1]`.
 #' @examplesIf th_is_available()
 #' th_start_threadle()
@@ -3288,7 +3331,9 @@ th_small_world_coefficient <- function(network, layername, nulltrials = 10,
 #' th_assortativity(net, "l1", attrname = "grp")
 #' th_stop_threadle()
 #' @export
-th_assortativity <- function(network, layername, attrname) {
+th_assortativity <- function(network, layername, attrname,
+                             projection = c("binary", "count")) {
+  projection <- match.arg(projection)
   args <- .th_args(environment())
   cmd <- "assortativity"
   assign <- NULL
@@ -3300,11 +3345,21 @@ th_assortativity <- function(network, layername, attrname) {
 #' `th_degree_assortativity()` computes degree assortativity: the Pearson
 #' correlation between the degrees of connected node pairs. Positive values
 #' indicate assortative (hub-to-hub) mixing; negative values indicate
-#' disassortative (hub-to-peripheral) mixing.
+#' disassortative (hub-to-peripheral) mixing. `layername` may be a 1-mode or
+#' a 2-mode layer (pseudo-projected: traversed node-hyperedge-node directly,
+#' without materializing a 1-mode projection); degree is then always the
+#' existing binary projected degree (distinct co-affiliate count, matching
+#' [th_get_degree()]'s own 2-mode convention) regardless of `projection`,
+#' which instead controls only how a pair of co-affiliates is counted.
+#' `projection` is ignored for 1-mode layers.
 #'
 #' @param network A `threadle_network` object or a character string giving
 #'   the name of a network in the Threadle CLI environment.
 #' @param layername Name of the layer.
+#' @param projection For a 2-mode layer: `"binary"` (default) counts a pair
+#'   of co-affiliates once regardless of how many hyperedges it shares;
+#'   `"count"` counts it once per shared hyperedge (matching
+#'   [th_get_edge()]'s count-weighted projection).
 #' @return A numeric scalar.
 #' @examplesIf th_is_available()
 #' th_start_threadle()
@@ -3316,7 +3371,9 @@ th_assortativity <- function(network, layername, attrname) {
 #' th_degree_assortativity(net, "l1")
 #' th_stop_threadle()
 #' @export
-th_degree_assortativity <- function(network, layername) {
+th_degree_assortativity <- function(network, layername,
+                                    projection = c("binary", "count")) {
+  projection <- match.arg(projection)
   args <- .th_args(environment())
   cmd <- "degreeassortativity"
   assign <- NULL
@@ -3328,7 +3385,10 @@ th_degree_assortativity <- function(network, layername) {
 #' Compute the dyad census
 #'
 #' `th_dyad_census()` computes the MAN dyad census and reciprocity measures
-#' for a single 1-mode layer.
+#' for a single layer. `layername` may be a 1-mode or a 2-mode layer
+#' (pseudo-projected: traversed node-hyperedge-node directly, without
+#' materializing a 1-mode projection); since an affiliation has no
+#' direction, a 2-mode layer's result is trivially all-mutual.
 #'
 #' @param network A `threadle_network` object or a character string giving
 #'   the name of a network in the Threadle CLI environment.
@@ -3386,8 +3446,10 @@ th_triadic_census <- function(network, layername, samplesize = 0) {
 #' Compute network diameter and average path length
 #'
 #' `th_diameter()` computes network diameter (the longest shortest path) and
-#' average path length for a single 1-mode layer, restricted to the largest
-#' weakly connected component.
+#' average path length for a single layer, restricted to the largest weakly
+#' connected component. `layername` may be a 1-mode or a 2-mode layer
+#' (pseudo-projected: traversed node-hyperedge-node directly, without
+#' materializing a 1-mode projection).
 #'
 #' @param network A `threadle_network` object or a character string giving
 #'   the name of a network in the Threadle CLI environment.
@@ -3429,6 +3491,8 @@ th_diameter <- function(network, layername, samplesize = 0, numsweeps = 4,
 #' longest shortest path to any node reachable from it) and stores the
 #' result as an int node attribute. Unlike [th_diameter()], this is computed
 #' for every node individually, not restricted to the largest component.
+#' `layername` may be a 1-mode or a 2-mode layer (pseudo-projected: traversed
+#' node-hyperedge-node directly, without materializing a 1-mode projection).
 #'
 #' @param network A `threadle_network` object or a character string giving
 #'   the name of a network in the Threadle CLI environment.
