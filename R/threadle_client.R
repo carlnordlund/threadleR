@@ -871,11 +871,13 @@ th_delete_all <- function() {
 #'   the name of a network in the Threadle CLI environment.
 #' @param layername Name of the layer for which density is computed.
 #' @param samplesize For a one-mode layer, density is always exact and this is
-#'   ignored. For a two-mode layer, `0` (default) computes the exact density
-#'   (summing every node's projected degree, same technique
-#'   [th_dyad_census()]'s exact `Mutual` count already relies on); a positive
-#'   value below the layer's node count instead estimates it from that many
-#'   randomly sampled nodes, to bound cost on a very large layer.
+#'   ignored. For a two-mode layer, defaults to `200`: estimates density from
+#'   that many randomly sampled nodes. Unlike most other `samplesize`
+#'   arguments elsewhere in this package, `0` is not the default here - an
+#'   exact two-mode density costs O(sum of hyperedge sizes squared) (the same
+#'   order as materializing a full projection, since it needs every node's
+#'   true deduplicated degree), so it is available on request
+#'   (`samplesize = 0`) but not used by default.
 #' @return A numeric scalar giving the layer density.
 #' @examplesIf th_is_available()
 #' th_start_threadle()
@@ -887,7 +889,7 @@ th_delete_all <- function() {
 #' th_density(net, "l1")
 #' th_stop_threadle()
 #' @export
-th_density <- function(network, layername, samplesize = 0L) {
+th_density <- function(network, layername, samplesize = 200L) {
   args <- .th_args(environment())
   cmd <- "density"
   assign <- NULL
