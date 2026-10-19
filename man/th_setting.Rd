@@ -23,8 +23,6 @@ Available settings include:
 \item{\code{"nodecache"}}{Use a node cache (lazy initialized).}
 \item{\code{"blockmultiedges"}}{Prohibit creation of multiple edges with identical endpoints
 and direction.}
-\item{\code{"onlyoutboundedges"}}{Store only outbound edges (no inbound edges) to reduce memory
-usage for walker-only applications.}
 }
 }
 \examples{

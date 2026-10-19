@@ -2514,8 +2514,6 @@ th_set_attr <- function(structure, nodeid, attrname, attrvalue) {
 #'   \item{`"nodecache"`}{Use a node cache (lazy initialized).}
 #'   \item{`"blockmultiedges"`}{Prohibit creation of multiple edges with identical endpoints
 #'     and direction.}
-#'   \item{`"onlyoutboundedges"`}{Store only outbound edges (no inbound edges) to reduce memory
-#'     usage for walker-only applications.}
 #' }
 #' @param name Setting name.
 #' @param value Logical; `TRUE` to enable, `FALSE` to disable.
