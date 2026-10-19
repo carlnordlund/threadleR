@@ -9,7 +9,8 @@ th_diameter(
   layername,
   samplesize = 0,
   numsweeps = 4,
-  traversal = c("out", "in", "both")
+  traversal = c("out", "in", "both"),
+  diameteronly = FALSE
 )
 }
 \arguments{
@@ -28,6 +29,21 @@ lower bound when \code{samplesize > 0}. Defaults to \code{4}.}
 
 \item{traversal}{Which edge direction to follow: \code{"out"} (default),
 \code{"in"}, or \code{"both"}.}
+
+\item{diameteronly}{If \code{TRUE} (ignored when \code{samplesize > 0}), trades
+\code{AvgDistance}/\code{PairsConsidered} away for a faster diameter-only
+computation - a genuine opt-in, not a transparent speed-up, since
+\code{AvgDistance} always needs a full BFS from every node regardless of
+whether only the diameter is wanted. When the layer/traversal
+combination is effectively symmetric (a 2-mode layer, a symmetric
+1-mode layer, or \code{traversal = "both"}), uses the iFUB algorithm:
+exact, but often examining only a small fraction of a component's
+nodes on real-world graphs (no improved worst-case bound, so this is
+an empirical/typical-case win, not an asymptotic one). Otherwise
+falls back to the same exhaustive pass as the default, same cost,
+just without \code{AvgDistance}/\code{PairsConsidered} in the result. Either
+way the result also carries \code{Algorithm} (\code{"iFUB"} or \code{"AllPairs"})
+so you can see which path ran. Defaults to \code{FALSE}.}
 }
 \value{
 A named list with \code{Diameter} (or \code{DiameterLowerBound}),

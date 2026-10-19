@@ -3546,6 +3546,20 @@ th_triadic_census <- function(network, layername, samplesize = 0) {
 #'   lower bound when `samplesize > 0`. Defaults to `4`.
 #' @param traversal Which edge direction to follow: `"out"` (default),
 #'   `"in"`, or `"both"`.
+#' @param diameteronly If `TRUE` (ignored when `samplesize > 0`), trades
+#'   `AvgDistance`/`PairsConsidered` away for a faster diameter-only
+#'   computation - a genuine opt-in, not a transparent speed-up, since
+#'   `AvgDistance` always needs a full BFS from every node regardless of
+#'   whether only the diameter is wanted. When the layer/traversal
+#'   combination is effectively symmetric (a 2-mode layer, a symmetric
+#'   1-mode layer, or `traversal = "both"`), uses the iFUB algorithm:
+#'   exact, but often examining only a small fraction of a component's
+#'   nodes on real-world graphs (no improved worst-case bound, so this is
+#'   an empirical/typical-case win, not an asymptotic one). Otherwise
+#'   falls back to the same exhaustive pass as the default, same cost,
+#'   just without `AvgDistance`/`PairsConsidered` in the result. Either
+#'   way the result also carries `Algorithm` (`"iFUB"` or `"AllPairs"`)
+#'   so you can see which path ran. Defaults to `FALSE`.
 #' @return A named list with `Diameter` (or `DiameterLowerBound`),
 #'   `AvgDistance`, `ComponentSize`, `TotalNodes`, `Method`, and (when
 #'   sampled) `StandardError` and confidence-interval bounds.
@@ -3561,7 +3575,8 @@ th_triadic_census <- function(network, layername, samplesize = 0) {
 #' th_stop_threadle()
 #' @export
 th_diameter <- function(network, layername, samplesize = 0, numsweeps = 4,
-                        traversal = c("out", "in", "both")) {
+                        traversal = c("out", "in", "both"),
+                        diameteronly = FALSE) {
   traversal <- match.arg(traversal)
   args <- .th_args(environment())
   cmd <- "diameter"
