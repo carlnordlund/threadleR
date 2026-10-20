@@ -3229,7 +3229,7 @@ th_constraint <- function(network, layernames = NULL, attrname = NULL, samplesiz
   if (!is.null(layernames) && length(layernames) > 1L)
     layernames <- paste(layernames, collapse = ";")
   args <- .th_args(environment())
-  cmd <- "constraints"
+  cmd <- "constraint"
   assign <- NULL
   .th_call(cmd = cmd, args = args, assign = assign)
 }
