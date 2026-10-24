@@ -23,6 +23,9 @@ Available settings include:
 \item{\code{"nodecache"}}{Use a node cache (lazy initialized).}
 \item{\code{"blockmultiedges"}}{Prohibit creation of multiple edges with identical endpoints
 and direction.}
+\item{\code{"executiontime"}}{Include each command's execution time (in milliseconds) in its
+response. Off by default. Retrieve the most recently measured value via
+\code{\link[=th_get_last_execution_time]{th_get_last_execution_time()}}.}
 }
 }
 \examples{

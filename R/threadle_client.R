@@ -246,6 +246,8 @@ NULL
   resp <- .send_command(cmd_json)
   if (identical(mode, "json")) {.th_stop_if_fail(resp)}
 
+  .threadle_env$last_execution_time_ms <- resp$ExecutionTimeMs
+
   if (.print_message && !is.null(resp$Message) && nzchar(resp$Message)) {
     message(resp$Message)
   }
@@ -2514,6 +2516,9 @@ th_set_attr <- function(structure, nodeid, attrname, attrvalue) {
 #'   \item{`"nodecache"`}{Use a node cache (lazy initialized).}
 #'   \item{`"blockmultiedges"`}{Prohibit creation of multiple edges with identical endpoints
 #'     and direction.}
+#'   \item{`"executiontime"`}{Include each command's execution time (in milliseconds) in its
+#'     response. Off by default. Retrieve the most recently measured value via
+#'     [th_get_last_execution_time()].}
 #' }
 #' @param name Setting name.
 #' @param value Logical; `TRUE` to enable, `FALSE` to disable.
